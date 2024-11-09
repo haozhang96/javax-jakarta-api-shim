@@ -28,13 +28,13 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
-    final class ClientEndpoint extends Shim.Delegate.Annotation<jakarta.websocket.ClientEndpoint> implements javax.websocket.ClientEndpoint, WebSocketShim {
+    final class ClientEndpoint extends Shim.Facade.Annotation<jakarta.websocket.ClientEndpoint> implements javax.websocket.ClientEndpoint, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ClientEndpoint(jakarta.websocket.ClientEndpoint delegate) {
-            super(delegate);
+        ClientEndpoint(jakarta.websocket.ClientEndpoint target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -43,13 +43,13 @@ interface Facades {
 
         @Override
         public String[] subprotocols() {
-            return delegate.subprotocols();
+            return target.subprotocols();
         }
 
         @Override
         public Class<? extends javax.websocket.Decoder>[] decoders() {
             return Stream
-                .of(delegate.decoders())
+                .of(target.decoders())
                 .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(javax.websocket.Decoder.class, clazz))
                 .toArray(Class[]::new);
         }
@@ -57,44 +57,44 @@ interface Facades {
         @Override
         public Class<? extends javax.websocket.Encoder>[] encoders() {
             return Stream
-                .of(delegate.encoders())
+                .of(target.encoders())
                 .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(javax.websocket.Encoder.class, clazz))
                 .toArray(Class[]::new);
         }
 
         @Override
         public Class<? extends javax.websocket.ClientEndpointConfig.Configurator> configurator() {
-            return WebSocketShim.of(javax.websocket.ClientEndpointConfig.Configurator.class, delegate.configurator());
+            return WebSocketShim.of(javax.websocket.ClientEndpointConfig.Configurator.class, target.configurator());
         }
     }
 
-    final class OnClose extends Shim.Delegate.Annotation<jakarta.websocket.OnClose> implements javax.websocket.OnClose, WebSocketShim {
+    final class OnClose extends Shim.Facade.Annotation<jakarta.websocket.OnClose> implements javax.websocket.OnClose, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        OnClose(jakarta.websocket.OnClose delegate) {
-            super(delegate);
+        OnClose(jakarta.websocket.OnClose target) {
+            super(target);
         }
     }
 
-    final class OnError extends Shim.Delegate.Annotation<jakarta.websocket.OnError> implements javax.websocket.OnError, WebSocketShim {
+    final class OnError extends Shim.Facade.Annotation<jakarta.websocket.OnError> implements javax.websocket.OnError, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        OnError(jakarta.websocket.OnError delegate) {
-            super(delegate);
+        OnError(jakarta.websocket.OnError target) {
+            super(target);
         }
     }
 
-    final class OnMessage extends Shim.Delegate.Annotation<jakarta.websocket.OnMessage> implements javax.websocket.OnMessage, WebSocketShim {
+    final class OnMessage extends Shim.Facade.Annotation<jakarta.websocket.OnMessage> implements javax.websocket.OnMessage, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        OnMessage(jakarta.websocket.OnMessage delegate) {
-            super(delegate);
+        OnMessage(jakarta.websocket.OnMessage target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -103,27 +103,27 @@ interface Facades {
 
         @Override
         public long maxMessageSize() {
-            return delegate.maxMessageSize();
+            return target.maxMessageSize();
         }
     }
 
-    final class OnOpen extends Shim.Delegate.Annotation<jakarta.websocket.OnOpen> implements javax.websocket.OnOpen, WebSocketShim {
+    final class OnOpen extends Shim.Facade.Annotation<jakarta.websocket.OnOpen> implements javax.websocket.OnOpen, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        OnOpen(jakarta.websocket.OnOpen delegate) {
-            super(delegate);
+        OnOpen(jakarta.websocket.OnOpen target) {
+            super(target);
         }
     }
 
-    final class PathParam extends Shim.Delegate.Annotation<jakarta.websocket.server.PathParam> implements javax.websocket.server.PathParam, WebSocketShim {
+    final class PathParam extends Shim.Facade.Annotation<jakarta.websocket.server.PathParam> implements javax.websocket.server.PathParam, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        PathParam(jakarta.websocket.server.PathParam delegate) {
-            super(delegate);
+        PathParam(jakarta.websocket.server.PathParam target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -132,17 +132,17 @@ interface Facades {
 
         @Override
         public String value() {
-            return delegate.value();
+            return target.value();
         }
     }
 
-    final class ServerEndpoint extends Shim.Delegate.Annotation<jakarta.websocket.server.ServerEndpoint> implements javax.websocket.server.ServerEndpoint, WebSocketShim {
+    final class ServerEndpoint extends Shim.Facade.Annotation<jakarta.websocket.server.ServerEndpoint> implements javax.websocket.server.ServerEndpoint, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServerEndpoint(jakarta.websocket.server.ServerEndpoint delegate) {
-            super(delegate);
+        ServerEndpoint(jakarta.websocket.server.ServerEndpoint target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -151,18 +151,18 @@ interface Facades {
 
         @Override
         public String value() {
-            return delegate.value();
+            return target.value();
         }
 
         @Override
         public String[] subprotocols() {
-            return delegate.subprotocols();
+            return target.subprotocols();
         }
 
         @Override
         public Class<? extends javax.websocket.Decoder>[] decoders() {
             return Stream
-                .of(delegate.decoders())
+                .of(target.decoders())
                 .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(javax.websocket.Decoder.class, clazz))
                 .toArray(Class[]::new);
         }
@@ -170,7 +170,7 @@ interface Facades {
         @Override
         public Class<? extends javax.websocket.Encoder>[] encoders() {
             return Stream
-                .of(delegate.encoders())
+                .of(target.encoders())
                 .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(javax.websocket.Encoder.class, clazz))
                 .toArray(Class[]::new);
         }
@@ -178,7 +178,7 @@ interface Facades {
         @Override
         public Class<? extends javax.websocket.server.ServerEndpointConfig.Configurator> configurator() {
             return WebSocketShim
-                .of(javax.websocket.server.ServerEndpointConfig.Configurator.class, delegate.configurator());
+                .of(javax.websocket.server.ServerEndpointConfig.Configurator.class, target.configurator());
         }
     }
 
@@ -186,13 +186,13 @@ interface Facades {
     // Classes
     //==================================================================================================================
 
-    final class ClientEndpointConfig extends Shim.Delegate<jakarta.websocket.ClientEndpointConfig> implements javax.websocket.ClientEndpointConfig {
+    final class ClientEndpointConfig extends Shim.Facade<jakarta.websocket.ClientEndpointConfig> implements javax.websocket.ClientEndpointConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ClientEndpointConfig(jakarta.websocket.ClientEndpointConfig delegate) {
-            super(delegate);
+        ClientEndpointConfig(jakarta.websocket.ClientEndpointConfig target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -202,28 +202,28 @@ interface Facades {
         @Override
         public List getExtensions() {
             return WebSocketShim
-                .<javax.websocket.Extension>of(delegate.getExtensions())
+                .<javax.websocket.Extension>of(target.getExtensions())
                 .collect(Collectors.toList());
         }
 
         @Override
         public javax.websocket.ClientEndpointConfig.Configurator getConfigurator() {
-            return WebSocketShim.of(delegate.getConfigurator());
+            return WebSocketShim.of(target.getConfigurator());
         }
 
         @Override
         public List<String> getPreferredSubprotocols() {
-            return delegate.getPreferredSubprotocols();
+            return target.getPreferredSubprotocols();
         }
 
         @Override
         public SSLContext getSSLContext() {
-            return delegate.getSSLContext();
+            return target.getSSLContext();
         }
 
         @Override
         public List getEncoders() {
-            return delegate
+            return target
                 .getEncoders()
                 .stream()
                 .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(javax.websocket.Encoder.class, clazz))
@@ -232,7 +232,7 @@ interface Facades {
 
         @Override
         public List getDecoders() {
-            return delegate
+            return target
                 .getDecoders()
                 .stream()
                 .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(javax.websocket.Decoder.class, clazz))
@@ -241,7 +241,7 @@ interface Facades {
 
         @Override
         public Map<String, Object> getUserProperties() {
-            return delegate.getUserProperties();
+            return target.getUserProperties();
         }
     }
 
@@ -250,20 +250,20 @@ interface Facades {
         // Constructors
         //==============================================================================================================
 
-        ClientEndpointConfig$Builder(jakarta.websocket.ClientEndpointConfig.Builder delegate) {
-            super(delegate);
+        ClientEndpointConfig$Builder(jakarta.websocket.ClientEndpointConfig.Builder target) {
+            super(target);
         }
     }
 
     final class ClientEndpointConfig$Configurator extends javax.websocket.ClientEndpointConfig.Configurator {
-        private final jakarta.websocket.ClientEndpointConfig.Configurator delegate;
+        private final jakarta.websocket.ClientEndpointConfig.Configurator target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ClientEndpointConfig$Configurator(jakarta.websocket.ClientEndpointConfig.Configurator delegate) {
-            this.delegate = delegate;
+        ClientEndpointConfig$Configurator(jakarta.websocket.ClientEndpointConfig.Configurator target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -272,30 +272,30 @@ interface Facades {
 
         @Override
         public void beforeRequest(Map<String, List<String>> headers) {
-            delegate.beforeRequest(headers);
+            target.beforeRequest(headers);
         }
 
         @Override
         public void afterResponse(javax.websocket.HandshakeResponse handshakeResponse) {
-            delegate.afterResponse(handshakeResponse);
+            target.afterResponse(handshakeResponse);
         }
 
         @Override
         public void afterResponse(jakarta.websocket.HandshakeResponse handshakeResponse) {
-            delegate.afterResponse(handshakeResponse);
+            target.afterResponse(handshakeResponse);
         }
     }
 
     final class CloseReason extends javax.websocket.CloseReason {
-        private final jakarta.websocket.CloseReason delegate;
+        private final jakarta.websocket.CloseReason target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        CloseReason(jakarta.websocket.CloseReason delegate) {
-            super(WebSocketShim.of(delegate.getCloseCode()), delegate.getReasonPhrase());
-            this.delegate = delegate;
+        CloseReason(jakarta.websocket.CloseReason target) {
+            super(WebSocketShim.of(target.getCloseCode()), target.getReasonPhrase());
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -304,27 +304,27 @@ interface Facades {
 
         @Override
         public javax.websocket.CloseReason.CloseCode getCloseCode() {
-            return WebSocketShim.of(delegate.getCloseCode());
+            return WebSocketShim.of(target.getCloseCode());
         }
 
         @Override
         public String getReasonPhrase() {
-            return delegate.getReasonPhrase();
+            return target.getReasonPhrase();
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
     }
 
-    final class CloseReason$CloseCode extends Shim.Delegate<jakarta.websocket.CloseReason.CloseCode> implements javax.websocket.CloseReason.CloseCode {
+    final class CloseReason$CloseCode extends Shim.Facade<jakarta.websocket.CloseReason.CloseCode> implements javax.websocket.CloseReason.CloseCode {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        CloseReason$CloseCode(jakarta.websocket.CloseReason.CloseCode delegate) {
-            super(delegate);
+        CloseReason$CloseCode(jakarta.websocket.CloseReason.CloseCode target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -333,21 +333,21 @@ interface Facades {
 
         @Override
         public int getCode() {
-            return delegate.getCode();
+            return target.getCode();
         }
     }
 
     final class ContainerProvider extends javax.websocket.ContainerProvider {
         private static final Class<?> JAKARTA = MethodHandles.lookup().lookupClass().getSuperclass().getSuperclass();
 
-        private final jakarta.websocket.ContainerProvider delegate;
+        private final jakarta.websocket.ContainerProvider target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ContainerProvider(jakarta.websocket.ContainerProvider delegate) {
-            this.delegate = delegate;
+        ContainerProvider(jakarta.websocket.ContainerProvider target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -358,23 +358,23 @@ interface Facades {
         protected javax.websocket.WebSocketContainer getContainer() {
             try {
                 // We must use reflection as we cannot access the protected method directly.
-                return WebSocketShim.of(JAKARTA.getDeclaredMethod("getContainer").invoke(delegate));
+                return WebSocketShim.of(JAKARTA.getDeclaredMethod("getContainer").invoke(target));
             } catch (ReflectiveOperationException exception) {
-                throw new IllegalStateException("Failed to invoke delegate method", exception);
+                throw new IllegalStateException("Failed to invoke target method", exception);
             }
         }
     }
 
     final class DecodeException extends javax.websocket.DecodeException {
-        private final jakarta.websocket.DecodeException delegate;
+        private final jakarta.websocket.DecodeException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        DecodeException(jakarta.websocket.DecodeException delegate) {
-            super(delegate.getBytes(), delegate.getMessage(), delegate.getCause());
-            this.delegate = delegate;
+        DecodeException(jakarta.websocket.DecodeException target) {
+            super(target.getBytes(), target.getMessage(), target.getCause());
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -383,77 +383,77 @@ interface Facades {
 
         @Override
         public ByteBuffer getBytes() {
-            return delegate.getBytes();
+            return target.getBytes();
         }
 
         @Override
         public String getText() {
-            return delegate.getText();
+            return target.getText();
         }
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
-    final class Decoder extends Shim.Delegate<jakarta.websocket.Decoder> implements javax.websocket.Decoder {
+    final class Decoder extends Shim.Facade<jakarta.websocket.Decoder> implements javax.websocket.Decoder {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Decoder(jakarta.websocket.Decoder delegate) {
-            super(delegate);
+        Decoder(jakarta.websocket.Decoder target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -462,27 +462,27 @@ interface Facades {
 
         @Override
         public void init(javax.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void init(jakarta.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
-    final class Decoder$Binary<T> extends Shim.Delegate<jakarta.websocket.Decoder.Binary<T>> implements javax.websocket.Decoder.Binary<T> {
+    final class Decoder$Binary<T> extends Shim.Facade<jakarta.websocket.Decoder.Binary<T>> implements javax.websocket.Decoder.Binary<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Decoder$Binary(jakarta.websocket.Decoder.Binary<T> delegate) {
-            super(delegate);
+        Decoder$Binary(jakarta.websocket.Decoder.Binary<T> target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -492,39 +492,39 @@ interface Facades {
         @Override
         public T decode(ByteBuffer bytes) throws javax.websocket.DecodeException {
             try {
-                return delegate.decode(bytes);
+                return target.decode(bytes);
             } catch (jakarta.websocket.DecodeException exception) {
                 throw WebSocketShim.<javax.websocket.DecodeException>of(exception);
             }
         }
         @Override
         public boolean willDecode(ByteBuffer bytes) {
-            return delegate.willDecode(bytes);
+            return target.willDecode(bytes);
         }
 
         @Override
         public void init(javax.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void init(jakarta.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
-    final class Decoder$BinaryStream<T> extends Shim.Delegate<jakarta.websocket.Decoder.BinaryStream<T>> implements javax.websocket.Decoder.BinaryStream<T> {
+    final class Decoder$BinaryStream<T> extends Shim.Facade<jakarta.websocket.Decoder.BinaryStream<T>> implements javax.websocket.Decoder.BinaryStream<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Decoder$BinaryStream(jakarta.websocket.Decoder.BinaryStream<T> delegate) {
-            super(delegate);
+        Decoder$BinaryStream(jakarta.websocket.Decoder.BinaryStream<T> target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -534,7 +534,7 @@ interface Facades {
         @Override
         public T decode(InputStream stream) throws javax.websocket.DecodeException, IOException {
             try {
-                return delegate.decode(stream);
+                return target.decode(stream);
             } catch (jakarta.websocket.DecodeException exception) {
                 throw WebSocketShim.<javax.websocket.DecodeException>of(exception);
             }
@@ -542,27 +542,27 @@ interface Facades {
 
         @Override
         public void init(javax.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void init(jakarta.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
-    final class Decoder$Text<T> extends Shim.Delegate<jakarta.websocket.Decoder.Text<T>> implements javax.websocket.Decoder.Text<T> {
+    final class Decoder$Text<T> extends Shim.Facade<jakarta.websocket.Decoder.Text<T>> implements javax.websocket.Decoder.Text<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Decoder$Text(jakarta.websocket.Decoder.Text<T> delegate) {
-            super(delegate);
+        Decoder$Text(jakarta.websocket.Decoder.Text<T> target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -572,39 +572,39 @@ interface Facades {
         @Override
         public T decode(String text) throws javax.websocket.DecodeException {
             try {
-                return delegate.decode(text);
+                return target.decode(text);
             } catch (jakarta.websocket.DecodeException exception) {
                 throw WebSocketShim.<javax.websocket.DecodeException>of(exception);
             }
         }
         @Override
         public boolean willDecode(String text) {
-            return delegate.willDecode(text);
+            return target.willDecode(text);
         }
 
         @Override
         public void init(javax.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void init(jakarta.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
-    final class Decoder$TextStream<T> extends Shim.Delegate<jakarta.websocket.Decoder.TextStream<T>> implements javax.websocket.Decoder.TextStream<T> {
+    final class Decoder$TextStream<T> extends Shim.Facade<jakarta.websocket.Decoder.TextStream<T>> implements javax.websocket.Decoder.TextStream<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Decoder$TextStream(jakarta.websocket.Decoder.TextStream<T> delegate) {
-            super(delegate);
+        Decoder$TextStream(jakarta.websocket.Decoder.TextStream<T> target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -614,7 +614,7 @@ interface Facades {
         @Override
         public T decode(Reader reader) throws javax.websocket.DecodeException, IOException {
             try {
-                return delegate.decode(reader);
+                return target.decode(reader);
             } catch (jakarta.websocket.DecodeException exception) {
                 throw WebSocketShim.<javax.websocket.DecodeException>of(exception);
             }
@@ -622,30 +622,30 @@ interface Facades {
 
         @Override
         public void init(javax.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void init(jakarta.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
     final class DeploymentException extends javax.websocket.DeploymentException {
-        private final jakarta.websocket.DeploymentException delegate;
+        private final jakarta.websocket.DeploymentException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        DeploymentException(jakarta.websocket.DeploymentException delegate) {
-            super(delegate.getMessage(), delegate.getCause());
-            this.delegate = delegate;
+        DeploymentException(jakarta.websocket.DeploymentException target) {
+            super(target.getMessage(), target.getCause());
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -654,70 +654,70 @@ interface Facades {
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
     final class EncodeException extends javax.websocket.EncodeException {
-        private final jakarta.websocket.EncodeException delegate;
+        private final jakarta.websocket.EncodeException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        EncodeException(jakarta.websocket.EncodeException delegate) {
-            super(delegate.getObject(), delegate.getMessage(), delegate.getCause());
-            this.delegate = delegate;
+        EncodeException(jakarta.websocket.EncodeException target) {
+            super(target.getObject(), target.getMessage(), target.getCause());
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -726,72 +726,72 @@ interface Facades {
 
         @Override
         public Object getObject() {
-            return delegate.getObject();
+            return target.getObject();
         }
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
-    final class Encoder extends Shim.Delegate<jakarta.websocket.Encoder> implements javax.websocket.Encoder {
+    final class Encoder extends Shim.Facade<jakarta.websocket.Encoder> implements javax.websocket.Encoder {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Encoder(jakarta.websocket.Encoder delegate) {
-            super(delegate);
+        Encoder(jakarta.websocket.Encoder target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -800,27 +800,27 @@ interface Facades {
 
         @Override
         public void init(javax.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void init(jakarta.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
-    final class Encoder$Binary<T> extends Shim.Delegate<jakarta.websocket.Encoder.Binary<T>> implements javax.websocket.Encoder.Binary<T> {
+    final class Encoder$Binary<T> extends Shim.Facade<jakarta.websocket.Encoder.Binary<T>> implements javax.websocket.Encoder.Binary<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Encoder$Binary(jakarta.websocket.Encoder.Binary<T> delegate) {
-            super(delegate);
+        Encoder$Binary(jakarta.websocket.Encoder.Binary<T> target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -830,7 +830,7 @@ interface Facades {
         @Override
         public ByteBuffer encode(T object) throws javax.websocket.EncodeException {
             try {
-                return delegate.encode(object);
+                return target.encode(object);
             } catch (jakarta.websocket.EncodeException exception) {
                 throw WebSocketShim.<javax.websocket.EncodeException>of(exception);
             }
@@ -838,27 +838,27 @@ interface Facades {
 
         @Override
         public void init(javax.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void init(jakarta.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
-    final class Encoder$BinaryStream<T> extends Shim.Delegate<jakarta.websocket.Encoder.BinaryStream<T>> implements javax.websocket.Encoder.BinaryStream<T> {
+    final class Encoder$BinaryStream<T> extends Shim.Facade<jakarta.websocket.Encoder.BinaryStream<T>> implements javax.websocket.Encoder.BinaryStream<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Encoder$BinaryStream(jakarta.websocket.Encoder.BinaryStream<T> delegate) {
-            super(delegate);
+        Encoder$BinaryStream(jakarta.websocket.Encoder.BinaryStream<T> target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -868,7 +868,7 @@ interface Facades {
         @Override
         public void encode(T object, OutputStream stream) throws javax.websocket.EncodeException, IOException {
             try {
-                delegate.encode(object, stream);
+                target.encode(object, stream);
             } catch (jakarta.websocket.EncodeException exception) {
                 throw WebSocketShim.<javax.websocket.EncodeException>of(exception);
             }
@@ -876,27 +876,27 @@ interface Facades {
 
         @Override
         public void init(javax.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void init(jakarta.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
-    final class Encoder$Text<T> extends Shim.Delegate<jakarta.websocket.Encoder.Text<T>> implements javax.websocket.Encoder.Text<T> {
+    final class Encoder$Text<T> extends Shim.Facade<jakarta.websocket.Encoder.Text<T>> implements javax.websocket.Encoder.Text<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Encoder$Text(jakarta.websocket.Encoder.Text<T> delegate) {
-            super(delegate);
+        Encoder$Text(jakarta.websocket.Encoder.Text<T> target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -906,7 +906,7 @@ interface Facades {
         @Override
         public String encode(T object) throws javax.websocket.EncodeException {
             try {
-                return delegate.encode(object);
+                return target.encode(object);
             } catch (jakarta.websocket.EncodeException exception) {
                 throw WebSocketShim.<javax.websocket.EncodeException>of(exception);
             }
@@ -914,27 +914,27 @@ interface Facades {
 
         @Override
         public void init(javax.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void init(jakarta.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
-    final class Encoder$TextStream<T> extends Shim.Delegate<jakarta.websocket.Encoder.TextStream<T>> implements javax.websocket.Encoder.TextStream<T> {
+    final class Encoder$TextStream<T> extends Shim.Facade<jakarta.websocket.Encoder.TextStream<T>> implements javax.websocket.Encoder.TextStream<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Encoder$TextStream(jakarta.websocket.Encoder.TextStream<T> delegate) {
-            super(delegate);
+        Encoder$TextStream(jakarta.websocket.Encoder.TextStream<T> target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -944,7 +944,7 @@ interface Facades {
         @Override
         public void encode(T object, Writer writer) throws javax.websocket.EncodeException, IOException {
             try {
-                delegate.encode(object, writer);
+                target.encode(object, writer);
             } catch (jakarta.websocket.EncodeException exception) {
                 throw WebSocketShim.<javax.websocket.EncodeException>of(exception);
             }
@@ -952,29 +952,29 @@ interface Facades {
 
         @Override
         public void init(javax.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void init(jakarta.websocket.EndpointConfig config) {
-            delegate.init(config);
+            target.init(config);
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
     final class Endpoint extends javax.websocket.Endpoint {
-        private final jakarta.websocket.Endpoint delegate;
+        private final jakarta.websocket.Endpoint target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Endpoint(jakarta.websocket.Endpoint delegate) {
-            this.delegate = delegate;
+        Endpoint(jakarta.websocket.Endpoint target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -983,42 +983,42 @@ interface Facades {
 
         @Override
         public void onOpen(javax.websocket.Session session, javax.websocket.EndpointConfig config) {
-            delegate.onOpen(session, config);
+            target.onOpen(session, config);
         }
 
         @Override
         public void onOpen(jakarta.websocket.Session session, jakarta.websocket.EndpointConfig config) {
-            delegate.onOpen(session, config);
+            target.onOpen(session, config);
         }
 
         @Override
         public void onClose(javax.websocket.Session session, javax.websocket.CloseReason closeReason) {
-            delegate.onClose(session, closeReason);
+            target.onClose(session, closeReason);
         }
 
         @Override
         public void onClose(jakarta.websocket.Session session, jakarta.websocket.CloseReason closeReason) {
-            delegate.onClose(session, closeReason);
+            target.onClose(session, closeReason);
         }
 
         @Override
         public void onError(javax.websocket.Session session, Throwable cause) {
-            delegate.onError(session, cause);
+            target.onError(session, cause);
         }
 
         @Override
         public void onError(jakarta.websocket.Session session, Throwable cause) {
-            delegate.onError(session, cause);
+            target.onError(session, cause);
         }
     }
 
-    final class EndpointConfig extends Shim.Delegate<jakarta.websocket.EndpointConfig> implements javax.websocket.EndpointConfig {
+    final class EndpointConfig extends Shim.Facade<jakarta.websocket.EndpointConfig> implements javax.websocket.EndpointConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        EndpointConfig(jakarta.websocket.EndpointConfig delegate) {
-            super(delegate);
+        EndpointConfig(jakarta.websocket.EndpointConfig target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1028,30 +1028,30 @@ interface Facades {
         @Override
         public List getEncoders() {
             return WebSocketShim
-                .<javax.websocket.Encoder>of(delegate.getEncoders())
+                .<javax.websocket.Encoder>of(target.getEncoders())
                 .collect(Collectors.toList());
         }
 
         @Override
         public List getDecoders() {
             return WebSocketShim
-                .<javax.websocket.Decoder>of(delegate.getDecoders())
+                .<javax.websocket.Decoder>of(target.getDecoders())
                 .collect(Collectors.toList());
         }
 
         @Override
         public Map<String, Object> getUserProperties() {
-            return delegate.getUserProperties();
+            return target.getUserProperties();
         }
     }
 
-    final class Extension extends Shim.Delegate<jakarta.websocket.Extension> implements javax.websocket.Extension {
+    final class Extension extends Shim.Facade<jakarta.websocket.Extension> implements javax.websocket.Extension {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Extension(jakarta.websocket.Extension delegate) {
-            super(delegate);
+        Extension(jakarta.websocket.Extension target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1060,24 +1060,24 @@ interface Facades {
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public List getParameters() {
             return WebSocketShim
-                .<javax.websocket.Extension.Parameter>of(delegate.getParameters())
+                .<javax.websocket.Extension.Parameter>of(target.getParameters())
                 .collect(Collectors.toList());
         }
     }
 
-    final class Extension$Parameter extends Shim.Delegate<jakarta.websocket.Extension.Parameter> implements javax.websocket.Extension.Parameter {
+    final class Extension$Parameter extends Shim.Facade<jakarta.websocket.Extension.Parameter> implements javax.websocket.Extension.Parameter {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Extension$Parameter(jakarta.websocket.Extension.Parameter delegate) {
-            super(delegate);
+        Extension$Parameter(jakarta.websocket.Extension.Parameter target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1086,22 +1086,22 @@ interface Facades {
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public String getValue() {
-            return delegate.getValue();
+            return target.getValue();
         }
     }
 
-    final class HandshakeRequest extends Shim.Delegate<jakarta.websocket.server.HandshakeRequest> implements javax.websocket.server.HandshakeRequest {
+    final class HandshakeRequest extends Shim.Facade<jakarta.websocket.server.HandshakeRequest> implements javax.websocket.server.HandshakeRequest {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HandshakeRequest(jakarta.websocket.server.HandshakeRequest delegate) {
-            super(delegate);
+        HandshakeRequest(jakarta.websocket.server.HandshakeRequest target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1110,47 +1110,47 @@ interface Facades {
 
         @Override
         public Map<String, List<String>> getHeaders() {
-            return delegate.getHeaders();
+            return target.getHeaders();
         }
 
         @Override
         public Principal getUserPrincipal() {
-            return delegate.getUserPrincipal();
+            return target.getUserPrincipal();
         }
 
         @Override
         public URI getRequestURI() {
-            return delegate.getRequestURI();
+            return target.getRequestURI();
         }
 
         @Override
         public boolean isUserInRole(String role) {
-            return delegate.isUserInRole(role);
+            return target.isUserInRole(role);
         }
 
         @Override
         public Object getHttpSession() {
-            return delegate.getHttpSession();
+            return target.getHttpSession();
         }
 
         @Override
         public Map<String, List<String>> getParameterMap() {
-            return delegate.getParameterMap();
+            return target.getParameterMap();
         }
 
         @Override
         public String getQueryString() {
-            return delegate.getQueryString();
+            return target.getQueryString();
         }
     }
 
-    final class HandshakeResponse extends Shim.Delegate<jakarta.websocket.HandshakeResponse> implements javax.websocket.HandshakeResponse {
+    final class HandshakeResponse extends Shim.Facade<jakarta.websocket.HandshakeResponse> implements javax.websocket.HandshakeResponse {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HandshakeResponse(jakarta.websocket.HandshakeResponse delegate) {
-            super(delegate);
+        HandshakeResponse(jakarta.websocket.HandshakeResponse target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1159,27 +1159,27 @@ interface Facades {
 
         @Override
         public Map<String, List<String>> getHeaders() {
-            return delegate.getHeaders();
+            return target.getHeaders();
         }
     }
 
-    final class MessageHandler extends Shim.Delegate<jakarta.websocket.MessageHandler> implements javax.websocket.MessageHandler {
+    final class MessageHandler extends Shim.Facade<jakarta.websocket.MessageHandler> implements javax.websocket.MessageHandler {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        MessageHandler(jakarta.websocket.MessageHandler delegate) {
-            super(delegate);
+        MessageHandler(jakarta.websocket.MessageHandler target) {
+            super(target);
         }
     }
 
-    final class MessageHandler$Partial<T> extends Shim.Delegate<jakarta.websocket.MessageHandler.Partial<T>> implements javax.websocket.MessageHandler.Partial<T> {
+    final class MessageHandler$Partial<T> extends Shim.Facade<jakarta.websocket.MessageHandler.Partial<T>> implements javax.websocket.MessageHandler.Partial<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        MessageHandler$Partial(jakarta.websocket.MessageHandler.Partial<T> delegate) {
-            super(delegate);
+        MessageHandler$Partial(jakarta.websocket.MessageHandler.Partial<T> target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1188,17 +1188,17 @@ interface Facades {
 
         @Override
         public void onMessage(T partialMessage, boolean last) {
-            delegate.onMessage(partialMessage, last);
+            target.onMessage(partialMessage, last);
         }
     }
 
-    final class MessageHandler$Whole<T> extends Shim.Delegate<jakarta.websocket.MessageHandler.Whole<T>> implements javax.websocket.MessageHandler.Whole<T> {
+    final class MessageHandler$Whole<T> extends Shim.Facade<jakarta.websocket.MessageHandler.Whole<T>> implements javax.websocket.MessageHandler.Whole<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        MessageHandler$Whole(jakarta.websocket.MessageHandler.Whole<T> delegate) {
-            super(delegate);
+        MessageHandler$Whole(jakarta.websocket.MessageHandler.Whole<T> target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1207,17 +1207,17 @@ interface Facades {
 
         @Override
         public void onMessage(T message) {
-            delegate.onMessage(message);
+            target.onMessage(message);
         }
     }
 
-    final class PongMessage extends Shim.Delegate<jakarta.websocket.PongMessage> implements javax.websocket.PongMessage {
+    final class PongMessage extends Shim.Facade<jakarta.websocket.PongMessage> implements javax.websocket.PongMessage {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        PongMessage(jakarta.websocket.PongMessage delegate) {
-            super(delegate);
+        PongMessage(jakarta.websocket.PongMessage target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1226,17 +1226,17 @@ interface Facades {
 
         @Override
         public ByteBuffer getApplicationData() {
-            return delegate.getApplicationData();
+            return target.getApplicationData();
         }
     }
 
-    final class RemoteEndpoint extends Shim.Delegate<jakarta.websocket.RemoteEndpoint> implements javax.websocket.RemoteEndpoint {
+    final class RemoteEndpoint extends Shim.Facade<jakarta.websocket.RemoteEndpoint> implements javax.websocket.RemoteEndpoint {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        RemoteEndpoint(jakarta.websocket.RemoteEndpoint delegate) {
-            super(delegate);
+        RemoteEndpoint(jakarta.websocket.RemoteEndpoint target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1245,37 +1245,37 @@ interface Facades {
 
         @Override
         public void setBatchingAllowed(boolean allowed) throws IOException {
-            delegate.setBatchingAllowed(allowed);
+            target.setBatchingAllowed(allowed);
         }
 
         @Override
         public boolean getBatchingAllowed() {
-            return delegate.getBatchingAllowed();
+            return target.getBatchingAllowed();
         }
 
         @Override
         public void flushBatch() throws IOException {
-            delegate.flushBatch();
+            target.flushBatch();
         }
 
         @Override
         public void sendPing(ByteBuffer applicationData) throws IOException, IllegalArgumentException {
-            delegate.sendPing(applicationData);
+            target.sendPing(applicationData);
         }
 
         @Override
         public void sendPong(ByteBuffer applicationData) throws IOException, IllegalArgumentException {
-            delegate.sendPong(applicationData);
+            target.sendPong(applicationData);
         }
     }
 
-    final class RemoteEndpoint$Async extends Shim.Delegate<jakarta.websocket.RemoteEndpoint.Async> implements javax.websocket.RemoteEndpoint.Async {
+    final class RemoteEndpoint$Async extends Shim.Facade<jakarta.websocket.RemoteEndpoint.Async> implements javax.websocket.RemoteEndpoint.Async {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        RemoteEndpoint$Async(jakarta.websocket.RemoteEndpoint.Async delegate) {
-            super(delegate);
+        RemoteEndpoint$Async(jakarta.websocket.RemoteEndpoint.Async target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1284,92 +1284,92 @@ interface Facades {
 
         @Override
         public long getSendTimeout() {
-            return delegate.getSendTimeout();
+            return target.getSendTimeout();
         }
 
         @Override
         public void setSendTimeout(long timeoutmillis) {
-            delegate.setSendTimeout(timeoutmillis);
+            target.setSendTimeout(timeoutmillis);
         }
 
         @Override
         public void sendText(String text, javax.websocket.SendHandler handler) {
-            delegate.sendText(text, handler);
+            target.sendText(text, handler);
         }
 
         @Override
         public void sendText(String text, jakarta.websocket.SendHandler handler) {
-            delegate.sendText(text, handler);
+            target.sendText(text, handler);
         }
 
         @Override
         public Future<Void> sendText(String text) {
-            return delegate.sendText(text);
+            return target.sendText(text);
         }
 
         @Override
         public Future<Void> sendBinary(ByteBuffer data) {
-            return delegate.sendBinary(data);
+            return target.sendBinary(data);
         }
 
         @Override
         public void sendBinary(ByteBuffer data, javax.websocket.SendHandler handler) {
-            delegate.sendBinary(data, handler);
+            target.sendBinary(data, handler);
         }
 
         @Override
         public void sendBinary(ByteBuffer data, jakarta.websocket.SendHandler handler) {
-            delegate.sendBinary(data, handler);
+            target.sendBinary(data, handler);
         }
 
         @Override
         public Future<Void> sendObject(Object data) {
-            return delegate.sendObject(data);
+            return target.sendObject(data);
         }
 
         @Override
         public void sendObject(Object data, javax.websocket.SendHandler handler) {
-            delegate.sendObject(data, handler);
+            target.sendObject(data, handler);
         }
 
         @Override
         public void sendObject(Object data, jakarta.websocket.SendHandler handler) {
-            delegate.sendObject(data, handler);
+            target.sendObject(data, handler);
         }
 
         @Override
         public void setBatchingAllowed(boolean allowed) throws IOException {
-            delegate.setBatchingAllowed(allowed);
+            target.setBatchingAllowed(allowed);
         }
 
         @Override
         public boolean getBatchingAllowed() {
-            return delegate.getBatchingAllowed();
+            return target.getBatchingAllowed();
         }
 
         @Override
         public void flushBatch() throws IOException {
-            delegate.flushBatch();
+            target.flushBatch();
         }
 
         @Override
         public void sendPing(ByteBuffer applicationData) throws IOException, IllegalArgumentException {
-            delegate.sendPing(applicationData);
+            target.sendPing(applicationData);
         }
 
         @Override
         public void sendPong(ByteBuffer applicationData) throws IOException, IllegalArgumentException {
-            delegate.sendPong(applicationData);
+            target.sendPong(applicationData);
         }
     }
 
-    final class RemoteEndpoint$Basic extends Shim.Delegate<jakarta.websocket.RemoteEndpoint.Basic> implements javax.websocket.RemoteEndpoint.Basic {
+    final class RemoteEndpoint$Basic extends Shim.Facade<jakarta.websocket.RemoteEndpoint.Basic> implements javax.websocket.RemoteEndpoint.Basic {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        RemoteEndpoint$Basic(jakarta.websocket.RemoteEndpoint.Basic delegate) {
-            super(delegate);
+        RemoteEndpoint$Basic(jakarta.websocket.RemoteEndpoint.Basic target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1378,38 +1378,38 @@ interface Facades {
 
         @Override
         public void sendText(String text) throws IOException {
-            delegate.sendText(text);
+            target.sendText(text);
         }
 
         @Override
         public void sendBinary(ByteBuffer data) throws IOException {
-            delegate.sendBinary(data);
+            target.sendBinary(data);
         }
 
         @Override
         public void sendText(String partialMessage, boolean isLast) throws IOException {
-            delegate.sendText(partialMessage, isLast);
+            target.sendText(partialMessage, isLast);
         }
 
         @Override
         public void sendBinary(ByteBuffer partialByte, boolean isLast) throws IOException {
-            delegate.sendBinary(partialByte, isLast);
+            target.sendBinary(partialByte, isLast);
         }
 
         @Override
         public OutputStream getSendStream() throws IOException {
-            return delegate.getSendStream();
+            return target.getSendStream();
         }
 
         @Override
         public Writer getSendWriter() throws IOException {
-            return delegate.getSendWriter();
+            return target.getSendWriter();
         }
 
         @Override
         public void sendObject(Object data) throws javax.websocket.EncodeException, IOException {
             try {
-                delegate.sendObject(data);
+                target.sendObject(data);
             } catch (jakarta.websocket.EncodeException exception) {
                 throw WebSocketShim.<javax.websocket.EncodeException>of(exception);
             }
@@ -1417,37 +1417,37 @@ interface Facades {
 
         @Override
         public void setBatchingAllowed(boolean allowed) throws IOException {
-            delegate.setBatchingAllowed(allowed);
+            target.setBatchingAllowed(allowed);
         }
 
         @Override
         public boolean getBatchingAllowed() {
-            return delegate.getBatchingAllowed();
+            return target.getBatchingAllowed();
         }
 
         @Override
         public void flushBatch() throws IOException {
-            delegate.flushBatch();
+            target.flushBatch();
         }
 
         @Override
         public void sendPing(ByteBuffer applicationData) throws IOException, IllegalArgumentException {
-            delegate.sendPing(applicationData);
+            target.sendPing(applicationData);
         }
 
         @Override
         public void sendPong(ByteBuffer applicationData) throws IOException, IllegalArgumentException {
-            delegate.sendPong(applicationData);
+            target.sendPong(applicationData);
         }
     }
 
-    final class SendHandler extends Shim.Delegate<jakarta.websocket.SendHandler> implements javax.websocket.SendHandler {
+    final class SendHandler extends Shim.Facade<jakarta.websocket.SendHandler> implements javax.websocket.SendHandler {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        SendHandler(jakarta.websocket.SendHandler delegate) {
-            super(delegate);
+        SendHandler(jakarta.websocket.SendHandler target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1456,12 +1456,12 @@ interface Facades {
 
         @Override
         public void onResult(javax.websocket.SendResult result) {
-            delegate.onResult(result.getDelegate());
+            target.onResult(result.getTarget());
         }
 
         @Override
         public void onResult(jakarta.websocket.SendResult result) {
-            delegate.onResult(result);
+            target.onResult(result);
         }
     }
 
@@ -1470,18 +1470,18 @@ interface Facades {
         // Constructors
         //==============================================================================================================
 
-        SendResult(jakarta.websocket.SendResult delegate) {
-            super(delegate);
+        SendResult(jakarta.websocket.SendResult target) {
+            super(target);
         }
     }
 
-    final class ServerApplicationConfig extends Shim.Delegate<jakarta.websocket.server.ServerApplicationConfig> implements javax.websocket.server.ServerApplicationConfig {
+    final class ServerApplicationConfig extends Shim.Facade<jakarta.websocket.server.ServerApplicationConfig> implements javax.websocket.server.ServerApplicationConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServerApplicationConfig(jakarta.websocket.server.ServerApplicationConfig delegate) {
-            super(delegate);
+        ServerApplicationConfig(jakarta.websocket.server.ServerApplicationConfig target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1491,23 +1491,23 @@ interface Facades {
         @Override
         public Set getEndpointConfigs(Set endpointClasses) {
             return WebSocketShim
-                .<javax.websocket.server.ServerEndpointConfig>of(delegate.getEndpointConfigs(endpointClasses))
+                .<javax.websocket.server.ServerEndpointConfig>of(target.getEndpointConfigs(endpointClasses))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         }
 
         @Override
         public Set<Class<?>> getAnnotatedEndpointClasses(Set<Class<?>> scanned) {
-            return delegate.getAnnotatedEndpointClasses(scanned);
+            return target.getAnnotatedEndpointClasses(scanned);
         }
     }
 
-    final class ServerContainer extends Shim.Delegate<jakarta.websocket.server.ServerContainer> implements javax.websocket.server.ServerContainer {
+    final class ServerContainer extends Shim.Facade<jakarta.websocket.server.ServerContainer> implements javax.websocket.server.ServerContainer {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServerContainer(jakarta.websocket.server.ServerContainer delegate) {
-            super(delegate);
+        ServerContainer(jakarta.websocket.server.ServerContainer target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1517,7 +1517,7 @@ interface Facades {
         @Override
         public void addEndpoint(Class<?> endpointClass) throws javax.websocket.DeploymentException {
             try {
-                delegate.addEndpoint(endpointClass);
+                target.addEndpoint(endpointClass);
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -1528,7 +1528,7 @@ interface Facades {
             javax.websocket.server.ServerEndpointConfig endpointConfig
         ) throws javax.websocket.DeploymentException {
             try {
-                delegate.addEndpoint(endpointConfig);
+                target.addEndpoint(endpointConfig);
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -1539,7 +1539,7 @@ interface Facades {
             jakarta.websocket.server.ServerEndpointConfig endpointConfig
         ) throws javax.websocket.DeploymentException {
             try {
-                delegate.addEndpoint(endpointConfig);
+                target.addEndpoint(endpointConfig);
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -1553,7 +1553,7 @@ interface Facades {
             Map<String, String> pathParameters
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                delegate.upgradeHttpToWebSocket(httpServletRequest, httpServletResponse, endpointConfig, pathParameters);
+                target.upgradeHttpToWebSocket(httpServletRequest, httpServletResponse, endpointConfig, pathParameters);
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -1567,7 +1567,7 @@ interface Facades {
             Map<String, String> pathParameters
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                delegate.upgradeHttpToWebSocket(httpServletRequest, httpServletResponse, endpointConfig, pathParameters);
+                target.upgradeHttpToWebSocket(httpServletRequest, httpServletResponse, endpointConfig, pathParameters);
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -1575,48 +1575,48 @@ interface Facades {
 
         @Override
         public long getDefaultAsyncSendTimeout() {
-            return delegate.getDefaultAsyncSendTimeout();
+            return target.getDefaultAsyncSendTimeout();
         }
 
         @Override
         public void setAsyncSendTimeout(long timeout) {
-            delegate.setAsyncSendTimeout(timeout);
+            target.setAsyncSendTimeout(timeout);
         }
 
         @Override
         public long getDefaultMaxSessionIdleTimeout() {
-            return delegate.getDefaultMaxSessionIdleTimeout();
+            return target.getDefaultMaxSessionIdleTimeout();
         }
 
         @Override
         public void setDefaultMaxSessionIdleTimeout(long timeout) {
-            delegate.setDefaultMaxSessionIdleTimeout(timeout);
+            target.setDefaultMaxSessionIdleTimeout(timeout);
         }
 
         @Override
         public int getDefaultMaxBinaryMessageBufferSize() {
-            return delegate.getDefaultMaxBinaryMessageBufferSize();
+            return target.getDefaultMaxBinaryMessageBufferSize();
         }
 
         @Override
         public void setDefaultMaxBinaryMessageBufferSize(int max) {
-            delegate.setDefaultMaxBinaryMessageBufferSize(max);
+            target.setDefaultMaxBinaryMessageBufferSize(max);
         }
 
         @Override
         public int getDefaultMaxTextMessageBufferSize() {
-            return delegate.getDefaultMaxTextMessageBufferSize();
+            return target.getDefaultMaxTextMessageBufferSize();
         }
 
         @Override
         public void setDefaultMaxTextMessageBufferSize(int max) {
-            delegate.setDefaultMaxTextMessageBufferSize(max);
+            target.setDefaultMaxTextMessageBufferSize(max);
         }
 
         @Override
         public Set getInstalledExtensions() {
             return WebSocketShim
-                .<javax.websocket.Extension>of(delegate.getInstalledExtensions())
+                .<javax.websocket.Extension>of(target.getInstalledExtensions())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         }
 
@@ -1627,7 +1627,7 @@ interface Facades {
             URI path
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                return WebSocketShim.of(delegate.connectToServer(endpointInstance, endpointConfig, path));
+                return WebSocketShim.of(target.connectToServer(endpointInstance, endpointConfig, path));
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -1640,7 +1640,7 @@ interface Facades {
             URI path
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                return WebSocketShim.of(delegate.connectToServer(endpointInstance, endpointConfig, path));
+                return WebSocketShim.of(target.connectToServer(endpointInstance, endpointConfig, path));
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -1653,7 +1653,7 @@ interface Facades {
             URI path
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                return WebSocketShim.of(delegate.connectToServer(endpointClass, endpointConfig, path));
+                return WebSocketShim.of(target.connectToServer(endpointClass, endpointConfig, path));
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -1666,7 +1666,7 @@ interface Facades {
             URI path
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                return WebSocketShim.of(delegate.connectToServer(endpointClass, endpointConfig, path));
+                return WebSocketShim.of(target.connectToServer(endpointClass, endpointConfig, path));
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -1678,7 +1678,7 @@ interface Facades {
             URI path
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                return WebSocketShim.of(delegate.connectToServer(annotatedEndpointInstance, path));
+                return WebSocketShim.of(target.connectToServer(annotatedEndpointInstance, path));
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -1690,20 +1690,20 @@ interface Facades {
             URI path
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                return WebSocketShim.of(delegate.connectToServer(annotatedEndpointClass, path));
+                return WebSocketShim.of(target.connectToServer(annotatedEndpointClass, path));
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
         }
     }
 
-    final class ServerEndpointConfig extends Shim.Delegate<jakarta.websocket.server.ServerEndpointConfig> implements javax.websocket.server.ServerEndpointConfig {
+    final class ServerEndpointConfig extends Shim.Facade<jakarta.websocket.server.ServerEndpointConfig> implements javax.websocket.server.ServerEndpointConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServerEndpointConfig(jakarta.websocket.server.ServerEndpointConfig delegate) {
-            super(delegate);
+        ServerEndpointConfig(jakarta.websocket.server.ServerEndpointConfig target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1713,33 +1713,33 @@ interface Facades {
         @Override
         public List getExtensions() {
             return WebSocketShim
-                .<javax.websocket.Extension>of(delegate.getExtensions())
+                .<javax.websocket.Extension>of(target.getExtensions())
                 .collect(Collectors.toList());
         }
 
         @Override
         public javax.websocket.server.ServerEndpointConfig.Configurator getConfigurator() {
-            return WebSocketShim.of(delegate.getConfigurator());
+            return WebSocketShim.of(target.getConfigurator());
         }
 
         @Override
         public Class<?> getEndpointClass() {
-            return delegate.getEndpointClass();
+            return target.getEndpointClass();
         }
 
         @Override
         public String getPath() {
-            return delegate.getPath();
+            return target.getPath();
         }
 
         @Override
         public List<String> getSubprotocols() {
-            return delegate.getSubprotocols();
+            return target.getSubprotocols();
         }
 
         @Override
         public List getEncoders() {
-            return delegate
+            return target
                 .getEncoders()
                 .stream()
                 .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(javax.websocket.Encoder.class, clazz))
@@ -1748,7 +1748,7 @@ interface Facades {
 
         @Override
         public List getDecoders() {
-            return delegate
+            return target
                 .getDecoders()
                 .stream()
                 .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(javax.websocket.Decoder.class, clazz))
@@ -1757,7 +1757,7 @@ interface Facades {
 
         @Override
         public Map<String, Object> getUserProperties() {
-            return delegate.getUserProperties();
+            return target.getUserProperties();
         }
     }
 
@@ -1766,20 +1766,20 @@ interface Facades {
         // Constructors
         //==============================================================================================================
 
-        ServerEndpointConfig$Builder(jakarta.websocket.server.ServerEndpointConfig.Builder delegate) {
-            super(delegate);
+        ServerEndpointConfig$Builder(jakarta.websocket.server.ServerEndpointConfig.Builder target) {
+            super(target);
         }
     }
 
     final class ServerEndpointConfig$Configurator extends javax.websocket.server.ServerEndpointConfig.Configurator {
-        private final jakarta.websocket.server.ServerEndpointConfig.Configurator delegate;
+        private final jakarta.websocket.server.ServerEndpointConfig.Configurator target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServerEndpointConfig$Configurator(jakarta.websocket.server.ServerEndpointConfig.Configurator delegate) {
-            this.delegate = delegate;
+        ServerEndpointConfig$Configurator(jakarta.websocket.server.ServerEndpointConfig.Configurator target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -1788,24 +1788,24 @@ interface Facades {
 
         @Override
         public javax.websocket.server.ServerEndpointConfig.Configurator getContainerDefaultConfigurator() {
-            return WebSocketShim.of(delegate.getContainerDefaultConfigurator());
+            return WebSocketShim.of(target.getContainerDefaultConfigurator());
         }
 
         @Override
         public String getNegotiatedSubprotocol(List<String> supported, List<String> requested) {
-            return delegate.getNegotiatedSubprotocol(supported, requested);
+            return target.getNegotiatedSubprotocol(supported, requested);
         }
 
         @Override
         public List<javax.websocket.Extension> getNegotiatedExtensions(List installed, List requested) {
             return WebSocketShim
-                .<javax.websocket.Extension>of(delegate.getNegotiatedExtensions(installed, requested))
+                .<javax.websocket.Extension>of(target.getNegotiatedExtensions(installed, requested))
                 .collect(Collectors.toList());
         }
 
         @Override
         public boolean checkOrigin(String originHeaderValue) {
-            return delegate.checkOrigin(originHeaderValue);
+            return target.checkOrigin(originHeaderValue);
         }
 
         @Override
@@ -1814,7 +1814,7 @@ interface Facades {
             javax.websocket.server.HandshakeRequest request,
             javax.websocket.HandshakeResponse response
         ) {
-            delegate.modifyHandshake(endpointConfig, request, response);
+            target.modifyHandshake(endpointConfig, request, response);
         }
 
         @Override
@@ -1823,22 +1823,22 @@ interface Facades {
             jakarta.websocket.server.HandshakeRequest request,
             jakarta.websocket.HandshakeResponse response
         ) {
-            delegate.modifyHandshake(endpointConfig, request, response);
+            target.modifyHandshake(endpointConfig, request, response);
         }
 
         @Override
         public <T> T getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
-            return delegate.getEndpointInstance(endpointClass);
+            return target.getEndpointInstance(endpointClass);
         }
     }
 
-    final class Session extends Shim.Delegate<jakarta.websocket.Session> implements javax.websocket.Session {
+    final class Session extends Shim.Facade<jakarta.websocket.Session> implements javax.websocket.Session {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Session(jakarta.websocket.Session delegate) {
-            super(delegate);
+        Session(jakarta.websocket.Session target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1847,191 +1847,191 @@ interface Facades {
 
         @Override
         public javax.websocket.WebSocketContainer getContainer() {
-            return WebSocketShim.of(delegate.getContainer());
+            return WebSocketShim.of(target.getContainer());
         }
 
         @Override
         public void addMessageHandler(javax.websocket.MessageHandler handler) throws IllegalStateException {
-            delegate.addMessageHandler(handler);
+            target.addMessageHandler(handler);
         }
 
         @Override
         public void addMessageHandler(jakarta.websocket.MessageHandler handler) throws IllegalStateException {
-            delegate.addMessageHandler(handler);
+            target.addMessageHandler(handler);
         }
 
         @Override
         public <T> void addMessageHandler(Class<T> clazz, javax.websocket.MessageHandler.Whole<T> handler) {
-            delegate.addMessageHandler(clazz, handler);
+            target.addMessageHandler(clazz, handler);
         }
 
         @Override
         public <T> void addMessageHandler(Class<T> clazz, jakarta.websocket.MessageHandler.Whole<T> handler) {
-            delegate.addMessageHandler(clazz, handler);
+            target.addMessageHandler(clazz, handler);
         }
 
         @Override
         public <T> void addMessageHandler(Class<T> clazz, javax.websocket.MessageHandler.Partial<T> handler) {
-            delegate.addMessageHandler(clazz, handler);
+            target.addMessageHandler(clazz, handler);
         }
 
         @Override
         public <T> void addMessageHandler(Class<T> clazz, jakarta.websocket.MessageHandler.Partial<T> handler) {
-            delegate.addMessageHandler(clazz, handler);
+            target.addMessageHandler(clazz, handler);
         }
 
         @Override
         public Set getMessageHandlers() {
             return WebSocketShim
-                .<javax.websocket.MessageHandler>of(delegate.getMessageHandlers())
+                .<javax.websocket.MessageHandler>of(target.getMessageHandlers())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         }
 
         @Override
         public void removeMessageHandler(javax.websocket.MessageHandler handler) {
-            delegate.removeMessageHandler(handler);
+            target.removeMessageHandler(handler);
         }
 
         @Override
         public void removeMessageHandler(jakarta.websocket.MessageHandler handler) {
-            delegate.removeMessageHandler(handler);
+            target.removeMessageHandler(handler);
         }
 
         @Override
         public String getProtocolVersion() {
-            return delegate.getProtocolVersion();
+            return target.getProtocolVersion();
         }
 
         @Override
         public String getNegotiatedSubprotocol() {
-            return delegate.getNegotiatedSubprotocol();
+            return target.getNegotiatedSubprotocol();
         }
 
         @Override
         public List getNegotiatedExtensions() {
             return WebSocketShim
-                .<javax.websocket.Extension>of(delegate.getNegotiatedExtensions())
+                .<javax.websocket.Extension>of(target.getNegotiatedExtensions())
                 .collect(Collectors.toList());
         }
 
         @Override
         public boolean isSecure() {
-            return delegate.isSecure();
+            return target.isSecure();
         }
 
         @Override
         public boolean isOpen() {
-            return delegate.isOpen();
+            return target.isOpen();
         }
 
         @Override
         public long getMaxIdleTimeout() {
-            return delegate.getMaxIdleTimeout();
+            return target.getMaxIdleTimeout();
         }
 
         @Override
         public void setMaxIdleTimeout(long milliseconds) {
-            delegate.setMaxIdleTimeout(milliseconds);
+            target.setMaxIdleTimeout(milliseconds);
         }
 
         @Override
         public void setMaxBinaryMessageBufferSize(int length) {
-            delegate.setMaxBinaryMessageBufferSize(length);
+            target.setMaxBinaryMessageBufferSize(length);
         }
 
         @Override
         public int getMaxBinaryMessageBufferSize() {
-            return delegate.getMaxBinaryMessageBufferSize();
+            return target.getMaxBinaryMessageBufferSize();
         }
 
         @Override
         public void setMaxTextMessageBufferSize(int length) {
-            delegate.setMaxTextMessageBufferSize(length);
+            target.setMaxTextMessageBufferSize(length);
         }
 
         @Override
         public int getMaxTextMessageBufferSize() {
-            return delegate.getMaxTextMessageBufferSize();
+            return target.getMaxTextMessageBufferSize();
         }
 
         @Override
         public javax.websocket.RemoteEndpoint.Async getAsyncRemote() {
-            return WebSocketShim.of(delegate.getAsyncRemote());
+            return WebSocketShim.of(target.getAsyncRemote());
         }
 
         @Override
         public javax.websocket.RemoteEndpoint.Basic getBasicRemote() {
-            return WebSocketShim.of(delegate.getBasicRemote());
+            return WebSocketShim.of(target.getBasicRemote());
         }
 
         @Override
         public String getId() {
-            return delegate.getId();
+            return target.getId();
         }
 
         @Override
         public void close() throws IOException {
-            delegate.close();
+            target.close();
         }
 
         @Override
         public void close(javax.websocket.CloseReason reason) throws IOException {
-            delegate.close(reason);
+            target.close(reason);
         }
 
         @Override
         public void close(jakarta.websocket.CloseReason closeReason) throws IOException {
-            delegate.close(closeReason);
+            target.close(closeReason);
         }
 
         @Override
         public URI getRequestURI() {
-            return delegate.getRequestURI();
+            return target.getRequestURI();
         }
 
         @Override
         public Map<String, List<String>> getRequestParameterMap() {
-            return delegate.getRequestParameterMap();
+            return target.getRequestParameterMap();
         }
 
         @Override
         public String getQueryString() {
-            return delegate.getQueryString();
+            return target.getQueryString();
         }
 
         @Override
         public Map<String, String> getPathParameters() {
-            return delegate.getPathParameters();
+            return target.getPathParameters();
         }
 
         @Override
         public Map<String, Object> getUserProperties() {
-            return delegate.getUserProperties();
+            return target.getUserProperties();
         }
 
         @Override
         public Principal getUserPrincipal() {
-            return delegate.getUserPrincipal();
+            return target.getUserPrincipal();
         }
 
         @Override
         public Set getOpenSessions() {
             return WebSocketShim
-                .<javax.websocket.Session>of(delegate.getOpenSessions())
+                .<javax.websocket.Session>of(target.getOpenSessions())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         }
     }
 
     final class SessionException extends javax.websocket.SessionException {
-        private final jakarta.websocket.SessionException delegate;
+        private final jakarta.websocket.SessionException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        SessionException(jakarta.websocket.SessionException delegate) {
-            super(delegate.getMessage(), delegate.getCause(), WebSocketShim.of(delegate.getSession()));
-            this.delegate = delegate;
+        SessionException(jakarta.websocket.SessionException target) {
+            super(target.getMessage(), target.getCause(), WebSocketShim.of(target.getSession()));
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -2040,72 +2040,72 @@ interface Facades {
 
         @Override
         public javax.websocket.Session getSession() {
-            return WebSocketShim.of(delegate.getSession());
+            return WebSocketShim.of(target.getSession());
         }
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
-    final class WebSocketContainer extends Shim.Delegate<jakarta.websocket.WebSocketContainer> implements javax.websocket.WebSocketContainer {
+    final class WebSocketContainer extends Shim.Facade<jakarta.websocket.WebSocketContainer> implements javax.websocket.WebSocketContainer {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        WebSocketContainer(jakarta.websocket.WebSocketContainer delegate) {
-            super(delegate);
+        WebSocketContainer(jakarta.websocket.WebSocketContainer target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2114,12 +2114,12 @@ interface Facades {
 
         @Override
         public long getDefaultAsyncSendTimeout() {
-            return delegate.getDefaultAsyncSendTimeout();
+            return target.getDefaultAsyncSendTimeout();
         }
 
         @Override
         public void setAsyncSendTimeout(long timeout) {
-            delegate.setAsyncSendTimeout(timeout);
+            target.setAsyncSendTimeout(timeout);
         }
 
         @Override
@@ -2128,7 +2128,7 @@ interface Facades {
             URI path
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                return WebSocketShim.of(delegate.connectToServer(annotatedEndpointInstance, path));
+                return WebSocketShim.of(target.connectToServer(annotatedEndpointInstance, path));
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -2140,7 +2140,7 @@ interface Facades {
             URI path
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                return WebSocketShim.of(delegate.connectToServer(annotatedEndpointClass, path));
+                return WebSocketShim.of(target.connectToServer(annotatedEndpointClass, path));
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -2153,7 +2153,7 @@ interface Facades {
             URI path
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                return WebSocketShim.of(delegate.connectToServer(endpointInstance, endpointConfig, path));
+                return WebSocketShim.of(target.connectToServer(endpointInstance, endpointConfig, path));
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -2166,7 +2166,7 @@ interface Facades {
             URI path
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                return WebSocketShim.of(delegate.connectToServer(endpointInstance, endpointConfig, path));
+                return WebSocketShim.of(target.connectToServer(endpointInstance, endpointConfig, path));
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -2179,7 +2179,7 @@ interface Facades {
             URI path
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                return WebSocketShim.of(delegate.connectToServer(endpointClass, endpointConfig, path));
+                return WebSocketShim.of(target.connectToServer(endpointClass, endpointConfig, path));
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -2192,7 +2192,7 @@ interface Facades {
             URI path
         ) throws javax.websocket.DeploymentException, IOException {
             try {
-                return WebSocketShim.of(delegate.connectToServer(endpointClass, endpointConfig, path));
+                return WebSocketShim.of(target.connectToServer(endpointClass, endpointConfig, path));
             } catch (jakarta.websocket.DeploymentException exception) {
                 throw WebSocketShim.<javax.websocket.DeploymentException>of(exception);
             }
@@ -2200,38 +2200,38 @@ interface Facades {
 
         @Override
         public long getDefaultMaxSessionIdleTimeout() {
-            return delegate.getDefaultMaxSessionIdleTimeout();
+            return target.getDefaultMaxSessionIdleTimeout();
         }
 
         @Override
         public void setDefaultMaxSessionIdleTimeout(long timeout) {
-            delegate.setDefaultMaxSessionIdleTimeout(timeout);
+            target.setDefaultMaxSessionIdleTimeout(timeout);
         }
 
         @Override
         public int getDefaultMaxBinaryMessageBufferSize() {
-            return delegate.getDefaultMaxBinaryMessageBufferSize();
+            return target.getDefaultMaxBinaryMessageBufferSize();
         }
 
         @Override
         public void setDefaultMaxBinaryMessageBufferSize(int max) {
-            delegate.setDefaultMaxBinaryMessageBufferSize(max);
+            target.setDefaultMaxBinaryMessageBufferSize(max);
         }
 
         @Override
         public int getDefaultMaxTextMessageBufferSize() {
-            return delegate.getDefaultMaxTextMessageBufferSize();
+            return target.getDefaultMaxTextMessageBufferSize();
         }
 
         @Override
         public void setDefaultMaxTextMessageBufferSize(int max) {
-            delegate.setDefaultMaxTextMessageBufferSize(max);
+            target.setDefaultMaxTextMessageBufferSize(max);
         }
 
         @Override
         public Set getInstalledExtensions() {
             return WebSocketShim
-                .<javax.websocket.Extension>of(delegate.getInstalledExtensions())
+                .<javax.websocket.Extension>of(target.getInstalledExtensions())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         }
     }

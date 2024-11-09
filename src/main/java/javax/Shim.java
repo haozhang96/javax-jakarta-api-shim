@@ -2,11 +2,11 @@ package javax;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -57,26 +57,25 @@ public interface Shim {
     }
 
     //==================================================================================================================
-    // Delegates
+    // Facade
     //==================================================================================================================
 
     /**
      * @deprecated Use {@link jakarta} instead.
      */
     @Deprecated(since = "jakarta")
-    abstract class Delegate<T> implements Shim, Serializable, Cloneable {
-        private static final StackWalker STACK_WALKER = StackWalker.getInstance();
-        private static final Method FINALIZER = getFinalizer();
+    abstract class Facade<T> implements Shim, Serializable, Cloneable {
+        private static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
 
-        protected final T delegate; // Conditionally serializable
+        protected final T target; // Conditionally serializable
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        protected Delegate(T delegate) {
-            this.delegate = Objects.requireNonNull(delegate);
-            printEntryPoint();
+        protected Facade(T target) {
+            this.target = Objects.requireNonNull(target);
+            logEntryPoint();
         }
 
         //==============================================================================================================
@@ -86,57 +85,45 @@ public interface Shim {
         @Override
         @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
         public final boolean equals(Object other) {
-            return delegate.equals(other);
+            return target.equals(other);
         }
 
         @Override
         public final int hashCode() {
-            return delegate.hashCode();
+            return target.hashCode();
         }
 
         @Override
         public final String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         @SuppressWarnings("unchecked")
-        protected final Delegate<T> clone() {
+        protected final Facade<T> clone() {
             try {
                 return getClass().cast(super.clone());
             } catch (CloneNotSupportedException exception) {
-                // This should never happen.
+                // This should never happen since we implement Cloneable.
                 throw new InternalError(exception);
             }
         }
 
-        @Override
-        @SuppressWarnings("deprecation")
-        protected final void finalize() throws Throwable {
-            try {
-                if (FINALIZER != null) {
-                    FINALIZER.invoke(delegate);
-                }
-            } finally {
-                super.finalize();
-            }
-        }
-
         //==============================================================================================================
-        // Annotation-specific Delegate
+        // Annotation-specific Facade
         //==============================================================================================================
 
         /**
          * @deprecated Use {@link jakarta} instead.
          */
         @Deprecated(since = "jakarta")
-        public abstract static class Annotation<A extends java.lang.annotation.Annotation> extends Delegate<A> implements java.lang.annotation.Annotation {
+        public abstract static class Annotation<A extends java.lang.annotation.Annotation> extends Facade<A> implements java.lang.annotation.Annotation {
             //==========================================================================================================
             // Constructors
             //==========================================================================================================
 
-            protected Annotation(A delegate) {
-                super(delegate);
+            protected Annotation(A target) {
+                super(target);
             }
 
             //==========================================================================================================
@@ -145,7 +132,7 @@ public interface Shim {
 
             @Override
             public final Class<? extends java.lang.annotation.Annotation> annotationType() {
-                return delegate.annotationType();
+                return target.annotationType();
             }
         }
 
@@ -153,26 +140,18 @@ public interface Shim {
         // Private Helper Methods
         //==============================================================================================================
 
-        private void printEntryPoint() {
-            STACK_WALKER.walk(stackFrames ->
-                stackFrames
-                    .dropWhile(stackFrame -> stackFrame.getClassName().startsWith("javax."))
-                    .findFirst()
-            ).ifPresent(stackFrame ->
-                System
-                    .getLogger(delegate.getClass().getName())
-                    .log(System.Logger.Level.INFO, stackFrame)
-            );
-        }
-
-        private static Method getFinalizer() {
-            try {
-                final var finalizer = Object.class.getDeclaredMethod("finalize");
-                return finalizer.trySetAccessible() ? finalizer : null;
-            } catch (NoSuchMethodException exception) {
-                // This should never happen.
-                throw new InternalError(exception);
-            }
+        private void logEntryPoint() {
+            final var stackTrace =
+                STACK_WALKER.walk(stackFrames ->
+                    stackFrames
+                        .dropWhile(stackFrame -> Shim.class.isAssignableFrom(stackFrame.getDeclaringClass()))
+                        .limit(5L)
+                        .map(StackWalker.StackFrame::toString)
+                        .collect(Collectors.joining(System.lineSeparator() + "\t", System.lineSeparator() + "\t", ""))
+                );
+            System
+                .getLogger(getClass().getName())
+                .log(System.Logger.Level.INFO, "Shimming -> " + target.getClass().getName() + stackTrace);
         }
     }
 }

@@ -65,10 +65,10 @@ public class CloseReason extends jakarta.websocket.CloseReason implements WebSoc
         // Enumeration Set-up
         //==============================================================================================================
 
-        private final jakarta.websocket.CloseReason.CloseCodes delegate;
+        private final jakarta.websocket.CloseReason.CloseCodes target;
 
-        CloseCodes(jakarta.websocket.CloseReason.CloseCodes delegate) {
-            this.delegate = delegate;
+        CloseCodes(jakarta.websocket.CloseReason.CloseCodes target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -77,7 +77,7 @@ public class CloseReason extends jakarta.websocket.CloseReason implements WebSoc
 
         @Override
         public int getCode() {
-            return delegate.getCode();
+            return target.getCode();
         }
 
         //==============================================================================================================

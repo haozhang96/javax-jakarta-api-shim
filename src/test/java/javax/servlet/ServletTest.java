@@ -10,7 +10,7 @@ import java.lang.invoke.MethodHandles;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@SpringBootApplication
+@SpringBootApplication(proxyBeanMethods = false)
 @RestController
 public class ServletTest {
     public static void main(String... args) {

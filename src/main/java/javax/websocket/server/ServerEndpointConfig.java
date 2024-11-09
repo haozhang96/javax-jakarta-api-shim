@@ -77,7 +77,7 @@ public interface ServerEndpointConfig extends jakarta.websocket.server.ServerEnd
      * @deprecated Use {@link jakarta.websocket.server.ServerEndpointConfig.Builder} instead.
      */
     @Deprecated(since = "jakarta.websocket.server.ServerEndpointConfig.Builder")
-    class Builder extends Delegate<jakarta.websocket.server.ServerEndpointConfig.Builder> {
+    class Builder extends Facade<jakarta.websocket.server.ServerEndpointConfig.Builder> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -86,8 +86,8 @@ public interface ServerEndpointConfig extends jakarta.websocket.server.ServerEnd
             this(jakarta.websocket.server.ServerEndpointConfig.Builder.create(endpointClass, path));
         }
 
-        protected Builder(jakarta.websocket.server.ServerEndpointConfig.Builder delegate) {
-            super(delegate);
+        protected Builder(jakarta.websocket.server.ServerEndpointConfig.Builder target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -109,42 +109,42 @@ public interface ServerEndpointConfig extends jakarta.websocket.server.ServerEnd
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#build()
          */
         public ServerEndpointConfig build() {
-            return WebSocketShim.of(delegate.build());
+            return WebSocketShim.of(target.build());
         }
 
         /**
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#encoders(List)
          */
         public Builder encoders(List<Class<? extends Encoder>> encoders) {
-            return WebSocketShim.of(delegate.encoders(Collections.unmodifiableList(encoders)));
+            return WebSocketShim.of(target.encoders(Collections.unmodifiableList(encoders)));
         }
 
         /**
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#decoders(List)
          */
         public Builder decoders(List<Class<? extends Decoder>> decoders) {
-            return WebSocketShim.of(delegate.decoders(Collections.unmodifiableList(decoders)));
+            return WebSocketShim.of(target.decoders(Collections.unmodifiableList(decoders)));
         }
 
         /**
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#subprotocols(List)
          */
         public Builder subprotocols(List<String> subprotocols) {
-            return WebSocketShim.of(delegate.subprotocols(subprotocols));
+            return WebSocketShim.of(target.subprotocols(subprotocols));
         }
 
         /**
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#extensions(List)
          */
         public Builder extensions(List<Extension> extensions) {
-            return WebSocketShim.of(delegate.extensions(Collections.unmodifiableList(extensions)));
+            return WebSocketShim.of(target.extensions(Collections.unmodifiableList(extensions)));
         }
 
         /**
          * @see jakarta.websocket.server.ServerEndpointConfig.Builder#configurator(jakarta.websocket.server.ServerEndpointConfig.Configurator)
          */
         public Builder configurator(Configurator serverEndpointConfigurator) {
-            return WebSocketShim.of(delegate.configurator(serverEndpointConfigurator));
+            return WebSocketShim.of(target.configurator(serverEndpointConfigurator));
         }
     }
 }

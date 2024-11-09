@@ -7,7 +7,7 @@ import javax.Shim;
  * @apiNote This class cannot extend {@link jakarta.websocket.SendResult} due to it being a final class.
  */
 @Deprecated(since = "jakarta.websocket.SendResult")
-public class SendResult extends Shim.Delegate<jakarta.websocket.SendResult> implements WebSocketShim {
+public class SendResult extends Shim.Facade<jakarta.websocket.SendResult> implements WebSocketShim {
     //==================================================================================================================
     // Constructors
     //==================================================================================================================
@@ -26,8 +26,8 @@ public class SendResult extends Shim.Delegate<jakarta.websocket.SendResult> impl
         this(new jakarta.websocket.SendResult(cause));
     }
 
-    protected SendResult(jakarta.websocket.SendResult delegate) {
-        super(delegate);
+    protected SendResult(jakarta.websocket.SendResult target) {
+        super(target);
     }
 
     //==================================================================================================================
@@ -38,21 +38,21 @@ public class SendResult extends Shim.Delegate<jakarta.websocket.SendResult> impl
      * @see jakarta.websocket.SendResult#getException()
      */
     public Throwable getException() {
-        return delegate.getException();
+        return target.getException();
     }
 
     /**
      * @see jakarta.websocket.SendResult#isOK()
      */
     public boolean isOK() {
-        return delegate.isOK();
+        return target.isOK();
     }
 
     //==================================================================================================================
     // Accessor Methods
     //==================================================================================================================
 
-    protected jakarta.websocket.SendResult getDelegate() {
-        return delegate;
+    jakarta.websocket.SendResult getTarget() {
+        return target;
     }
 }

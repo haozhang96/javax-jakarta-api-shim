@@ -18,13 +18,13 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
-    final class Transactional extends Shim.Delegate.Annotation<jakarta.transaction.Transactional> implements javax.transaction.Transactional, TransactionShim {
+    final class Transactional extends Shim.Facade.Annotation<jakarta.transaction.Transactional> implements javax.transaction.Transactional, TransactionShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Transactional(jakarta.transaction.Transactional delegate) {
-            super(delegate);
+        Transactional(jakarta.transaction.Transactional target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -33,17 +33,17 @@ interface Facades {
 
         @Override
         public TxType value() {
-            return TransactionShim.of(delegate.value());
+            return TransactionShim.of(target.value());
         }
 
         @Override
         public Class<?>[] rollbackOn() {
-            return delegate.rollbackOn();
+            return target.rollbackOn();
         }
 
         @Override
         public Class<?>[] dontRollbackOn() {
-            return delegate.dontRollbackOn();
+            return target.dontRollbackOn();
         }
     }
 
@@ -54,14 +54,14 @@ interface Facades {
     final class HeuristicCommitException extends javax.transaction.HeuristicCommitException {
         private static final long serialVersionUID = -3977609782149921760L; // Use the ID from jakarta.transaction.
 
-        private final jakarta.transaction.HeuristicCommitException delegate;
+        private final jakarta.transaction.HeuristicCommitException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HeuristicCommitException(jakarta.transaction.HeuristicCommitException delegate) {
-            this.delegate = delegate;
+        HeuristicCommitException(jakarta.transaction.HeuristicCommitException target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -70,71 +70,71 @@ interface Facades {
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
     final class HeuristicMixedException extends javax.transaction.HeuristicMixedException {
         private static final long serialVersionUID = 2345014349685956666L; // Use the ID from jakarta.transaction.
 
-        private final jakarta.transaction.HeuristicMixedException delegate;
+        private final jakarta.transaction.HeuristicMixedException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HeuristicMixedException(jakarta.transaction.HeuristicMixedException delegate) {
-            this.delegate = delegate;
+        HeuristicMixedException(jakarta.transaction.HeuristicMixedException target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -143,71 +143,71 @@ interface Facades {
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
     final class HeuristicRollbackException extends javax.transaction.HeuristicRollbackException {
         private static final long serialVersionUID = -3483618944556408897L; // Use the ID from jakarta.transaction.
 
-        private final jakarta.transaction.HeuristicRollbackException delegate;
+        private final jakarta.transaction.HeuristicRollbackException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HeuristicRollbackException(jakarta.transaction.HeuristicRollbackException delegate) {
-            this.delegate = delegate;
+        HeuristicRollbackException(jakarta.transaction.HeuristicRollbackException target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -216,71 +216,71 @@ interface Facades {
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
     final class InvalidTransactionException extends javax.transaction.InvalidTransactionException {
         private static final long serialVersionUID = 3597320220337691496L; // Use the ID from jakarta.transaction.
 
-        private final jakarta.transaction.InvalidTransactionException delegate;
+        private final jakarta.transaction.InvalidTransactionException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        InvalidTransactionException(jakarta.transaction.InvalidTransactionException delegate) {
-            this.delegate = delegate;
+        InvalidTransactionException(jakarta.transaction.InvalidTransactionException target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -289,71 +289,71 @@ interface Facades {
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
     final class NotSupportedException extends javax.transaction.NotSupportedException {
         private static final long serialVersionUID = 56870312332816390L; // Use the ID from jakarta.transaction.
 
-        private final jakarta.transaction.NotSupportedException delegate;
+        private final jakarta.transaction.NotSupportedException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        NotSupportedException(jakarta.transaction.NotSupportedException delegate) {
-            this.delegate = delegate;
+        NotSupportedException(jakarta.transaction.NotSupportedException target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -362,71 +362,71 @@ interface Facades {
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
     final class RollbackException extends javax.transaction.RollbackException {
         private static final long serialVersionUID = 4151607774785285395L; // Use the ID from jakarta.transaction.
 
-        private final jakarta.transaction.RollbackException delegate;
+        private final jakarta.transaction.RollbackException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        RollbackException(jakarta.transaction.RollbackException delegate) {
-            this.delegate = delegate;
+        RollbackException(jakarta.transaction.RollbackException target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -435,77 +435,77 @@ interface Facades {
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
-    final class Status extends Shim.Delegate<jakarta.transaction.Status> implements javax.transaction.Status {
+    final class Status extends Shim.Facade<jakarta.transaction.Status> implements javax.transaction.Status {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Status(jakarta.transaction.Status delegate) {
-            super(delegate);
+        Status(jakarta.transaction.Status target) {
+            super(target);
         }
     }
 
-    final class Synchronization extends Shim.Delegate<jakarta.transaction.Synchronization> implements javax.transaction.Synchronization {
+    final class Synchronization extends Shim.Facade<jakarta.transaction.Synchronization> implements javax.transaction.Synchronization {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Synchronization(jakarta.transaction.Synchronization delegate) {
-            super(delegate);
+        Synchronization(jakarta.transaction.Synchronization target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -514,26 +514,26 @@ interface Facades {
 
         @Override
         public void beforeCompletion() {
-            delegate.beforeCompletion();
+            target.beforeCompletion();
         }
 
         @Override
         public void afterCompletion(int status) {
-            delegate.afterCompletion(status);
+            target.afterCompletion(status);
         }
     }
 
     final class SystemException extends javax.transaction.SystemException {
         private static final long serialVersionUID = 839699079412719325L; // Use the ID from jakarta.transaction.
 
-        private final jakarta.transaction.SystemException delegate;
+        private final jakarta.transaction.SystemException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        SystemException(jakarta.transaction.SystemException delegate) {
-            this.delegate = delegate;
+        SystemException(jakarta.transaction.SystemException target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -542,67 +542,67 @@ interface Facades {
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
-    final class Transaction extends Shim.Delegate<jakarta.transaction.Transaction> implements javax.transaction.Transaction {
+    final class Transaction extends Shim.Facade<jakarta.transaction.Transaction> implements javax.transaction.Transaction {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Transaction(jakarta.transaction.Transaction delegate) {
-            super(delegate);
+        Transaction(jakarta.transaction.Transaction target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -614,7 +614,7 @@ interface Facades {
             javax.transaction.Synchronization synchronization
         ) throws javax.transaction.RollbackException, javax.transaction.SystemException {
             try {
-                delegate.registerSynchronization(synchronization);
+                target.registerSynchronization(synchronization);
             } catch (jakarta.transaction.RollbackException exception) {
                 throw TransactionShim.<javax.transaction.RollbackException>of(exception);
             } catch (jakarta.transaction.SystemException exception) {
@@ -627,7 +627,7 @@ interface Facades {
             jakarta.transaction.Synchronization synchronization
         ) throws javax.transaction.RollbackException, javax.transaction.SystemException {
             try {
-                delegate.registerSynchronization(synchronization);
+                target.registerSynchronization(synchronization);
             } catch (jakarta.transaction.RollbackException exception) {
                 throw TransactionShim.<javax.transaction.RollbackException>of(exception);
             } catch (jakarta.transaction.SystemException exception) {
@@ -638,7 +638,7 @@ interface Facades {
         @Override
         public void commit() throws javax.transaction.RollbackException, javax.transaction.HeuristicMixedException, javax.transaction.HeuristicRollbackException, javax.transaction.SystemException {
             try {
-                delegate.commit();
+                target.commit();
             } catch (jakarta.transaction.RollbackException exception) {
                 throw TransactionShim.<javax.transaction.RollbackException>of(exception);
             } catch (jakarta.transaction.HeuristicMixedException exception) {
@@ -653,7 +653,7 @@ interface Facades {
         @Override
         public boolean delistResource(XAResource resource, int flag) throws javax.transaction.SystemException {
             try {
-                return delegate.delistResource(resource, flag);
+                return target.delistResource(resource, flag);
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -664,7 +664,7 @@ interface Facades {
             XAResource resource
         ) throws javax.transaction.RollbackException, javax.transaction.SystemException {
             try {
-                return delegate.enlistResource(resource);
+                return target.enlistResource(resource);
             } catch (jakarta.transaction.RollbackException exception) {
                 throw TransactionShim.<javax.transaction.RollbackException>of(exception);
             } catch (jakarta.transaction.SystemException exception) {
@@ -675,7 +675,7 @@ interface Facades {
         @Override
         public int getStatus() throws javax.transaction.SystemException {
             try {
-                return delegate.getStatus();
+                return target.getStatus();
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -684,7 +684,7 @@ interface Facades {
         @Override
         public void rollback() throws javax.transaction.SystemException {
             try {
-                delegate.rollback();
+                target.rollback();
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -693,7 +693,7 @@ interface Facades {
         @Override
         public void setRollbackOnly() throws javax.transaction.SystemException {
             try {
-                delegate.setRollbackOnly();
+                target.setRollbackOnly();
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -703,15 +703,15 @@ interface Facades {
     final class TransactionalException extends javax.transaction.TransactionalException {
         private static final long serialVersionUID = -8196645329560986417L; // Use the ID from jakarta.transaction.
 
-        private final jakarta.transaction.TransactionalException delegate;
+        private final jakarta.transaction.TransactionalException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        TransactionalException(jakarta.transaction.TransactionalException delegate) {
-            super(delegate.getMessage(), delegate.getCause());
-            this.delegate = delegate;
+        TransactionalException(jakarta.transaction.TransactionalException target) {
+            super(target.getMessage(), target.getCause());
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -720,67 +720,67 @@ interface Facades {
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
-    final class TransactionManager extends Shim.Delegate<jakarta.transaction.TransactionManager> implements javax.transaction.TransactionManager {
+    final class TransactionManager extends Shim.Facade<jakarta.transaction.TransactionManager> implements javax.transaction.TransactionManager {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        TransactionManager(jakarta.transaction.TransactionManager delegate) {
-            super(delegate);
+        TransactionManager(jakarta.transaction.TransactionManager target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -792,7 +792,7 @@ interface Facades {
             javax.transaction.Transaction transaction
         ) throws javax.transaction.InvalidTransactionException, javax.transaction.SystemException {
             try {
-                delegate.resume(transaction);
+                target.resume(transaction);
             } catch (jakarta.transaction.InvalidTransactionException exception) {
                 throw TransactionShim.<javax.transaction.InvalidTransactionException>of(exception);
             } catch (jakarta.transaction.SystemException exception) {
@@ -805,7 +805,7 @@ interface Facades {
             jakarta.transaction.Transaction transaction
         ) throws javax.transaction.InvalidTransactionException, javax.transaction.SystemException {
             try {
-                delegate.resume(transaction);
+                target.resume(transaction);
             } catch (jakarta.transaction.InvalidTransactionException exception) {
                 throw TransactionShim.<javax.transaction.InvalidTransactionException>of(exception);
             } catch (jakarta.transaction.SystemException exception) {
@@ -816,7 +816,7 @@ interface Facades {
         @Override
         public void begin() throws javax.transaction.NotSupportedException, javax.transaction.SystemException {
             try {
-                delegate.begin();
+                target.begin();
             } catch (jakarta.transaction.NotSupportedException exception) {
                 throw TransactionShim.<javax.transaction.NotSupportedException>of(exception);
             } catch (jakarta.transaction.SystemException exception) {
@@ -827,7 +827,7 @@ interface Facades {
         @Override
         public void commit() throws javax.transaction.RollbackException, javax.transaction.HeuristicMixedException, javax.transaction.HeuristicRollbackException, javax.transaction.SystemException {
             try {
-                delegate.commit();
+                target.commit();
             } catch (jakarta.transaction.RollbackException exception) {
                 throw TransactionShim.<javax.transaction.RollbackException>of(exception);
             } catch (jakarta.transaction.HeuristicMixedException exception) {
@@ -842,7 +842,7 @@ interface Facades {
         @Override
         public int getStatus() throws javax.transaction.SystemException {
             try {
-                return delegate.getStatus();
+                return target.getStatus();
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -851,7 +851,7 @@ interface Facades {
         @Override
         public javax.transaction.Transaction getTransaction() throws javax.transaction.SystemException {
             try {
-                return TransactionShim.of(delegate.getTransaction());
+                return TransactionShim.of(target.getTransaction());
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -860,7 +860,7 @@ interface Facades {
         @Override
         public void rollback() throws javax.transaction.SystemException {
             try {
-                delegate.rollback();
+                target.rollback();
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -869,7 +869,7 @@ interface Facades {
         @Override
         public void setRollbackOnly() throws javax.transaction.SystemException {
             try {
-                delegate.setRollbackOnly();
+                target.setRollbackOnly();
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -878,7 +878,7 @@ interface Facades {
         @Override
         public void setTransactionTimeout(int seconds) throws javax.transaction.SystemException {
             try {
-                delegate.setTransactionTimeout(seconds);
+                target.setTransactionTimeout(seconds);
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -887,7 +887,7 @@ interface Facades {
         @Override
         public javax.transaction.Transaction suspend() throws javax.transaction.SystemException {
             try {
-                return TransactionShim.of(delegate.suspend());
+                return TransactionShim.of(target.suspend());
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -897,14 +897,14 @@ interface Facades {
     final class TransactionRequiredException extends javax.transaction.TransactionRequiredException {
         private static final long serialVersionUID = -1898806419937446439L; // Use the ID from jakarta.transaction.
 
-        private final jakarta.transaction.TransactionRequiredException delegate;
+        private final jakarta.transaction.TransactionRequiredException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        TransactionRequiredException(jakarta.transaction.TransactionRequiredException delegate) {
-            this.delegate = delegate;
+        TransactionRequiredException(jakarta.transaction.TransactionRequiredException target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -913,71 +913,71 @@ interface Facades {
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
     final class TransactionRolledbackException extends javax.transaction.TransactionRolledbackException {
         private static final long serialVersionUID = -3142798139623020577L; // Use the ID from jakarta.transaction.
 
-        private final jakarta.transaction.TransactionRolledbackException delegate;
+        private final jakarta.transaction.TransactionRolledbackException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        TransactionRolledbackException(jakarta.transaction.TransactionRolledbackException delegate) {
-            this.delegate = delegate;
+        TransactionRolledbackException(jakarta.transaction.TransactionRolledbackException target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -986,67 +986,67 @@ interface Facades {
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
-    final class TransactionSynchronizationRegistry extends Shim.Delegate<jakarta.transaction.TransactionSynchronizationRegistry> implements javax.transaction.TransactionSynchronizationRegistry {
+    final class TransactionSynchronizationRegistry extends Shim.Facade<jakarta.transaction.TransactionSynchronizationRegistry> implements javax.transaction.TransactionSynchronizationRegistry {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        TransactionSynchronizationRegistry(jakarta.transaction.TransactionSynchronizationRegistry delegate) {
-            super(delegate);
+        TransactionSynchronizationRegistry(jakarta.transaction.TransactionSynchronizationRegistry target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1055,52 +1055,52 @@ interface Facades {
 
         @Override
         public Object getTransactionKey() {
-            return delegate.getTransactionKey();
+            return target.getTransactionKey();
         }
 
         @Override
         public void putResource(Object key, Object value) {
-            delegate.putResource(key, value);
+            target.putResource(key, value);
         }
 
         @Override
         public Object getResource(Object key) {
-            return delegate.getResource(key);
+            return target.getResource(key);
         }
 
         @Override
         public void registerInterposedSynchronization(javax.transaction.Synchronization synchronization) {
-            delegate.registerInterposedSynchronization(synchronization);
+            target.registerInterposedSynchronization(synchronization);
         }
 
         @Override
         public void registerInterposedSynchronization(jakarta.transaction.Synchronization synchronization) {
-            delegate.registerInterposedSynchronization(synchronization);
+            target.registerInterposedSynchronization(synchronization);
         }
 
         @Override
         public int getTransactionStatus() {
-            return delegate.getTransactionStatus();
+            return target.getTransactionStatus();
         }
 
         @Override
         public void setRollbackOnly() {
-            delegate.setRollbackOnly();
+            target.setRollbackOnly();
         }
 
         @Override
         public boolean getRollbackOnly() {
-            return delegate.getRollbackOnly();
+            return target.getRollbackOnly();
         }
     }
 
-    final class UserTransaction extends Shim.Delegate<jakarta.transaction.UserTransaction> implements javax.transaction.UserTransaction {
+    final class UserTransaction extends Shim.Facade<jakarta.transaction.UserTransaction> implements javax.transaction.UserTransaction {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        UserTransaction(jakarta.transaction.UserTransaction delegate) {
-            super(delegate);
+        UserTransaction(jakarta.transaction.UserTransaction target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1110,7 +1110,7 @@ interface Facades {
         @Override
         public void begin() throws javax.transaction.NotSupportedException, javax.transaction.SystemException {
             try {
-                delegate.begin();
+                target.begin();
             } catch (jakarta.transaction.NotSupportedException exception) {
                 throw TransactionShim.<javax.transaction.NotSupportedException>of(exception);
             } catch (jakarta.transaction.SystemException exception) {
@@ -1121,7 +1121,7 @@ interface Facades {
         @Override
         public void commit() throws javax.transaction.RollbackException, javax.transaction.HeuristicMixedException, javax.transaction.HeuristicRollbackException, javax.transaction.SystemException {
             try {
-                delegate.commit();
+                target.commit();
             } catch (jakarta.transaction.RollbackException exception) {
                 throw TransactionShim.<javax.transaction.RollbackException>of(exception);
             } catch (jakarta.transaction.HeuristicMixedException exception) {
@@ -1136,7 +1136,7 @@ interface Facades {
         @Override
         public void rollback() throws javax.transaction.SystemException {
             try {
-                delegate.rollback();
+                target.rollback();
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -1145,7 +1145,7 @@ interface Facades {
         @Override
         public void setRollbackOnly() throws javax.transaction.SystemException {
             try {
-                delegate.setRollbackOnly();
+                target.setRollbackOnly();
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -1154,7 +1154,7 @@ interface Facades {
         @Override
         public int getStatus() throws javax.transaction.SystemException {
             try {
-                return delegate.getStatus();
+                return target.getStatus();
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }
@@ -1163,7 +1163,7 @@ interface Facades {
         @Override
         public void setTransactionTimeout(int seconds) throws javax.transaction.SystemException {
             try {
-                delegate.setTransactionTimeout(seconds);
+                target.setTransactionTimeout(seconds);
             } catch (jakarta.transaction.SystemException exception) {
                 throw TransactionShim.<javax.transaction.SystemException>of(exception);
             }

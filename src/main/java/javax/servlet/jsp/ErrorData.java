@@ -8,7 +8,7 @@ import javax.servlet.ServletShim;
  * @apiNote This class cannot extend {@link jakarta.servlet.jsp.ErrorData} due to it being a final class.
  */
 @Deprecated(since = "jakarta.servlet.jsp.ErrorData")
-public class ErrorData extends Shim.Delegate<jakarta.servlet.jsp.ErrorData> implements ServletShim {
+public class ErrorData extends Shim.Facade<jakarta.servlet.jsp.ErrorData> implements ServletShim {
     //==================================================================================================================
     // Constructors
     //==================================================================================================================
@@ -20,8 +20,8 @@ public class ErrorData extends Shim.Delegate<jakarta.servlet.jsp.ErrorData> impl
         this(new jakarta.servlet.jsp.ErrorData(cause, statusCode, uri, servletName));
     }
 
-    protected ErrorData(jakarta.servlet.jsp.ErrorData delegate) {
-        super(delegate);
+    protected ErrorData(jakarta.servlet.jsp.ErrorData target) {
+        super(target);
     }
 
     //==================================================================================================================
@@ -32,35 +32,35 @@ public class ErrorData extends Shim.Delegate<jakarta.servlet.jsp.ErrorData> impl
      * @see jakarta.servlet.jsp.ErrorData#getThrowable()
      */
     public Throwable getThrowable() {
-        return delegate.getThrowable();
+        return target.getThrowable();
     }
 
     /**
      * @see jakarta.servlet.jsp.ErrorData#getStatusCode()
      */
     public int getStatusCode() {
-        return delegate.getStatusCode();
+        return target.getStatusCode();
     }
 
     /**
      * @see jakarta.servlet.jsp.ErrorData#getRequestURI()
      */
     public String getRequestURI() {
-        return delegate.getRequestURI();
+        return target.getRequestURI();
     }
 
     /**
      * @see jakarta.servlet.jsp.ErrorData#getServletName()
      */
     public String getServletName() {
-        return delegate.getServletName();
+        return target.getServletName();
     }
 
     //==================================================================================================================
     // Accessor Methods
     //==================================================================================================================
 
-    protected jakarta.servlet.jsp.ErrorData getDelegate() {
-        return delegate;
+    jakarta.servlet.jsp.ErrorData getTarget() {
+        return target;
     }
 }

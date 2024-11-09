@@ -1,6 +1,5 @@
 package javax.websocket;
 
-import javax.Shim;
 import javax.net.ssl.SSLContext;
 import java.util.Collections;
 import java.util.List;
@@ -57,7 +56,7 @@ public interface ClientEndpointConfig extends jakarta.websocket.ClientEndpointCo
      * @deprecated Use {@link jakarta.websocket.ClientEndpointConfig.Builder} instead.
      */
     @Deprecated(since = "jakarta.websocket.ClientEndpointConfig.Builder")
-    class Builder extends Shim.Delegate<jakarta.websocket.ClientEndpointConfig.Builder> {
+    class Builder extends Facade<jakarta.websocket.ClientEndpointConfig.Builder> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -66,8 +65,8 @@ public interface ClientEndpointConfig extends jakarta.websocket.ClientEndpointCo
             this(jakarta.websocket.ClientEndpointConfig.Builder.create());
         }
 
-        protected Builder(jakarta.websocket.ClientEndpointConfig.Builder delegate) {
-            super(delegate);
+        protected Builder(jakarta.websocket.ClientEndpointConfig.Builder target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -89,49 +88,49 @@ public interface ClientEndpointConfig extends jakarta.websocket.ClientEndpointCo
          * @see jakarta.websocket.ClientEndpointConfig.Builder#build()
          */
         public ClientEndpointConfig build() {
-            return WebSocketShim.of(delegate.build());
+            return WebSocketShim.of(target.build());
         }
 
         /**
          * @see jakarta.websocket.ClientEndpointConfig.Builder#configurator(jakarta.websocket.ClientEndpointConfig.Configurator)
          */
         public Builder configurator(Configurator clientEndpointConfigurator) {
-            return WebSocketShim.of(delegate.configurator(clientEndpointConfigurator));
+            return WebSocketShim.of(target.configurator(clientEndpointConfigurator));
         }
 
         /**
          * @see jakarta.websocket.ClientEndpointConfig.Builder#preferredSubprotocols(List)
          */
         public Builder preferredSubprotocols(List<String> preferredSubprotocols) {
-            return WebSocketShim.of(delegate.preferredSubprotocols(preferredSubprotocols));
+            return WebSocketShim.of(target.preferredSubprotocols(preferredSubprotocols));
         }
 
         /**
          * @see jakarta.websocket.ClientEndpointConfig.Builder#extensions(List)
          */
         public Builder extensions(List<Extension> extensions) {
-            return WebSocketShim.of(delegate.extensions(Collections.unmodifiableList(extensions)));
+            return WebSocketShim.of(target.extensions(Collections.unmodifiableList(extensions)));
         }
 
         /**
          * @see jakarta.websocket.ClientEndpointConfig.Builder#encoders(List)
          */
         public Builder encoders(List<Class<? extends Encoder>> encoders) {
-            return WebSocketShim.of(delegate.encoders(Collections.unmodifiableList(encoders)));
+            return WebSocketShim.of(target.encoders(Collections.unmodifiableList(encoders)));
         }
 
         /**
          * @see jakarta.websocket.ClientEndpointConfig.Builder#decoders(List)
          */
         public Builder decoders(List<Class<? extends Decoder>> decoders) {
-            return WebSocketShim.of(delegate.decoders(Collections.unmodifiableList(decoders)));
+            return WebSocketShim.of(target.decoders(Collections.unmodifiableList(decoders)));
         }
 
         /**
          * @see jakarta.websocket.ClientEndpointConfig.Builder#sslContext(SSLContext)
          */
         public Builder sslContext(SSLContext sslContext) {
-            return WebSocketShim.of(delegate.sslContext(sslContext));
+            return WebSocketShim.of(target.sslContext(sslContext));
         }
     }
 }

@@ -24,13 +24,13 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
-    final class HandlesTypes extends Shim.Delegate.Annotation<jakarta.servlet.annotation.HandlesTypes> implements javax.servlet.annotation.HandlesTypes, ServletShim {
+    final class HandlesTypes extends Shim.Facade.Annotation<jakarta.servlet.annotation.HandlesTypes> implements javax.servlet.annotation.HandlesTypes, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HandlesTypes(jakarta.servlet.annotation.HandlesTypes delegate) {
-            super(delegate);
+        HandlesTypes(jakarta.servlet.annotation.HandlesTypes target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -39,17 +39,17 @@ interface Facades {
 
         @Override
         public Class<?>[] value() {
-            return delegate.value();
+            return target.value();
         }
     }
 
-    final class HttpConstraint extends Shim.Delegate.Annotation<jakarta.servlet.annotation.HttpConstraint> implements javax.servlet.annotation.HttpConstraint, ServletShim {
+    final class HttpConstraint extends Shim.Facade.Annotation<jakarta.servlet.annotation.HttpConstraint> implements javax.servlet.annotation.HttpConstraint, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpConstraint(jakarta.servlet.annotation.HttpConstraint delegate) {
-            super(delegate);
+        HttpConstraint(jakarta.servlet.annotation.HttpConstraint target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -58,27 +58,27 @@ interface Facades {
 
         @Override
         public ServletSecurity.EmptyRoleSemantic value() {
-            return ServletShim.of(delegate.value());
+            return ServletShim.of(target.value());
         }
 
         @Override
         public ServletSecurity.TransportGuarantee transportGuarantee() {
-            return ServletShim.of(delegate.transportGuarantee());
+            return ServletShim.of(target.transportGuarantee());
         }
 
         @Override
         public String[] rolesAllowed() {
-            return delegate.rolesAllowed();
+            return target.rolesAllowed();
         }
     }
 
-    final class HttpMethodConstraint extends Shim.Delegate.Annotation<jakarta.servlet.annotation.HttpMethodConstraint> implements javax.servlet.annotation.HttpMethodConstraint, ServletShim {
+    final class HttpMethodConstraint extends Shim.Facade.Annotation<jakarta.servlet.annotation.HttpMethodConstraint> implements javax.servlet.annotation.HttpMethodConstraint, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpMethodConstraint(jakarta.servlet.annotation.HttpMethodConstraint delegate) {
-            super(delegate);
+        HttpMethodConstraint(jakarta.servlet.annotation.HttpMethodConstraint target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -87,32 +87,32 @@ interface Facades {
 
         @Override
         public String value() {
-            return delegate.value();
+            return target.value();
         }
 
         @Override
         public ServletSecurity.EmptyRoleSemantic emptyRoleSemantic() {
-            return ServletShim.of(delegate.value());
+            return ServletShim.of(target.value());
         }
 
         @Override
         public ServletSecurity.TransportGuarantee transportGuarantee() {
-            return ServletShim.of(delegate.transportGuarantee());
+            return ServletShim.of(target.transportGuarantee());
         }
 
         @Override
         public String[] rolesAllowed() {
-            return delegate.rolesAllowed();
+            return target.rolesAllowed();
         }
     }
 
-    final class MultipartConfig extends Shim.Delegate.Annotation<jakarta.servlet.annotation.MultipartConfig> implements javax.servlet.annotation.MultipartConfig, ServletShim {
+    final class MultipartConfig extends Shim.Facade.Annotation<jakarta.servlet.annotation.MultipartConfig> implements javax.servlet.annotation.MultipartConfig, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        MultipartConfig(jakarta.servlet.annotation.MultipartConfig delegate) {
-            super(delegate);
+        MultipartConfig(jakarta.servlet.annotation.MultipartConfig target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -121,32 +121,32 @@ interface Facades {
 
         @Override
         public String location() {
-            return delegate.location();
+            return target.location();
         }
 
         @Override
         public long maxFileSize() {
-            return delegate.maxFileSize();
+            return target.maxFileSize();
         }
 
         @Override
         public long maxRequestSize() {
-            return delegate.maxRequestSize();
+            return target.maxRequestSize();
         }
 
         @Override
         public int fileSizeThreshold() {
-            return delegate.fileSizeThreshold();
+            return target.fileSizeThreshold();
         }
     }
 
-    final class ServletSecurity extends Shim.Delegate.Annotation<jakarta.servlet.annotation.ServletSecurity> implements javax.servlet.annotation.ServletSecurity, ServletShim {
+    final class ServletSecurity extends Shim.Facade.Annotation<jakarta.servlet.annotation.ServletSecurity> implements javax.servlet.annotation.ServletSecurity, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletSecurity(jakarta.servlet.annotation.ServletSecurity delegate) {
-            super(delegate);
+        ServletSecurity(jakarta.servlet.annotation.ServletSecurity target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -155,25 +155,25 @@ interface Facades {
 
         @Override
         public javax.servlet.annotation.HttpConstraint value() {
-            return ServletShim.of(delegate.value());
+            return ServletShim.of(target.value());
         }
 
         @Override
         public javax.servlet.annotation.HttpMethodConstraint[] httpMethodConstraints() {
             return Stream
-                .of(delegate.httpMethodConstraints())
+                .of(target.httpMethodConstraints())
                 .<javax.servlet.annotation.HttpMethodConstraint>map(ServletShim::of)
                 .toArray(javax.servlet.annotation.HttpMethodConstraint[]::new);
         }
     }
 
-    final class WebFilter extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebFilter> implements javax.servlet.annotation.WebFilter, ServletShim {
+    final class WebFilter extends Shim.Facade.Annotation<jakarta.servlet.annotation.WebFilter> implements javax.servlet.annotation.WebFilter, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        WebFilter(jakarta.servlet.annotation.WebFilter delegate) {
-            super(delegate);
+        WebFilter(jakarta.servlet.annotation.WebFilter target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -182,72 +182,72 @@ interface Facades {
 
         @Override
         public String description() {
-            return delegate.description();
+            return target.description();
         }
 
         @Override
         public String displayName() {
-            return delegate.displayName();
+            return target.displayName();
         }
 
         @Override
         public javax.servlet.annotation.WebInitParam[] initParams() {
             return Stream
-                .of(delegate.initParams())
+                .of(target.initParams())
                 .<javax.servlet.annotation.WebInitParam>map(ServletShim::of)
                 .toArray(javax.servlet.annotation.WebInitParam[]::new);
         }
 
         @Override
         public String filterName() {
-            return delegate.filterName();
+            return target.filterName();
         }
 
         @Override
         public String smallIcon() {
-            return delegate.smallIcon();
+            return target.smallIcon();
         }
 
         @Override
         public String largeIcon() {
-            return delegate.largeIcon();
+            return target.largeIcon();
         }
 
         @Override
         public String[] servletNames() {
-            return delegate.servletNames();
+            return target.servletNames();
         }
 
         @Override
         public String[] value() {
-            return delegate.value();
+            return target.value();
         }
 
         @Override
         public String[] urlPatterns() {
-            return delegate.urlPatterns();
+            return target.urlPatterns();
         }
 
         @Override
         public javax.servlet.DispatcherType[] dispatcherTypes() {
             return ServletShim
-                .<javax.servlet.DispatcherType>of(delegate.dispatcherTypes())
+                .<javax.servlet.DispatcherType>of(target.dispatcherTypes())
                 .toArray(javax.servlet.DispatcherType[]::new);
         }
 
         @Override
         public boolean asyncSupported() {
-            return delegate.asyncSupported();
+            return target.asyncSupported();
         }
     }
 
-    final class WebInitParam extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebInitParam> implements javax.servlet.annotation.WebInitParam, ServletShim {
+    final class WebInitParam extends Shim.Facade.Annotation<jakarta.servlet.annotation.WebInitParam> implements javax.servlet.annotation.WebInitParam, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        WebInitParam(jakarta.servlet.annotation.WebInitParam delegate) {
-            super(delegate);
+        WebInitParam(jakarta.servlet.annotation.WebInitParam target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -256,27 +256,27 @@ interface Facades {
 
         @Override
         public String name() {
-            return delegate.name();
+            return target.name();
         }
 
         @Override
         public String value() {
-            return delegate.value();
+            return target.value();
         }
 
         @Override
         public String description() {
-            return delegate.description();
+            return target.description();
         }
     }
 
-    final class WebListener extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebListener> implements javax.servlet.annotation.WebListener, ServletShim {
+    final class WebListener extends Shim.Facade.Annotation<jakarta.servlet.annotation.WebListener> implements javax.servlet.annotation.WebListener, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        WebListener(jakarta.servlet.annotation.WebListener delegate) {
-            super(delegate);
+        WebListener(jakarta.servlet.annotation.WebListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -285,17 +285,17 @@ interface Facades {
 
         @Override
         public String value() {
-            return delegate.value();
+            return target.value();
         }
     }
 
-    final class WebServlet extends Shim.Delegate.Annotation<jakarta.servlet.annotation.WebServlet> implements javax.servlet.annotation.WebServlet, ServletShim {
+    final class WebServlet extends Shim.Facade.Annotation<jakarta.servlet.annotation.WebServlet> implements javax.servlet.annotation.WebServlet, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        WebServlet(jakarta.servlet.annotation.WebServlet delegate) {
-            super(delegate);
+        WebServlet(jakarta.servlet.annotation.WebServlet target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -304,55 +304,55 @@ interface Facades {
 
         @Override
         public String name() {
-            return delegate.name();
+            return target.name();
         }
 
         @Override
         public String[] value() {
-            return delegate.value();
+            return target.value();
         }
 
         @Override
         public String[] urlPatterns() {
-            return delegate.urlPatterns();
+            return target.urlPatterns();
         }
 
         @Override
         public int loadOnStartup() {
-            return delegate.loadOnStartup();
+            return target.loadOnStartup();
         }
 
         @Override
         public javax.servlet.annotation.WebInitParam[] initParams() {
             return Stream
-                .of(delegate.initParams())
+                .of(target.initParams())
                 .<javax.servlet.annotation.WebInitParam>map(ServletShim::of)
                 .toArray(javax.servlet.annotation.WebInitParam[]::new);
         }
 
         @Override
         public boolean asyncSupported() {
-            return delegate.asyncSupported();
+            return target.asyncSupported();
         }
 
         @Override
         public String smallIcon() {
-            return delegate.smallIcon();
+            return target.smallIcon();
         }
 
         @Override
         public String largeIcon() {
-            return delegate.largeIcon();
+            return target.largeIcon();
         }
 
         @Override
         public String description() {
-            return delegate.description();
+            return target.description();
         }
 
         @Override
         public String displayName() {
-            return delegate.displayName();
+            return target.displayName();
         }
     }
 
@@ -360,13 +360,13 @@ interface Facades {
     // Classes
     //==================================================================================================================
 
-    final class AsyncContext extends Shim.Delegate<jakarta.servlet.AsyncContext> implements javax.servlet.AsyncContext {
+    final class AsyncContext extends Shim.Facade<jakarta.servlet.AsyncContext> implements javax.servlet.AsyncContext {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        AsyncContext(jakarta.servlet.AsyncContext delegate) {
-            super(delegate);
+        AsyncContext(jakarta.servlet.AsyncContext target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -375,22 +375,22 @@ interface Facades {
 
         @Override
         public void dispatch(javax.servlet.ServletContext context, String path) {
-            delegate.dispatch(context, path);
+            target.dispatch(context, path);
         }
 
         @Override
         public void dispatch(jakarta.servlet.ServletContext context, String path) {
-            delegate.dispatch(context, path);
+            target.dispatch(context, path);
         }
 
         @Override
         public void addListener(javax.servlet.AsyncListener listener) {
-            delegate.addListener(listener);
+            target.addListener(listener);
         }
 
         @Override
         public void addListener(jakarta.servlet.AsyncListener listener) {
-            delegate.addListener(listener);
+            target.addListener(listener);
         }
 
         @Override
@@ -399,7 +399,7 @@ interface Facades {
             javax.servlet.ServletRequest request,
             javax.servlet.ServletResponse response
         ) {
-            delegate.addListener(listener, request, response);
+            target.addListener(listener, request, response);
         }
 
         @Override
@@ -408,13 +408,13 @@ interface Facades {
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response
         ) {
-            delegate.addListener(listener, request, response);
+            target.addListener(listener, request, response);
         }
 
         @Override
         public javax.servlet.AsyncListener createListener(Class clazz) throws javax.servlet.ServletException {
             try {
-                return ServletShim.of(delegate.createListener(clazz.asSubclass(jakarta.servlet.AsyncListener.class)));
+                return ServletShim.of(target.createListener(clazz.asSubclass(jakarta.servlet.AsyncListener.class)));
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -422,65 +422,65 @@ interface Facades {
 
         @Override
         public javax.servlet.ServletResponse getResponse() {
-            return ServletShim.of(delegate.getResponse());
+            return ServletShim.of(target.getResponse());
         }
 
         @Override
         public javax.servlet.ServletRequest getRequest() {
-            return ServletShim.of(delegate.getRequest());
+            return ServletShim.of(target.getRequest());
         }
 
         @Override
         public boolean hasOriginalRequestAndResponse() {
-            return delegate.hasOriginalRequestAndResponse();
+            return target.hasOriginalRequestAndResponse();
         }
 
         @Override
         public void dispatch() {
-            delegate.dispatch();
+            target.dispatch();
         }
 
         @Override
         public void dispatch(String path) {
-            delegate.dispatch(path);
+            target.dispatch(path);
         }
 
         @Override
         public void complete() {
-            delegate.complete();
+            target.complete();
         }
 
         @Override
         public void start(Runnable run) {
-            delegate.start(run);
+            target.start(run);
         }
 
         @Override
         public void setTimeout(long timeout) {
-            delegate.setTimeout(timeout);
+            target.setTimeout(timeout);
         }
 
         @Override
         public long getTimeout() {
-            return delegate.getTimeout();
+            return target.getTimeout();
         }
     }
 
     final class AsyncEvent extends javax.servlet.AsyncEvent {
-        private final jakarta.servlet.AsyncEvent delegate;
+        private final jakarta.servlet.AsyncEvent target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        AsyncEvent(jakarta.servlet.AsyncEvent delegate) {
+        AsyncEvent(jakarta.servlet.AsyncEvent target) {
             super(
-                ServletShim.of(delegate.getAsyncContext()),
-                ServletShim.of(delegate.getSuppliedRequest()),
-                ServletShim.of(delegate.getSuppliedResponse()),
-                delegate.getThrowable()
+                ServletShim.of(target.getAsyncContext()),
+                ServletShim.of(target.getSuppliedRequest()),
+                ServletShim.of(target.getSuppliedResponse()),
+                target.getThrowable()
             );
-            this.delegate = delegate;
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -489,32 +489,32 @@ interface Facades {
 
         @Override
         public javax.servlet.AsyncContext getAsyncContext() {
-            return ServletShim.of(delegate.getAsyncContext());
+            return ServletShim.of(target.getAsyncContext());
         }
 
         @Override
         public javax.servlet.ServletRequest getSuppliedRequest() {
-            return ServletShim.of(delegate.getSuppliedRequest());
+            return ServletShim.of(target.getSuppliedRequest());
         }
 
         @Override
         public javax.servlet.ServletResponse getSuppliedResponse() {
-            return ServletShim.of(delegate.getSuppliedResponse());
+            return ServletShim.of(target.getSuppliedResponse());
         }
 
         @Override
         public Throwable getThrowable() {
-            return delegate.getThrowable();
+            return target.getThrowable();
         }
     }
 
-    final class AsyncListener extends Shim.Delegate<jakarta.servlet.AsyncListener> implements javax.servlet.AsyncListener {
+    final class AsyncListener extends Shim.Facade<jakarta.servlet.AsyncListener> implements javax.servlet.AsyncListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        AsyncListener(jakarta.servlet.AsyncListener delegate) {
-            super(delegate);
+        AsyncListener(jakarta.servlet.AsyncListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -523,56 +523,56 @@ interface Facades {
 
         @Override
         public void onComplete(javax.servlet.AsyncEvent event) throws IOException {
-            delegate.onComplete(event);
+            target.onComplete(event);
         }
 
         @Override
         public void onComplete(jakarta.servlet.AsyncEvent event) throws IOException {
-            delegate.onComplete(event);
+            target.onComplete(event);
         }
 
         @Override
         public void onTimeout(javax.servlet.AsyncEvent event) throws IOException {
-            delegate.onTimeout(event);
+            target.onTimeout(event);
         }
 
         @Override
         public void onTimeout(jakarta.servlet.AsyncEvent event) throws IOException {
-            delegate.onTimeout(event);
+            target.onTimeout(event);
         }
 
         @Override
         public void onError(javax.servlet.AsyncEvent event) throws IOException {
-            delegate.onError(event);
+            target.onError(event);
         }
 
         @Override
         public void onError(jakarta.servlet.AsyncEvent event) throws IOException {
-            delegate.onError(event);
+            target.onError(event);
         }
 
         @Override
         public void onStartAsync(javax.servlet.AsyncEvent event) throws IOException {
-            delegate.onStartAsync(event);
+            target.onStartAsync(event);
         }
 
         @Override
         public void onStartAsync(jakarta.servlet.AsyncEvent event) throws IOException {
-            delegate.onStartAsync(event);
+            target.onStartAsync(event);
         }
     }
 
     @SuppressWarnings("removal")
     final class Cookie extends javax.servlet.http.Cookie {
-        private final jakarta.servlet.http.Cookie delegate;
+        private final jakarta.servlet.http.Cookie target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Cookie(jakarta.servlet.http.Cookie delegate) {
-            super(delegate.getName(), delegate.getValue());
-            this.delegate = delegate;
+        Cookie(jakarta.servlet.http.Cookie target) {
+            super(target.getName(), target.getValue());
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -581,132 +581,132 @@ interface Facades {
 
         @Override
         public void setComment(String purpose) {
-            delegate.setComment(purpose);
+            target.setComment(purpose);
         }
 
         @Override
         public String getComment() {
-            return delegate.getComment();
+            return target.getComment();
         }
 
         @Override
         public void setDomain(String domain) {
-            delegate.setDomain(domain);
+            target.setDomain(domain);
         }
 
         @Override
         public String getDomain() {
-            return delegate.getDomain();
+            return target.getDomain();
         }
 
         @Override
         public void setMaxAge(int expiry) {
-            delegate.setMaxAge(expiry);
+            target.setMaxAge(expiry);
         }
 
         @Override
         public int getMaxAge() {
-            return delegate.getMaxAge();
+            return target.getMaxAge();
         }
 
         @Override
         public void setPath(String uri) {
-            delegate.setPath(uri);
+            target.setPath(uri);
         }
 
         @Override
         public String getPath() {
-            return delegate.getPath();
+            return target.getPath();
         }
 
         @Override
         public void setSecure(boolean flag) {
-            delegate.setSecure(flag);
+            target.setSecure(flag);
         }
 
         @Override
         public boolean getSecure() {
-            return delegate.getSecure();
+            return target.getSecure();
         }
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public void setValue(String newValue) {
-            delegate.setValue(newValue);
+            target.setValue(newValue);
         }
 
         @Override
         public String getValue() {
-            return delegate.getValue();
+            return target.getValue();
         }
 
         @Override
         public int getVersion() {
-            return delegate.getVersion();
+            return target.getVersion();
         }
 
         @Override
         public void setVersion(int v) {
-            delegate.setVersion(v);
+            target.setVersion(v);
         }
 
         @Override
         public Object clone() {
-            return delegate.clone();
+            return target.clone();
         }
 
         @Override
         public void setHttpOnly(boolean httpOnly) {
-            delegate.setHttpOnly(httpOnly);
+            target.setHttpOnly(httpOnly);
         }
 
         @Override
         public boolean isHttpOnly() {
-            return delegate.isHttpOnly();
+            return target.isHttpOnly();
         }
 
         @Override
         public void setAttribute(String name, String value) {
-            delegate.setAttribute(name, value);
+            target.setAttribute(name, value);
         }
 
         @Override
         public String getAttribute(String name) {
-            return delegate.getAttribute(name);
+            return target.getAttribute(name);
         }
 
         @Override
         public Map<String, String> getAttributes() {
-            return delegate.getAttributes();
+            return target.getAttributes();
         }
 
         @Override
         public int hashCode() {
-            return delegate.hashCode();
+            return target.hashCode();
         }
 
         @Override
         public boolean equals(Object obj) {
-            return delegate.equals(obj);
+            return target.equals(obj);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
     }
 
-    final class Filter extends Shim.Delegate<jakarta.servlet.Filter> implements javax.servlet.Filter {
+    final class Filter extends Shim.Facade<jakarta.servlet.Filter> implements javax.servlet.Filter {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Filter(jakarta.servlet.Filter delegate) {
-            super(delegate);
+        Filter(jakarta.servlet.Filter target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -716,7 +716,7 @@ interface Facades {
         @Override
         public void init(javax.servlet.FilterConfig config) throws javax.servlet.ServletException {
             try {
-                delegate.init(config);
+                target.init(config);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -725,7 +725,7 @@ interface Facades {
         @Override
         public void init(jakarta.servlet.FilterConfig config) throws javax.servlet.ServletException {
             try {
-                delegate.init(config);
+                target.init(config);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -738,7 +738,7 @@ interface Facades {
             javax.servlet.FilterChain chain
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.doFilter(request, response, chain);
+                target.doFilter(request, response, chain);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -751,7 +751,7 @@ interface Facades {
             jakarta.servlet.FilterChain chain
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.doFilter(request, response, chain);
+                target.doFilter(request, response, chain);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -759,17 +759,17 @@ interface Facades {
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
-    final class FilterChain extends Shim.Delegate<jakarta.servlet.FilterChain> implements javax.servlet.FilterChain {
+    final class FilterChain extends Shim.Facade<jakarta.servlet.FilterChain> implements javax.servlet.FilterChain {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        FilterChain(jakarta.servlet.FilterChain delegate) {
-            super(delegate);
+        FilterChain(jakarta.servlet.FilterChain target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -782,7 +782,7 @@ interface Facades {
             javax.servlet.ServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.doFilter(request, response);
+                target.doFilter(request, response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -794,20 +794,20 @@ interface Facades {
             jakarta.servlet.ServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.doFilter(request, response);
+                target.doFilter(request, response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
         }
     }
 
-    final class FilterConfig extends Shim.Delegate<jakarta.servlet.FilterConfig> implements javax.servlet.FilterConfig {
+    final class FilterConfig extends Shim.Facade<jakarta.servlet.FilterConfig> implements javax.servlet.FilterConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        FilterConfig(jakarta.servlet.FilterConfig delegate) {
-            super(delegate);
+        FilterConfig(jakarta.servlet.FilterConfig target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -816,32 +816,32 @@ interface Facades {
 
         @Override
         public String getFilterName() {
-            return delegate.getFilterName();
+            return target.getFilterName();
         }
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Enumeration<String> getInitParameterNames() {
-            return delegate.getInitParameterNames();
+            return target.getInitParameterNames();
         }
     }
 
-    final class FilterRegistration extends Shim.Delegate<jakarta.servlet.FilterRegistration> implements javax.servlet.FilterRegistration {
+    final class FilterRegistration extends Shim.Facade<jakarta.servlet.FilterRegistration> implements javax.servlet.FilterRegistration {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        FilterRegistration(jakarta.servlet.FilterRegistration delegate) {
-            super(delegate);
+        FilterRegistration(jakarta.servlet.FilterRegistration target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -850,62 +850,62 @@ interface Facades {
 
         @Override
         public void addMappingForServletNames(EnumSet dispatcherTypes, boolean isMatchAfter, String... servletNames) {
-            delegate.addMappingForServletNames(dispatcherTypes, isMatchAfter, servletNames);
+            target.addMappingForServletNames(dispatcherTypes, isMatchAfter, servletNames);
         }
 
         @Override
         public void addMappingForUrlPatterns(EnumSet dispatcherTypes, boolean isMatchAfter, String... urlPatterns) {
-            delegate.addMappingForUrlPatterns(dispatcherTypes, isMatchAfter, urlPatterns);
+            target.addMappingForUrlPatterns(dispatcherTypes, isMatchAfter, urlPatterns);
         }
 
         @Override
         public Collection<String> getServletNameMappings() {
-            return delegate.getServletNameMappings();
+            return target.getServletNameMappings();
         }
 
         @Override
         public Collection<String> getUrlPatternMappings() {
-            return delegate.getUrlPatternMappings();
+            return target.getUrlPatternMappings();
         }
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public String getClassName() {
-            return delegate.getClassName();
+            return target.getClassName();
         }
 
         @Override
         public boolean setInitParameter(String name, String value) {
-            return delegate.setInitParameter(name, value);
+            return target.setInitParameter(name, value);
         }
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Set<String> setInitParameters(Map<String, String> initParameters) {
-            return delegate.setInitParameters(initParameters);
+            return target.setInitParameters(initParameters);
         }
 
         @Override
         public Map<String, String> getInitParameters() {
-            return delegate.getInitParameters();
+            return target.getInitParameters();
         }
     }
 
-    final class FilterRegistration$Dynamic extends Shim.Delegate<jakarta.servlet.FilterRegistration.Dynamic> implements javax.servlet.FilterRegistration.Dynamic {
+    final class FilterRegistration$Dynamic extends Shim.Facade<jakarta.servlet.FilterRegistration.Dynamic> implements javax.servlet.FilterRegistration.Dynamic {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        FilterRegistration$Dynamic(jakarta.servlet.FilterRegistration.Dynamic delegate) {
-            super(delegate);
+        FilterRegistration$Dynamic(jakarta.servlet.FilterRegistration.Dynamic target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -914,71 +914,71 @@ interface Facades {
 
         @Override
         public void addMappingForServletNames(EnumSet dispatcherTypes, boolean isMatchAfter, String... servletNames) {
-            delegate.addMappingForServletNames(dispatcherTypes, isMatchAfter, servletNames);
+            target.addMappingForServletNames(dispatcherTypes, isMatchAfter, servletNames);
         }
 
         @Override
         public void addMappingForUrlPatterns(EnumSet dispatcherTypes, boolean isMatchAfter, String... urlPatterns) {
-            delegate.addMappingForUrlPatterns(dispatcherTypes, isMatchAfter, urlPatterns);
+            target.addMappingForUrlPatterns(dispatcherTypes, isMatchAfter, urlPatterns);
         }
 
         @Override
         public Collection<String> getServletNameMappings() {
-            return delegate.getServletNameMappings();
+            return target.getServletNameMappings();
         }
 
         @Override
         public Collection<String> getUrlPatternMappings() {
-            return delegate.getUrlPatternMappings();
+            return target.getUrlPatternMappings();
         }
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public String getClassName() {
-            return delegate.getClassName();
+            return target.getClassName();
         }
 
         @Override
         public boolean setInitParameter(String name, String value) {
-            return delegate.setInitParameter(name, value);
+            return target.setInitParameter(name, value);
         }
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Set<String> setInitParameters(Map<String, String> initParameters) {
-            return delegate.setInitParameters(initParameters);
+            return target.setInitParameters(initParameters);
         }
 
         @Override
         public Map<String, String> getInitParameters() {
-            return delegate.getInitParameters();
+            return target.getInitParameters();
         }
 
         @Override
         public void setAsyncSupported(boolean isAsyncSupported) {
-            delegate.setAsyncSupported(isAsyncSupported);
+            target.setAsyncSupported(isAsyncSupported);
         }
     }
 
     final class GenericFilter extends javax.servlet.GenericFilter {
         private static final long serialVersionUID = 4060116231031076581L; // Use the ID from jakarta.servlet.
 
-        private final jakarta.servlet.GenericFilter delegate;
+        private final jakarta.servlet.GenericFilter target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        GenericFilter(jakarta.servlet.GenericFilter delegate) {
-            this.delegate = delegate;
+        GenericFilter(jakarta.servlet.GenericFilter target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -987,28 +987,28 @@ interface Facades {
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Enumeration<String> getInitParameterNames() {
-            return delegate.getInitParameterNames();
+            return target.getInitParameterNames();
         }
 
         @Override
         public javax.servlet.FilterConfig getFilterConfig() {
-            return ServletShim.of(delegate.getFilterConfig());
+            return ServletShim.of(target.getFilterConfig());
         }
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public void init(jakarta.servlet.FilterConfig config) throws javax.servlet.ServletException {
             try {
-                delegate.init(config);
+                target.init(config);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1017,7 +1017,7 @@ interface Facades {
         @Override
         public void init() throws javax.servlet.ServletException {
             try {
-                delegate.init();
+                target.init();
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1025,7 +1025,7 @@ interface Facades {
 
         @Override
         public String getFilterName() {
-            return delegate.getFilterName();
+            return target.getFilterName();
         }
 
         @Override
@@ -1035,7 +1035,7 @@ interface Facades {
             javax.servlet.FilterChain chain
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.doFilter(request, response, chain);
+                target.doFilter(request, response, chain);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1048,7 +1048,7 @@ interface Facades {
             jakarta.servlet.FilterChain chain
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.doFilter(request, response, chain);
+                target.doFilter(request, response, chain);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1056,19 +1056,19 @@ interface Facades {
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
     final class GenericServlet extends javax.servlet.GenericServlet {
-        private final jakarta.servlet.GenericServlet delegate;
+        private final jakarta.servlet.GenericServlet target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        GenericServlet(jakarta.servlet.GenericServlet delegate) {
-            this.delegate = delegate;
+        GenericServlet(jakarta.servlet.GenericServlet target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -1077,38 +1077,38 @@ interface Facades {
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Enumeration<String> getInitParameterNames() {
-            return delegate.getInitParameterNames();
+            return target.getInitParameterNames();
         }
 
         @Override
         public javax.servlet.ServletConfig getServletConfig() {
-            return ServletShim.of(delegate.getServletConfig());
+            return ServletShim.of(target.getServletConfig());
         }
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public String getServletInfo() {
-            return delegate.getServletInfo();
+            return target.getServletInfo();
         }
 
         @Override
         public void init(jakarta.servlet.ServletConfig config) throws javax.servlet.ServletException {
             try {
-                delegate.init(config);
+                target.init(config);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1117,7 +1117,7 @@ interface Facades {
         @Override
         public void init() throws javax.servlet.ServletException {
             try {
-                delegate.init();
+                target.init();
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1125,12 +1125,12 @@ interface Facades {
 
         @Override
         public void log(String message) {
-            delegate.log(message);
+            target.log(message);
         }
 
         @Override
         public void log(String message, Throwable cause) {
-            delegate.log(message, cause);
+            target.log(message, cause);
         }
 
         @Override
@@ -1139,7 +1139,7 @@ interface Facades {
             javax.servlet.ServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.service(request, response);
+                target.service(request, response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1151,7 +1151,7 @@ interface Facades {
             jakarta.servlet.ServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.service(request, response);
+                target.service(request, response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1159,20 +1159,20 @@ interface Facades {
 
         @Override
         public String getServletName() {
-            return delegate.getServletName();
+            return target.getServletName();
         }
     }
 
     final class HttpConstraintElement extends javax.servlet.HttpConstraintElement {
-        private final jakarta.servlet.HttpConstraintElement delegate;
+        private final jakarta.servlet.HttpConstraintElement target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpConstraintElement(jakarta.servlet.HttpConstraintElement delegate) {
-            super(delegate.getEmptyRoleSemantic(), delegate.getTransportGuarantee(), delegate.getRolesAllowed());
-            this.delegate = delegate;
+        HttpConstraintElement(jakarta.servlet.HttpConstraintElement target) {
+            super(target.getEmptyRoleSemantic(), target.getTransportGuarantee(), target.getRolesAllowed());
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -1181,31 +1181,31 @@ interface Facades {
 
         @Override
         public jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic getEmptyRoleSemantic() {
-            return delegate.getEmptyRoleSemantic();
+            return target.getEmptyRoleSemantic();
         }
 
         @Override
         public jakarta.servlet.annotation.ServletSecurity.TransportGuarantee getTransportGuarantee() {
-            return delegate.getTransportGuarantee();
+            return target.getTransportGuarantee();
         }
 
         @Override
         public String[] getRolesAllowed() {
-            return delegate.getRolesAllowed();
+            return target.getRolesAllowed();
         }
     }
 
     final class HttpFilter extends javax.servlet.http.HttpFilter {
         private static final long serialVersionUID = 7478463438252262094L; // Use the ID from jakarta.servlet.
 
-        private final jakarta.servlet.http.HttpFilter delegate;
+        private final jakarta.servlet.http.HttpFilter target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpFilter(jakarta.servlet.http.HttpFilter delegate) {
-            this.delegate = delegate;
+        HttpFilter(jakarta.servlet.http.HttpFilter target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -1219,7 +1219,7 @@ interface Facades {
             javax.servlet.FilterChain chain
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.doFilter(request, response, chain);
+                target.doFilter(request, response, chain);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1232,7 +1232,7 @@ interface Facades {
             jakarta.servlet.FilterChain chain
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.doFilter(request, response, chain);
+                target.doFilter(request, response, chain);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1240,28 +1240,28 @@ interface Facades {
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Enumeration<String> getInitParameterNames() {
-            return delegate.getInitParameterNames();
+            return target.getInitParameterNames();
         }
 
         @Override
         public javax.servlet.FilterConfig getFilterConfig() {
-            return ServletShim.of(delegate.getFilterConfig());
+            return ServletShim.of(target.getFilterConfig());
         }
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public void init(javax.servlet.FilterConfig config) throws javax.servlet.ServletException {
             try {
-                delegate.init(config);
+                target.init(config);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1270,7 +1270,7 @@ interface Facades {
         @Override
         public void init(jakarta.servlet.FilterConfig config) throws javax.servlet.ServletException {
             try {
-                delegate.init(config);
+                target.init(config);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1279,7 +1279,7 @@ interface Facades {
         @Override
         public void init() throws javax.servlet.ServletException {
             try {
-                delegate.init();
+                target.init();
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1287,25 +1287,25 @@ interface Facades {
 
         @Override
         public String getFilterName() {
-            return delegate.getFilterName();
+            return target.getFilterName();
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
     final class HttpMethodConstraintElement extends javax.servlet.HttpMethodConstraintElement {
-        private final jakarta.servlet.HttpMethodConstraintElement delegate;
+        private final jakarta.servlet.HttpMethodConstraintElement target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpMethodConstraintElement(jakarta.servlet.HttpMethodConstraintElement delegate) {
-            super(delegate.getMethodName(), delegate);
-            this.delegate = delegate;
+        HttpMethodConstraintElement(jakarta.servlet.HttpMethodConstraintElement target) {
+            super(target.getMethodName(), target);
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -1314,36 +1314,36 @@ interface Facades {
 
         @Override
         public String getMethodName() {
-            return delegate.getMethodName();
+            return target.getMethodName();
         }
 
         @Override
         public jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic getEmptyRoleSemantic() {
-            return delegate.getEmptyRoleSemantic();
+            return target.getEmptyRoleSemantic();
         }
 
         @Override
         public jakarta.servlet.annotation.ServletSecurity.TransportGuarantee getTransportGuarantee() {
-            return delegate.getTransportGuarantee();
+            return target.getTransportGuarantee();
         }
 
         @Override
         public String[] getRolesAllowed() {
-            return delegate.getRolesAllowed();
+            return target.getRolesAllowed();
         }
     }
 
     final class HttpServlet extends javax.servlet.http.HttpServlet {
         private static final long serialVersionUID = 8466325577512134784L; // Use the ID from jakarta.servlet.
 
-        private final jakarta.servlet.http.HttpServlet delegate;
+        private final jakarta.servlet.http.HttpServlet target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpServlet(jakarta.servlet.http.HttpServlet delegate) {
-            this.delegate = delegate;
+        HttpServlet(jakarta.servlet.http.HttpServlet target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -1353,7 +1353,7 @@ interface Facades {
         @Override
         public void init(javax.servlet.ServletConfig config) throws javax.servlet.ServletException {
             try {
-                delegate.init(config);
+                target.init(config);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1362,7 +1362,7 @@ interface Facades {
         @Override
         public void init(jakarta.servlet.ServletConfig config) throws javax.servlet.ServletException {
             try {
-                delegate.init(config);
+                target.init(config);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1374,7 +1374,7 @@ interface Facades {
             javax.servlet.ServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.service(request, response);
+                target.service(request, response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1386,7 +1386,7 @@ interface Facades {
             jakarta.servlet.ServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.service(request, response);
+                target.service(request, response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1394,38 +1394,38 @@ interface Facades {
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Enumeration<String> getInitParameterNames() {
-            return delegate.getInitParameterNames();
+            return target.getInitParameterNames();
         }
 
         @Override
         public javax.servlet.ServletConfig getServletConfig() {
-            return ServletShim.of(delegate.getServletConfig());
+            return ServletShim.of(target.getServletConfig());
         }
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public String getServletInfo() {
-            return delegate.getServletInfo();
+            return target.getServletInfo();
         }
 
         @Override
         public void init() throws javax.servlet.ServletException {
             try {
-                delegate.init();
+                target.init();
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1433,27 +1433,27 @@ interface Facades {
 
         @Override
         public void log(String message) {
-            delegate.log(message);
+            target.log(message);
         }
 
         @Override
         public void log(String message, Throwable cause) {
-            delegate.log(message, cause);
+            target.log(message, cause);
         }
 
         @Override
         public String getServletName() {
-            return delegate.getServletName();
+            return target.getServletName();
         }
     }
 
-    final class HttpServletMapping extends Shim.Delegate<jakarta.servlet.http.HttpServletMapping> implements javax.servlet.http.HttpServletMapping {
+    final class HttpServletMapping extends Shim.Facade<jakarta.servlet.http.HttpServletMapping> implements javax.servlet.http.HttpServletMapping {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpServletMapping(jakarta.servlet.http.HttpServletMapping delegate) {
-            super(delegate);
+        HttpServletMapping(jakarta.servlet.http.HttpServletMapping target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1462,32 +1462,32 @@ interface Facades {
 
         @Override
         public String getMatchValue() {
-            return delegate.getMatchValue();
+            return target.getMatchValue();
         }
 
         @Override
         public String getPattern() {
-            return delegate.getPattern();
+            return target.getPattern();
         }
 
         @Override
         public String getServletName() {
-            return delegate.getServletName();
+            return target.getServletName();
         }
 
         @Override
         public javax.servlet.http.MappingMatch getMappingMatch() {
-            return ServletShim.of(delegate.getMappingMatch());
+            return ServletShim.of(target.getMappingMatch());
         }
     }
 
-    final class HttpServletRequest extends Shim.Delegate<jakarta.servlet.http.HttpServletRequest> implements javax.servlet.http.HttpServletRequest {
+    final class HttpServletRequest extends Shim.Facade<jakarta.servlet.http.HttpServletRequest> implements javax.servlet.http.HttpServletRequest {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpServletRequest(jakarta.servlet.http.HttpServletRequest delegate) {
-            super(delegate);
+        HttpServletRequest(jakarta.servlet.http.HttpServletRequest target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1496,139 +1496,139 @@ interface Facades {
 
         @Override
         public String getAuthType() {
-            return delegate.getAuthType();
+            return target.getAuthType();
         }
 
         @Override
         public javax.servlet.http.Cookie[] getCookies() {
             return ServletShim
-                .<javax.servlet.http.Cookie>of(delegate.getCookies())
+                .<javax.servlet.http.Cookie>of(target.getCookies())
                 .toArray(javax.servlet.http.Cookie[]::new);
         }
 
         @Override
         public long getDateHeader(String name) {
-            return delegate.getDateHeader(name);
+            return target.getDateHeader(name);
         }
 
         @Override
         public String getHeader(String name) {
-            return delegate.getHeader(name);
+            return target.getHeader(name);
         }
 
         @Override
         public Enumeration<String> getHeaders(String name) {
-            return delegate.getHeaders(name);
+            return target.getHeaders(name);
         }
 
         @Override
         public Enumeration<String> getHeaderNames() {
-            return delegate.getHeaderNames();
+            return target.getHeaderNames();
         }
 
         @Override
         public int getIntHeader(String name) {
-            return delegate.getIntHeader(name);
+            return target.getIntHeader(name);
         }
 
         @Override
         public javax.servlet.http.HttpServletMapping getHttpServletMapping() {
-            return ServletShim.of(delegate.getHttpServletMapping());
+            return ServletShim.of(target.getHttpServletMapping());
         }
 
         @Override
         public String getMethod() {
-            return delegate.getMethod();
+            return target.getMethod();
         }
 
         @Override
         public String getPathInfo() {
-            return delegate.getPathInfo();
+            return target.getPathInfo();
         }
 
         @Override
         public String getPathTranslated() {
-            return delegate.getPathTranslated();
+            return target.getPathTranslated();
         }
 
         @Override
         public javax.servlet.http.PushBuilder newPushBuilder() {
-            return ServletShim.of(delegate.newPushBuilder());
+            return ServletShim.of(target.newPushBuilder());
         }
 
         @Override
         public String getContextPath() {
-            return delegate.getContextPath();
+            return target.getContextPath();
         }
 
         @Override
         public String getQueryString() {
-            return delegate.getQueryString();
+            return target.getQueryString();
         }
 
         @Override
         public String getRemoteUser() {
-            return delegate.getRemoteUser();
+            return target.getRemoteUser();
         }
 
         @Override
         public boolean isUserInRole(String role) {
-            return delegate.isUserInRole(role);
+            return target.isUserInRole(role);
         }
 
         @Override
         public Principal getUserPrincipal() {
-            return delegate.getUserPrincipal();
+            return target.getUserPrincipal();
         }
 
         @Override
         public String getRequestedSessionId() {
-            return delegate.getRequestedSessionId();
+            return target.getRequestedSessionId();
         }
 
         @Override
         public String getRequestURI() {
-            return delegate.getRequestURI();
+            return target.getRequestURI();
         }
 
         @Override
         public StringBuffer getRequestURL() {
-            return delegate.getRequestURL();
+            return target.getRequestURL();
         }
 
         @Override
         public String getServletPath() {
-            return delegate.getServletPath();
+            return target.getServletPath();
         }
 
         @Override
         public javax.servlet.http.HttpSession getSession(boolean create) {
-            return ServletShim.of(delegate.getSession(create));
+            return ServletShim.of(target.getSession(create));
         }
 
         @Override
         public javax.servlet.http.HttpSession getSession() {
-            return ServletShim.of(delegate.getSession());
+            return ServletShim.of(target.getSession());
         }
 
         @Override
         public String changeSessionId() {
-            return delegate.changeSessionId();
+            return target.changeSessionId();
         }
 
         @Override
         public boolean isRequestedSessionIdValid() {
-            return delegate.isRequestedSessionIdValid();
+            return target.isRequestedSessionIdValid();
         }
 
         @Override
         public boolean isRequestedSessionIdFromCookie() {
-            return delegate.isRequestedSessionIdFromCookie();
+            return target.isRequestedSessionIdFromCookie();
         }
 
         @Override
         public boolean isRequestedSessionIdFromURL() {
-            return delegate.isRequestedSessionIdFromURL();
+            return target.isRequestedSessionIdFromURL();
         }
 
         @Override
@@ -1636,7 +1636,7 @@ interface Facades {
             javax.servlet.http.HttpServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                return delegate.authenticate(response);
+                return target.authenticate(response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1647,7 +1647,7 @@ interface Facades {
             jakarta.servlet.http.HttpServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                return delegate.authenticate(response);
+                return target.authenticate(response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1656,7 +1656,7 @@ interface Facades {
         @Override
         public void login(String username, String password) throws javax.servlet.ServletException {
             try {
-                delegate.login(username, password);
+                target.login(username, password);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1665,7 +1665,7 @@ interface Facades {
         @Override
         public void logout() throws javax.servlet.ServletException {
             try {
-                delegate.logout();
+                target.logout();
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1675,7 +1675,7 @@ interface Facades {
         public Collection getParts() throws javax.servlet.ServletException, IOException {
             try {
                 return ServletShim
-                    .<javax.servlet.http.Part>of(delegate.getParts())
+                    .<javax.servlet.http.Part>of(target.getParts())
                     .collect(Collectors.toList());
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
@@ -1685,7 +1685,7 @@ interface Facades {
         @Override
         public javax.servlet.http.Part getPart(String name) throws javax.servlet.ServletException, IOException {
             try {
-                return ServletShim.of(delegate.getPart(name));
+                return ServletShim.of(target.getPart(name));
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1696,7 +1696,7 @@ interface Facades {
             Class clazz
         ) throws javax.servlet.ServletException, IOException {
             try {
-                return ServletShim.of(delegate.upgrade(clazz.asSubclass(jakarta.servlet.http.HttpUpgradeHandler.class)));
+                return ServletShim.of(target.upgrade(clazz.asSubclass(jakarta.servlet.http.HttpUpgradeHandler.class)));
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -1704,167 +1704,167 @@ interface Facades {
 
         @Override
         public Map<String, String> getTrailerFields() {
-            return delegate.getTrailerFields();
+            return target.getTrailerFields();
         }
 
         @Override
         public boolean isTrailerFieldsReady() {
-            return delegate.isTrailerFieldsReady();
+            return target.isTrailerFieldsReady();
         }
 
         @Override
         public Object getAttribute(String name) {
-            return delegate.getAttribute(name);
+            return target.getAttribute(name);
         }
 
         @Override
         public Enumeration<String> getAttributeNames() {
-            return delegate.getAttributeNames();
+            return target.getAttributeNames();
         }
 
         @Override
         public String getCharacterEncoding() {
-            return delegate.getCharacterEncoding();
+            return target.getCharacterEncoding();
         }
 
         @Override
         public void setCharacterEncoding(String encoding) throws UnsupportedEncodingException {
-            delegate.setCharacterEncoding(encoding);
+            target.setCharacterEncoding(encoding);
         }
 
         @Override
         public int getContentLength() {
-            return delegate.getContentLength();
+            return target.getContentLength();
         }
 
         @Override
         public long getContentLengthLong() {
-            return delegate.getContentLengthLong();
+            return target.getContentLengthLong();
         }
 
         @Override
         public String getContentType() {
-            return delegate.getContentType();
+            return target.getContentType();
         }
 
         @Override
         public javax.servlet.ServletInputStream getInputStream() throws IOException {
-            return ServletShim.of(delegate.getInputStream());
+            return ServletShim.of(target.getInputStream());
         }
 
         @Override
         public String getParameter(String name) {
-            return delegate.getParameter(name);
+            return target.getParameter(name);
         }
 
         @Override
         public Enumeration<String> getParameterNames() {
-            return delegate.getParameterNames();
+            return target.getParameterNames();
         }
 
         @Override
         public String[] getParameterValues(String name) {
-            return delegate.getParameterValues(name);
+            return target.getParameterValues(name);
         }
 
         @Override
         public Map<String, String[]> getParameterMap() {
-            return delegate.getParameterMap();
+            return target.getParameterMap();
         }
 
         @Override
         public String getProtocol() {
-            return delegate.getProtocol();
+            return target.getProtocol();
         }
 
         @Override
         public String getScheme() {
-            return delegate.getScheme();
+            return target.getScheme();
         }
 
         @Override
         public String getServerName() {
-            return delegate.getServerName();
+            return target.getServerName();
         }
 
         @Override
         public int getServerPort() {
-            return delegate.getServerPort();
+            return target.getServerPort();
         }
 
         @Override
         public BufferedReader getReader() throws IOException {
-            return delegate.getReader();
+            return target.getReader();
         }
 
         @Override
         public String getRemoteAddr() {
-            return delegate.getRemoteAddr();
+            return target.getRemoteAddr();
         }
 
         @Override
         public String getRemoteHost() {
-            return delegate.getRemoteHost();
+            return target.getRemoteHost();
         }
 
         @Override
         public void setAttribute(String name, Object o) {
-            delegate.setAttribute(name, o);
+            target.setAttribute(name, o);
         }
 
         @Override
         public void removeAttribute(String name) {
-            delegate.removeAttribute(name);
+            target.removeAttribute(name);
         }
 
         @Override
         public Locale getLocale() {
-            return delegate.getLocale();
+            return target.getLocale();
         }
 
         @Override
         public Enumeration<Locale> getLocales() {
-            return delegate.getLocales();
+            return target.getLocales();
         }
 
         @Override
         public boolean isSecure() {
-            return delegate.isSecure();
+            return target.isSecure();
         }
 
         @Override
         public javax.servlet.RequestDispatcher getRequestDispatcher(String path) {
-            return ServletShim.of(delegate.getRequestDispatcher(path));
+            return ServletShim.of(target.getRequestDispatcher(path));
         }
 
         @Override
         public int getRemotePort() {
-            return delegate.getRemotePort();
+            return target.getRemotePort();
         }
 
         @Override
         public String getLocalName() {
-            return delegate.getLocalName();
+            return target.getLocalName();
         }
 
         @Override
         public String getLocalAddr() {
-            return delegate.getLocalAddr();
+            return target.getLocalAddr();
         }
 
         @Override
         public int getLocalPort() {
-            return delegate.getLocalPort();
+            return target.getLocalPort();
         }
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public javax.servlet.AsyncContext startAsync() throws IllegalStateException {
-            return ServletShim.of(delegate.startAsync());
+            return ServletShim.of(target.startAsync());
         }
 
         @Override
@@ -1872,7 +1872,7 @@ interface Facades {
             javax.servlet.ServletRequest request,
             javax.servlet.ServletResponse response
         ) throws IllegalStateException {
-            return ServletShim.of(delegate.startAsync(request, response));
+            return ServletShim.of(target.startAsync(request, response));
         }
 
         @Override
@@ -1880,42 +1880,42 @@ interface Facades {
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response
         ) throws IllegalStateException {
-            return ServletShim.of(delegate.startAsync(request, response));
+            return ServletShim.of(target.startAsync(request, response));
         }
 
         @Override
         public boolean isAsyncStarted() {
-            return delegate.isAsyncStarted();
+            return target.isAsyncStarted();
         }
 
         @Override
         public boolean isAsyncSupported() {
-            return delegate.isAsyncSupported();
+            return target.isAsyncSupported();
         }
 
         @Override
         public javax.servlet.AsyncContext getAsyncContext() {
-            return ServletShim.of(delegate.getAsyncContext());
+            return ServletShim.of(target.getAsyncContext());
         }
 
         @Override
         public javax.servlet.DispatcherType getDispatcherType() {
-            return ServletShim.of(delegate.getDispatcherType());
+            return ServletShim.of(target.getDispatcherType());
         }
 
         @Override
         public String getRequestId() {
-            return delegate.getRequestId();
+            return target.getRequestId();
         }
 
         @Override
         public String getProtocolRequestId() {
-            return delegate.getProtocolRequestId();
+            return target.getProtocolRequestId();
         }
 
         @Override
         public javax.servlet.ServletConnection getServletConnection() {
-            return ServletShim.of(delegate.getServletConnection());
+            return ServletShim.of(target.getServletConnection());
         }
     }
 
@@ -1924,18 +1924,18 @@ interface Facades {
         // Constructors
         //==============================================================================================================
 
-        HttpServletRequestWrapper(jakarta.servlet.http.HttpServletRequestWrapper delegate) {
-            super(new HttpServletRequest(delegate));
+        HttpServletRequestWrapper(jakarta.servlet.http.HttpServletRequestWrapper target) {
+            super(new HttpServletRequest(target));
         }
     }
 
-    final class HttpServletResponse extends Shim.Delegate<jakarta.servlet.http.HttpServletResponse> implements javax.servlet.http.HttpServletResponse {
+    final class HttpServletResponse extends Shim.Facade<jakarta.servlet.http.HttpServletResponse> implements javax.servlet.http.HttpServletResponse {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpServletResponse(jakarta.servlet.http.HttpServletResponse delegate) {
-            super(delegate);
+        HttpServletResponse(jakarta.servlet.http.HttpServletResponse target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -1944,187 +1944,187 @@ interface Facades {
 
         @Override
         public void addCookie(javax.servlet.http.Cookie cookie) {
-            delegate.addCookie(cookie);
+            target.addCookie(cookie);
         }
 
         @Override
         public void addCookie(jakarta.servlet.http.Cookie cookie) {
-            delegate.addCookie(cookie);
+            target.addCookie(cookie);
         }
 
         @Override
         public boolean containsHeader(String name) {
-            return delegate.containsHeader(name);
+            return target.containsHeader(name);
         }
 
         @Override
         public String encodeURL(String url) {
-            return delegate.encodeURL(url);
+            return target.encodeURL(url);
         }
 
         @Override
         public String encodeRedirectURL(String url) {
-            return delegate.encodeRedirectURL(url);
+            return target.encodeRedirectURL(url);
         }
 
         @Override
         public void sendError(int statusCode, String message) throws IOException {
-            delegate.sendError(statusCode, message);
+            target.sendError(statusCode, message);
         }
 
         @Override
         public void sendError(int statusCode) throws IOException {
-            delegate.sendError(statusCode);
+            target.sendError(statusCode);
         }
 
         @Override
         public void sendRedirect(String location) throws IOException {
-            delegate.sendRedirect(location);
+            target.sendRedirect(location);
         }
 
         @Override
         public void setDateHeader(String name, long date) {
-            delegate.setDateHeader(name, date);
+            target.setDateHeader(name, date);
         }
 
         @Override
         public void addDateHeader(String name, long date) {
-            delegate.addDateHeader(name, date);
+            target.addDateHeader(name, date);
         }
 
         @Override
         public void setHeader(String name, String value) {
-            delegate.setHeader(name, value);
+            target.setHeader(name, value);
         }
 
         @Override
         public void addHeader(String name, String value) {
-            delegate.addHeader(name, value);
+            target.addHeader(name, value);
         }
 
         @Override
         public void setIntHeader(String name, int value) {
-            delegate.setIntHeader(name, value);
+            target.setIntHeader(name, value);
         }
 
         @Override
         public void addIntHeader(String name, int value) {
-            delegate.addIntHeader(name, value);
+            target.addIntHeader(name, value);
         }
 
         @Override
         public void setStatus(int sc) {
-            delegate.setStatus(sc);
+            target.setStatus(sc);
         }
 
         @Override
         public int getStatus() {
-            return delegate.getStatus();
+            return target.getStatus();
         }
 
         @Override
         public String getHeader(String name) {
-            return delegate.getHeader(name);
+            return target.getHeader(name);
         }
 
         @Override
         public Collection<String> getHeaders(String name) {
-            return delegate.getHeaders(name);
+            return target.getHeaders(name);
         }
 
         @Override
         public Collection<String> getHeaderNames() {
-            return delegate.getHeaderNames();
+            return target.getHeaderNames();
         }
 
         @Override
         public void setTrailerFields(Supplier<Map<String, String>> supplier) {
-            delegate.setTrailerFields(supplier);
+            target.setTrailerFields(supplier);
         }
 
         @Override
         public Supplier<Map<String, String>> getTrailerFields() {
-            return delegate.getTrailerFields();
+            return target.getTrailerFields();
         }
 
         @Override
         public String getCharacterEncoding() {
-            return delegate.getCharacterEncoding();
+            return target.getCharacterEncoding();
         }
 
         @Override
         public String getContentType() {
-            return delegate.getContentType();
+            return target.getContentType();
         }
 
         @Override
         public javax.servlet.ServletOutputStream getOutputStream() throws IOException {
-            return ServletShim.of(delegate.getOutputStream());
+            return ServletShim.of(target.getOutputStream());
         }
 
         @Override
         public PrintWriter getWriter() throws IOException {
-            return delegate.getWriter();
+            return target.getWriter();
         }
 
         @Override
         public void setCharacterEncoding(String charset) {
-            delegate.setCharacterEncoding(charset);
+            target.setCharacterEncoding(charset);
         }
 
         @Override
         public void setContentLength(int len) {
-            delegate.setContentLength(len);
+            target.setContentLength(len);
         }
 
         @Override
         public void setContentLengthLong(long len) {
-            delegate.setContentLengthLong(len);
+            target.setContentLengthLong(len);
         }
 
         @Override
         public void setContentType(String type) {
-            delegate.setContentType(type);
+            target.setContentType(type);
         }
 
         @Override
         public void setBufferSize(int size) {
-            delegate.setBufferSize(size);
+            target.setBufferSize(size);
         }
 
         @Override
         public int getBufferSize() {
-            return delegate.getBufferSize();
+            return target.getBufferSize();
         }
 
         @Override
         public void flushBuffer() throws IOException {
-            delegate.flushBuffer();
+            target.flushBuffer();
         }
 
         @Override
         public void resetBuffer() {
-            delegate.resetBuffer();
+            target.resetBuffer();
         }
 
         @Override
         public boolean isCommitted() {
-            return delegate.isCommitted();
+            return target.isCommitted();
         }
 
         @Override
         public void reset() {
-            delegate.reset();
+            target.reset();
         }
 
         @Override
         public void setLocale(Locale loc) {
-            delegate.setLocale(loc);
+            target.setLocale(loc);
         }
 
         @Override
         public Locale getLocale() {
-            return delegate.getLocale();
+            return target.getLocale();
         }
     }
 
@@ -2133,18 +2133,18 @@ interface Facades {
         // Constructors
         //==============================================================================================================
 
-        HttpServletResponseWrapper(jakarta.servlet.http.HttpServletResponseWrapper delegate) {
-            super(new HttpServletResponse(delegate));
+        HttpServletResponseWrapper(jakarta.servlet.http.HttpServletResponseWrapper target) {
+            super(new HttpServletResponse(target));
         }
     }
 
-    final class HttpSession extends Shim.Delegate<jakarta.servlet.http.HttpSession> implements javax.servlet.http.HttpSession {
+    final class HttpSession extends Shim.Facade<jakarta.servlet.http.HttpSession> implements javax.servlet.http.HttpSession {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpSession(jakarta.servlet.http.HttpSession delegate) {
-            super(delegate);
+        HttpSession(jakarta.servlet.http.HttpSession target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2153,72 +2153,72 @@ interface Facades {
 
         @Override
         public long getCreationTime() {
-            return delegate.getCreationTime();
+            return target.getCreationTime();
         }
 
         @Override
         public String getId() {
-            return delegate.getId();
+            return target.getId();
         }
 
         @Override
         public long getLastAccessedTime() {
-            return delegate.getLastAccessedTime();
+            return target.getLastAccessedTime();
         }
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public void setMaxInactiveInterval(int interval) {
-            delegate.setMaxInactiveInterval(interval);
+            target.setMaxInactiveInterval(interval);
         }
 
         @Override
         public int getMaxInactiveInterval() {
-            return delegate.getMaxInactiveInterval();
+            return target.getMaxInactiveInterval();
         }
 
         @Override
         public Object getAttribute(String name) {
-            return delegate.getAttribute(name);
+            return target.getAttribute(name);
         }
 
         @Override
         public Enumeration<String> getAttributeNames() {
-            return delegate.getAttributeNames();
+            return target.getAttributeNames();
         }
 
         @Override
         public void setAttribute(String name, Object value) {
-            delegate.setAttribute(name, value);
+            target.setAttribute(name, value);
         }
 
         @Override
         public void removeAttribute(String name) {
-            delegate.removeAttribute(name);
+            target.removeAttribute(name);
         }
 
         @Override
         public void invalidate() {
-            delegate.invalidate();
+            target.invalidate();
         }
 
         @Override
         public boolean isNew() {
-            return delegate.isNew();
+            return target.isNew();
         }
     }
 
-    final class HttpSessionActivationListener extends Shim.Delegate<jakarta.servlet.http.HttpSessionActivationListener> implements javax.servlet.http.HttpSessionActivationListener {
+    final class HttpSessionActivationListener extends Shim.Facade<jakarta.servlet.http.HttpSessionActivationListener> implements javax.servlet.http.HttpSessionActivationListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpSessionActivationListener(jakarta.servlet.http.HttpSessionActivationListener delegate) {
-            super(delegate);
+        HttpSessionActivationListener(jakarta.servlet.http.HttpSessionActivationListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2227,32 +2227,32 @@ interface Facades {
 
         @Override
         public void sessionDidActivate(javax.servlet.http.HttpSessionEvent event) {
-            delegate.sessionDidActivate(event);
+            target.sessionDidActivate(event);
         }
 
         @Override
         public void sessionDidActivate(jakarta.servlet.http.HttpSessionEvent event) {
-            delegate.sessionDidActivate(event);
+            target.sessionDidActivate(event);
         }
 
         @Override
         public void sessionWillPassivate(javax.servlet.http.HttpSessionEvent event) {
-            delegate.sessionWillPassivate(event);
+            target.sessionWillPassivate(event);
         }
 
         @Override
         public void sessionWillPassivate(jakarta.servlet.http.HttpSessionEvent event) {
-            delegate.sessionWillPassivate(event);
+            target.sessionWillPassivate(event);
         }
     }
 
-    final class HttpSessionAttributeListener extends Shim.Delegate<jakarta.servlet.http.HttpSessionAttributeListener> implements javax.servlet.http.HttpSessionAttributeListener {
+    final class HttpSessionAttributeListener extends Shim.Facade<jakarta.servlet.http.HttpSessionAttributeListener> implements javax.servlet.http.HttpSessionAttributeListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpSessionAttributeListener(jakarta.servlet.http.HttpSessionAttributeListener delegate) {
-            super(delegate);
+        HttpSessionAttributeListener(jakarta.servlet.http.HttpSessionAttributeListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2261,7 +2261,7 @@ interface Facades {
 
         @Override
         public void attributeAdded(javax.servlet.http.HttpSessionBindingEvent event) {
-            delegate.attributeAdded(new jakarta.servlet.http.HttpSessionBindingEvent(
+            target.attributeAdded(new jakarta.servlet.http.HttpSessionBindingEvent(
                 event.getSession(),
                 event.getName(),
                 event.getValue()
@@ -2270,12 +2270,12 @@ interface Facades {
 
         @Override
         public void attributeAdded(jakarta.servlet.http.HttpSessionBindingEvent event) {
-            delegate.attributeAdded(event);
+            target.attributeAdded(event);
         }
 
         @Override
         public void attributeRemoved(javax.servlet.http.HttpSessionBindingEvent event) {
-            delegate.attributeRemoved(new jakarta.servlet.http.HttpSessionBindingEvent(
+            target.attributeRemoved(new jakarta.servlet.http.HttpSessionBindingEvent(
                 event.getSession(),
                 event.getName(),
                 event.getValue()
@@ -2284,12 +2284,12 @@ interface Facades {
 
         @Override
         public void attributeRemoved(jakarta.servlet.http.HttpSessionBindingEvent event) {
-            delegate.attributeRemoved(event);
+            target.attributeRemoved(event);
         }
 
         @Override
         public void attributeReplaced(javax.servlet.http.HttpSessionBindingEvent event) {
-            delegate.attributeReplaced(new jakarta.servlet.http.HttpSessionBindingEvent(
+            target.attributeReplaced(new jakarta.servlet.http.HttpSessionBindingEvent(
                 event.getSession(),
                 event.getName(),
                 event.getValue()
@@ -2298,22 +2298,22 @@ interface Facades {
 
         @Override
         public void attributeReplaced(jakarta.servlet.http.HttpSessionBindingEvent event) {
-            delegate.attributeReplaced(event);
+            target.attributeReplaced(event);
         }
     }
 
     final class HttpSessionBindingEvent extends javax.servlet.http.HttpSessionBindingEvent {
         private static final long serialVersionUID = 7308000419984825907L; // Use the ID from jakarta.servlet.
 
-        private final jakarta.servlet.http.HttpSessionBindingEvent delegate;
+        private final jakarta.servlet.http.HttpSessionBindingEvent target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpSessionBindingEvent(jakarta.servlet.http.HttpSessionBindingEvent delegate) {
-            super(ServletShim.of(delegate.getSession()), delegate.getName(), delegate.getValue());
-            this.delegate = delegate;
+        HttpSessionBindingEvent(jakarta.servlet.http.HttpSessionBindingEvent target) {
+            super(ServletShim.of(target.getSession()), target.getName(), target.getValue());
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -2322,37 +2322,37 @@ interface Facades {
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public Object getValue() {
-            return delegate.getValue();
+            return target.getValue();
         }
 
         @Override
         public javax.servlet.http.HttpSession getSession() {
-            return ServletShim.of(delegate.getSession());
+            return ServletShim.of(target.getSession());
         }
 
         @Override
         public Object getSource() {
-            return delegate.getSource();
+            return target.getSource();
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
     }
 
-    final class HttpSessionBindingListener extends Shim.Delegate<jakarta.servlet.http.HttpSessionBindingListener> implements javax.servlet.http.HttpSessionBindingListener {
+    final class HttpSessionBindingListener extends Shim.Facade<jakarta.servlet.http.HttpSessionBindingListener> implements javax.servlet.http.HttpSessionBindingListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpSessionBindingListener(jakarta.servlet.http.HttpSessionBindingListener delegate) {
-            super(delegate);
+        HttpSessionBindingListener(jakarta.servlet.http.HttpSessionBindingListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2361,7 +2361,7 @@ interface Facades {
 
         @Override
         public void valueBound(javax.servlet.http.HttpSessionBindingEvent event) {
-            delegate.valueBound(new jakarta.servlet.http.HttpSessionBindingEvent(
+            target.valueBound(new jakarta.servlet.http.HttpSessionBindingEvent(
                 event.getSession(),
                 event.getName(),
                 event.getValue()
@@ -2370,12 +2370,12 @@ interface Facades {
 
         @Override
         public void valueBound(jakarta.servlet.http.HttpSessionBindingEvent event) {
-            delegate.valueBound(event);
+            target.valueBound(event);
         }
 
         @Override
         public void valueUnbound(javax.servlet.http.HttpSessionBindingEvent event) {
-            delegate.valueUnbound(new jakarta.servlet.http.HttpSessionBindingEvent(
+            target.valueUnbound(new jakarta.servlet.http.HttpSessionBindingEvent(
                 event.getSession(),
                 event.getName(),
                 event.getValue()
@@ -2384,22 +2384,22 @@ interface Facades {
 
         @Override
         public void valueUnbound(jakarta.servlet.http.HttpSessionBindingEvent event) {
-            delegate.valueUnbound(event);
+            target.valueUnbound(event);
         }
     }
 
     final class HttpSessionEvent extends javax.servlet.http.HttpSessionEvent {
         private static final long serialVersionUID = -7622791603672342895L; // Use the ID from jakarta.servlet.
 
-        private final jakarta.servlet.http.HttpSessionEvent delegate;
+        private final jakarta.servlet.http.HttpSessionEvent target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpSessionEvent(jakarta.servlet.http.HttpSessionEvent delegate) {
-            super(ServletShim.of(delegate.getSession()));
-            this.delegate = delegate;
+        HttpSessionEvent(jakarta.servlet.http.HttpSessionEvent target) {
+            super(ServletShim.of(target.getSession()));
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -2408,27 +2408,27 @@ interface Facades {
 
         @Override
         public javax.servlet.http.HttpSession getSession() {
-            return ServletShim.of(delegate.getSession());
+            return ServletShim.of(target.getSession());
         }
 
         @Override
         public Object getSource() {
-            return delegate.getSource();
+            return target.getSource();
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
     }
 
-    final class HttpSessionIdListener extends Shim.Delegate<jakarta.servlet.http.HttpSessionIdListener> implements javax.servlet.http.HttpSessionIdListener {
+    final class HttpSessionIdListener extends Shim.Facade<jakarta.servlet.http.HttpSessionIdListener> implements javax.servlet.http.HttpSessionIdListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpSessionIdListener(jakarta.servlet.http.HttpSessionIdListener delegate) {
-            super(delegate);
+        HttpSessionIdListener(jakarta.servlet.http.HttpSessionIdListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2437,22 +2437,22 @@ interface Facades {
 
         @Override
         public void sessionIdChanged(javax.servlet.http.HttpSessionEvent event, String oldSessionId) {
-            delegate.sessionIdChanged(event, oldSessionId);
+            target.sessionIdChanged(event, oldSessionId);
         }
 
         @Override
         public void sessionIdChanged(jakarta.servlet.http.HttpSessionEvent event, String oldSessionId) {
-            delegate.sessionIdChanged(event, oldSessionId);
+            target.sessionIdChanged(event, oldSessionId);
         }
     }
 
-    final class HttpSessionListener extends Shim.Delegate<jakarta.servlet.http.HttpSessionListener> implements javax.servlet.http.HttpSessionListener {
+    final class HttpSessionListener extends Shim.Facade<jakarta.servlet.http.HttpSessionListener> implements javax.servlet.http.HttpSessionListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpSessionListener(jakarta.servlet.http.HttpSessionListener delegate) {
-            super(delegate);
+        HttpSessionListener(jakarta.servlet.http.HttpSessionListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2461,32 +2461,32 @@ interface Facades {
 
         @Override
         public void sessionCreated(javax.servlet.http.HttpSessionEvent event) {
-            delegate.sessionCreated(event);
+            target.sessionCreated(event);
         }
 
         @Override
         public void sessionCreated(jakarta.servlet.http.HttpSessionEvent event) {
-            delegate.sessionCreated(event);
+            target.sessionCreated(event);
         }
 
         @Override
         public void sessionDestroyed(javax.servlet.http.HttpSessionEvent event) {
-            delegate.sessionDestroyed(event);
+            target.sessionDestroyed(event);
         }
 
         @Override
         public void sessionDestroyed(jakarta.servlet.http.HttpSessionEvent event) {
-            delegate.sessionDestroyed(event);
+            target.sessionDestroyed(event);
         }
     }
 
-    final class HttpUpgradeHandler extends Shim.Delegate<jakarta.servlet.http.HttpUpgradeHandler> implements javax.servlet.http.HttpUpgradeHandler {
+    final class HttpUpgradeHandler extends Shim.Facade<jakarta.servlet.http.HttpUpgradeHandler> implements javax.servlet.http.HttpUpgradeHandler {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        HttpUpgradeHandler(jakarta.servlet.http.HttpUpgradeHandler delegate) {
-            super(delegate);
+        HttpUpgradeHandler(jakarta.servlet.http.HttpUpgradeHandler target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2495,35 +2495,35 @@ interface Facades {
 
         @Override
         public void init(javax.servlet.http.WebConnection connection) {
-            delegate.init(connection);
+            target.init(connection);
         }
 
         @Override
         public void init(jakarta.servlet.http.WebConnection connection) {
-            delegate.init(connection);
+            target.init(connection);
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
     final class MultipartConfigElement extends javax.servlet.MultipartConfigElement {
-        private final jakarta.servlet.MultipartConfigElement delegate;
+        private final jakarta.servlet.MultipartConfigElement target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        MultipartConfigElement(jakarta.servlet.MultipartConfigElement delegate) {
+        MultipartConfigElement(jakarta.servlet.MultipartConfigElement target) {
             super(
-                delegate.getLocation(),
-                delegate.getMaxFileSize(),
-                delegate.getMaxRequestSize(),
-                delegate.getFileSizeThreshold()
+                target.getLocation(),
+                target.getMaxFileSize(),
+                target.getMaxRequestSize(),
+                target.getFileSizeThreshold()
             );
-            this.delegate = delegate;
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -2532,32 +2532,32 @@ interface Facades {
 
         @Override
         public String getLocation() {
-            return delegate.getLocation();
+            return target.getLocation();
         }
 
         @Override
         public long getMaxFileSize() {
-            return delegate.getMaxFileSize();
+            return target.getMaxFileSize();
         }
 
         @Override
         public long getMaxRequestSize() {
-            return delegate.getMaxRequestSize();
+            return target.getMaxRequestSize();
         }
 
         @Override
         public int getFileSizeThreshold() {
-            return delegate.getFileSizeThreshold();
+            return target.getFileSizeThreshold();
         }
     }
 
-    final class Part extends Shim.Delegate<jakarta.servlet.http.Part> implements javax.servlet.http.Part {
+    final class Part extends Shim.Facade<jakarta.servlet.http.Part> implements javax.servlet.http.Part {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Part(jakarta.servlet.http.Part delegate) {
-            super(delegate);
+        Part(jakarta.servlet.http.Part target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2566,62 +2566,62 @@ interface Facades {
 
         @Override
         public InputStream getInputStream() throws IOException {
-            return delegate.getInputStream();
+            return target.getInputStream();
         }
 
         @Override
         public String getContentType() {
-            return delegate.getContentType();
+            return target.getContentType();
         }
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public String getSubmittedFileName() {
-            return delegate.getSubmittedFileName();
+            return target.getSubmittedFileName();
         }
 
         @Override
         public long getSize() {
-            return delegate.getSize();
+            return target.getSize();
         }
 
         @Override
         public void write(String fileName) throws IOException {
-            delegate.write(fileName);
+            target.write(fileName);
         }
 
         @Override
         public void delete() throws IOException {
-            delegate.delete();
+            target.delete();
         }
 
         @Override
         public String getHeader(String name) {
-            return delegate.getHeader(name);
+            return target.getHeader(name);
         }
 
         @Override
         public Collection<String> getHeaders(String name) {
-            return delegate.getHeaders(name);
+            return target.getHeaders(name);
         }
 
         @Override
         public Collection<String> getHeaderNames() {
-            return delegate.getHeaderNames();
+            return target.getHeaderNames();
         }
     }
 
-    final class PushBuilder extends Shim.Delegate<jakarta.servlet.http.PushBuilder> implements javax.servlet.http.PushBuilder {
+    final class PushBuilder extends Shim.Facade<jakarta.servlet.http.PushBuilder> implements javax.servlet.http.PushBuilder {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        PushBuilder(jakarta.servlet.http.PushBuilder delegate) {
-            super(delegate);
+        PushBuilder(jakarta.servlet.http.PushBuilder target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2630,82 +2630,82 @@ interface Facades {
 
         @Override
         public javax.servlet.http.PushBuilder method(String method) {
-            return ServletShim.of(delegate.method(method));
+            return ServletShim.of(target.method(method));
         }
 
         @Override
         public javax.servlet.http.PushBuilder queryString(String queryString) {
-            return ServletShim.of(delegate.queryString(queryString));
+            return ServletShim.of(target.queryString(queryString));
         }
 
         @Override
         public javax.servlet.http.PushBuilder sessionId(String sessionId) {
-            return ServletShim.of(delegate.sessionId(sessionId));
+            return ServletShim.of(target.sessionId(sessionId));
         }
 
         @Override
         public javax.servlet.http.PushBuilder setHeader(String name, String value) {
-            return ServletShim.of(delegate.setHeader(name, value));
+            return ServletShim.of(target.setHeader(name, value));
         }
 
         @Override
         public javax.servlet.http.PushBuilder addHeader(String name, String value) {
-            return ServletShim.of(delegate.addHeader(name, value));
+            return ServletShim.of(target.addHeader(name, value));
         }
 
         @Override
         public javax.servlet.http.PushBuilder removeHeader(String name) {
-            return ServletShim.of(delegate.removeHeader(name));
+            return ServletShim.of(target.removeHeader(name));
         }
 
         @Override
         public javax.servlet.http.PushBuilder path(String path) {
-            return ServletShim.of(delegate.path(path));
+            return ServletShim.of(target.path(path));
         }
 
         @Override
         public void push() {
-            delegate.push();
+            target.push();
         }
 
         @Override
         public String getMethod() {
-            return delegate.getMethod();
+            return target.getMethod();
         }
 
         @Override
         public String getQueryString() {
-            return delegate.getQueryString();
+            return target.getQueryString();
         }
 
         @Override
         public String getSessionId() {
-            return delegate.getSessionId();
+            return target.getSessionId();
         }
 
         @Override
         public Set<String> getHeaderNames() {
-            return delegate.getHeaderNames();
+            return target.getHeaderNames();
         }
 
         @Override
         public String getHeader(String name) {
-            return delegate.getHeader(name);
+            return target.getHeader(name);
         }
 
         @Override
         public String getPath() {
-            return delegate.getPath();
+            return target.getPath();
         }
     }
 
-    final class ReadListener extends Shim.Delegate<jakarta.servlet.ReadListener> implements javax.servlet.ReadListener {
+    final class ReadListener extends Shim.Facade<jakarta.servlet.ReadListener> implements javax.servlet.ReadListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ReadListener(jakarta.servlet.ReadListener delegate) {
-            super(delegate);
+        ReadListener(jakarta.servlet.ReadListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2714,27 +2714,27 @@ interface Facades {
 
         @Override
         public void onDataAvailable() throws IOException {
-            delegate.onDataAvailable();
+            target.onDataAvailable();
         }
 
         @Override
         public void onAllDataRead() throws IOException {
-            delegate.onAllDataRead();
+            target.onAllDataRead();
         }
 
         @Override
         public void onError(Throwable cause) {
-            delegate.onError(cause);
+            target.onError(cause);
         }
     }
 
-    final class Registration extends Shim.Delegate<jakarta.servlet.Registration> implements javax.servlet.Registration {
+    final class Registration extends Shim.Facade<jakarta.servlet.Registration> implements javax.servlet.Registration {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Registration(jakarta.servlet.Registration delegate) {
-            super(delegate);
+        Registration(jakarta.servlet.Registration target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2743,42 +2743,42 @@ interface Facades {
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public String getClassName() {
-            return delegate.getClassName();
+            return target.getClassName();
         }
 
         @Override
         public boolean setInitParameter(String name, String value) {
-            return delegate.setInitParameter(name, value);
+            return target.setInitParameter(name, value);
         }
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Set<String> setInitParameters(Map<String, String> initParameters) {
-            return delegate.setInitParameters(initParameters);
+            return target.setInitParameters(initParameters);
         }
 
         @Override
         public Map<String, String> getInitParameters() {
-            return delegate.getInitParameters();
+            return target.getInitParameters();
         }
     }
 
-    final class Registration$Dynamic extends Shim.Delegate<jakarta.servlet.Registration.Dynamic> implements javax.servlet.Registration.Dynamic {
+    final class Registration$Dynamic extends Shim.Facade<jakarta.servlet.Registration.Dynamic> implements javax.servlet.Registration.Dynamic {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Registration$Dynamic(jakarta.servlet.Registration.Dynamic delegate) {
-            super(delegate);
+        Registration$Dynamic(jakarta.servlet.Registration.Dynamic target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2787,47 +2787,47 @@ interface Facades {
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public String getClassName() {
-            return delegate.getClassName();
+            return target.getClassName();
         }
 
         @Override
         public boolean setInitParameter(String name, String value) {
-            return delegate.setInitParameter(name, value);
+            return target.setInitParameter(name, value);
         }
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Set<String> setInitParameters(Map<String, String> initParameters) {
-            return delegate.setInitParameters(initParameters);
+            return target.setInitParameters(initParameters);
         }
 
         @Override
         public Map<String, String> getInitParameters() {
-            return delegate.getInitParameters();
+            return target.getInitParameters();
         }
 
         @Override
         public void setAsyncSupported(boolean isAsyncSupported) {
-            delegate.setAsyncSupported(isAsyncSupported);
+            target.setAsyncSupported(isAsyncSupported);
         }
     }
 
-    final class RequestDispatcher extends Shim.Delegate<jakarta.servlet.RequestDispatcher> implements javax.servlet.RequestDispatcher {
+    final class RequestDispatcher extends Shim.Facade<jakarta.servlet.RequestDispatcher> implements javax.servlet.RequestDispatcher {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        RequestDispatcher(jakarta.servlet.RequestDispatcher delegate) {
-            super(delegate);
+        RequestDispatcher(jakarta.servlet.RequestDispatcher target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2840,7 +2840,7 @@ interface Facades {
             javax.servlet.ServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.forward(request, response);
+                target.forward(request, response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -2852,7 +2852,7 @@ interface Facades {
             jakarta.servlet.ServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.forward(request, response);
+                target.forward(request, response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -2864,7 +2864,7 @@ interface Facades {
             javax.servlet.ServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.include(request, response);
+                target.include(request, response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -2876,20 +2876,20 @@ interface Facades {
             jakarta.servlet.ServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.include(request, response);
+                target.include(request, response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
         }
     }
 
-    final class Servlet extends Shim.Delegate<jakarta.servlet.Servlet> implements javax.servlet.Servlet {
+    final class Servlet extends Shim.Facade<jakarta.servlet.Servlet> implements javax.servlet.Servlet {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Servlet(jakarta.servlet.Servlet delegate) {
-            super(delegate);
+        Servlet(jakarta.servlet.Servlet target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2899,7 +2899,7 @@ interface Facades {
         @Override
         public void init(javax.servlet.ServletConfig config) throws javax.servlet.ServletException {
             try {
-                delegate.init(config);
+                target.init(config);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -2908,7 +2908,7 @@ interface Facades {
         @Override
         public void init(jakarta.servlet.ServletConfig config) throws javax.servlet.ServletException {
             try {
-                delegate.init(config);
+                target.init(config);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -2920,7 +2920,7 @@ interface Facades {
             javax.servlet.ServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.service(request, response);
+                target.service(request, response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -2932,7 +2932,7 @@ interface Facades {
             jakarta.servlet.ServletResponse response
         ) throws javax.servlet.ServletException, IOException {
             try {
-                delegate.service(request, response);
+                target.service(request, response);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -2940,27 +2940,27 @@ interface Facades {
 
         @Override
         public javax.servlet.ServletConfig getServletConfig() {
-            return ServletShim.of(delegate.getServletConfig());
+            return ServletShim.of(target.getServletConfig());
         }
 
         @Override
         public String getServletInfo() {
-            return delegate.getServletInfo();
+            return target.getServletInfo();
         }
 
         @Override
         public void destroy() {
-            delegate.destroy();
+            target.destroy();
         }
     }
 
-    final class ServletConfig extends Shim.Delegate<jakarta.servlet.ServletConfig> implements javax.servlet.ServletConfig {
+    final class ServletConfig extends Shim.Facade<jakarta.servlet.ServletConfig> implements javax.servlet.ServletConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletConfig(jakarta.servlet.ServletConfig delegate) {
-            super(delegate);
+        ServletConfig(jakarta.servlet.ServletConfig target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -2969,32 +2969,32 @@ interface Facades {
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public String getServletName() {
-            return delegate.getServletName();
+            return target.getServletName();
         }
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Enumeration<String> getInitParameterNames() {
-            return delegate.getInitParameterNames();
+            return target.getInitParameterNames();
         }
     }
 
-    final class ServletConnection extends Shim.Delegate<jakarta.servlet.ServletConnection> implements javax.servlet.ServletConnection {
+    final class ServletConnection extends Shim.Facade<jakarta.servlet.ServletConnection> implements javax.servlet.ServletConnection {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletConnection(jakarta.servlet.ServletConnection delegate) {
-            super(delegate);
+        ServletConnection(jakarta.servlet.ServletConnection target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -3003,32 +3003,32 @@ interface Facades {
 
         @Override
         public String getConnectionId() {
-            return delegate.getConnectionId();
+            return target.getConnectionId();
         }
 
         @Override
         public String getProtocol() {
-            return delegate.getProtocol();
+            return target.getProtocol();
         }
 
         @Override
         public String getProtocolConnectionId() {
-            return delegate.getProtocolConnectionId();
+            return target.getProtocolConnectionId();
         }
 
         @Override
         public boolean isSecure() {
-            return delegate.isSecure();
+            return target.isSecure();
         }
     }
 
-    final class ServletContainerInitializer extends Shim.Delegate<jakarta.servlet.ServletContainerInitializer> implements javax.servlet.ServletContainerInitializer {
+    final class ServletContainerInitializer extends Shim.Facade<jakarta.servlet.ServletContainerInitializer> implements javax.servlet.ServletContainerInitializer {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletContainerInitializer(jakarta.servlet.ServletContainerInitializer delegate) {
-            super(delegate);
+        ServletContainerInitializer(jakarta.servlet.ServletContainerInitializer target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -3041,7 +3041,7 @@ interface Facades {
             javax.servlet.ServletContext context
         ) throws javax.servlet.ServletException {
             try {
-                delegate.onStartup(classes, context);
+                target.onStartup(classes, context);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -3053,20 +3053,20 @@ interface Facades {
             jakarta.servlet.ServletContext context
         ) throws javax.servlet.ServletException {
             try {
-                delegate.onStartup(classes, context);
+                target.onStartup(classes, context);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
         }
     }
 
-    final class ServletContext extends Shim.Delegate<jakarta.servlet.ServletContext> implements javax.servlet.ServletContext {
+    final class ServletContext extends Shim.Facade<jakarta.servlet.ServletContext> implements javax.servlet.ServletContext {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletContext(jakarta.servlet.ServletContext delegate) {
-            super(delegate);
+        ServletContext(jakarta.servlet.ServletContext target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -3075,153 +3075,153 @@ interface Facades {
 
         @Override
         public String getContextPath() {
-            return delegate.getContextPath();
+            return target.getContextPath();
         }
 
         @Override
         public javax.servlet.ServletContext getContext(String uriPath) {
-            return ServletShim.of(delegate.getContext(uriPath));
+            return ServletShim.of(target.getContext(uriPath));
         }
 
         @Override
         public int getMajorVersion() {
-            return delegate.getMajorVersion();
+            return target.getMajorVersion();
         }
 
         @Override
         public int getMinorVersion() {
-            return delegate.getMinorVersion();
+            return target.getMinorVersion();
         }
 
         @Override
         public int getEffectiveMajorVersion() {
-            return delegate.getEffectiveMajorVersion();
+            return target.getEffectiveMajorVersion();
         }
 
         @Override
         public int getEffectiveMinorVersion() {
-            return delegate.getEffectiveMinorVersion();
+            return target.getEffectiveMinorVersion();
         }
 
         @Override
         public String getMimeType(String file) {
-            return delegate.getMimeType(file);
+            return target.getMimeType(file);
         }
 
         @Override
         public Set<String> getResourcePaths(String path) {
-            return delegate.getResourcePaths(path);
+            return target.getResourcePaths(path);
         }
 
         @Override
         public URL getResource(String path) throws MalformedURLException {
-            return delegate.getResource(path);
+            return target.getResource(path);
         }
 
         @Override
         public InputStream getResourceAsStream(String path) {
-            return delegate.getResourceAsStream(path);
+            return target.getResourceAsStream(path);
         }
 
         @Override
         public javax.servlet.RequestDispatcher getRequestDispatcher(String path) {
-            return ServletShim.of(delegate.getRequestDispatcher(path));
+            return ServletShim.of(target.getRequestDispatcher(path));
         }
 
         @Override
         public javax.servlet.RequestDispatcher getNamedDispatcher(String name) {
-            return ServletShim.of(delegate.getNamedDispatcher(name));
+            return ServletShim.of(target.getNamedDispatcher(name));
         }
 
         @Override
         public void log(String message) {
-            delegate.log(message);
+            target.log(message);
         }
 
         @Override
         public void log(String message, Throwable cause) {
-            delegate.log(message, cause);
+            target.log(message, cause);
         }
 
         @Override
         public String getRealPath(String path) {
-            return delegate.getRealPath(path);
+            return target.getRealPath(path);
         }
 
         @Override
         public String getServerInfo() {
-            return delegate.getServerInfo();
+            return target.getServerInfo();
         }
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Enumeration<String> getInitParameterNames() {
-            return delegate.getInitParameterNames();
+            return target.getInitParameterNames();
         }
 
         @Override
         public boolean setInitParameter(String name, String value) {
-            return delegate.setInitParameter(name, value);
+            return target.setInitParameter(name, value);
         }
 
         @Override
         public Object getAttribute(String name) {
-            return delegate.getAttribute(name);
+            return target.getAttribute(name);
         }
 
         @Override
         public Enumeration<String> getAttributeNames() {
-            return delegate.getAttributeNames();
+            return target.getAttributeNames();
         }
 
         @Override
         public void setAttribute(String name, Object object) {
-            delegate.setAttribute(name, object);
+            target.setAttribute(name, object);
         }
 
         @Override
         public void removeAttribute(String name) {
-            delegate.removeAttribute(name);
+            target.removeAttribute(name);
         }
 
         @Override
         public String getServletContextName() {
-            return delegate.getServletContextName();
+            return target.getServletContextName();
         }
 
         @Override
         public javax.servlet.ServletRegistration.Dynamic addServlet(String name, String className) {
-            return ServletShim.of(delegate.addServlet(name, className));
+            return ServletShim.of(target.addServlet(name, className));
         }
 
         @Override
         public javax.servlet.ServletRegistration.Dynamic addServlet(String name, javax.servlet.Servlet servlet) {
-            return ServletShim.of(delegate.addServlet(name, servlet));
+            return ServletShim.of(target.addServlet(name, servlet));
         }
 
         @Override
         public javax.servlet.ServletRegistration.Dynamic addServlet(String name, jakarta.servlet.Servlet servlet) {
-            return ServletShim.of(delegate.addServlet(name, servlet));
+            return ServletShim.of(target.addServlet(name, servlet));
         }
 
         @Override
         public javax.servlet.ServletRegistration.Dynamic addServlet(String name, Class clazz) {
-            return ServletShim.of(delegate.addServlet(name, clazz.asSubclass(jakarta.servlet.Servlet.class)));
+            return ServletShim.of(target.addServlet(name, clazz.asSubclass(jakarta.servlet.Servlet.class)));
         }
 
         @Override
         public javax.servlet.ServletRegistration.Dynamic addJspFile(String name, String file) {
-            return ServletShim.of(delegate.addJspFile(name, file));
+            return ServletShim.of(target.addJspFile(name, file));
         }
 
         @Override
         public javax.servlet.Servlet createServlet(Class clazz) throws javax.servlet.ServletException {
             try {
-                return ServletShim.of(delegate.createServlet(clazz.asSubclass(jakarta.servlet.Servlet.class)));
+                return ServletShim.of(target.createServlet(clazz.asSubclass(jakarta.servlet.Servlet.class)));
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -3229,12 +3229,12 @@ interface Facades {
 
         @Override
         public javax.servlet.ServletRegistration getServletRegistration(String name) {
-            return ServletShim.of(delegate.getServletRegistration(name));
+            return ServletShim.of(target.getServletRegistration(name));
         }
 
         @Override
         public Map getServletRegistrations() {
-            return delegate
+            return target
                 .getServletRegistrations()
                 .entrySet()
                 .stream()
@@ -3246,28 +3246,28 @@ interface Facades {
 
         @Override
         public javax.servlet.FilterRegistration.Dynamic addFilter(String name, String className) {
-            return ServletShim.of(delegate.addFilter(name, className));
+            return ServletShim.of(target.addFilter(name, className));
         }
 
         @Override
         public javax.servlet.FilterRegistration.Dynamic addFilter(String name, javax.servlet.Filter filter) {
-            return ServletShim.of(delegate.addFilter(name, filter));
+            return ServletShim.of(target.addFilter(name, filter));
         }
 
         @Override
         public javax.servlet.FilterRegistration.Dynamic addFilter(String name, jakarta.servlet.Filter filter) {
-            return ServletShim.of(delegate.addFilter(name, filter));
+            return ServletShim.of(target.addFilter(name, filter));
         }
 
         @Override
         public javax.servlet.FilterRegistration.Dynamic addFilter(String name, Class clazz) {
-            return ServletShim.of(delegate.addFilter(name, clazz.asSubclass(jakarta.servlet.Filter.class)));
+            return ServletShim.of(target.addFilter(name, clazz.asSubclass(jakarta.servlet.Filter.class)));
         }
 
         @Override
         public javax.servlet.Filter createFilter(Class clazz) throws javax.servlet.ServletException {
             try {
-                return ServletShim.of(delegate.createFilter(clazz.asSubclass(jakarta.servlet.Filter.class)));
+                return ServletShim.of(target.createFilter(clazz.asSubclass(jakarta.servlet.Filter.class)));
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -3275,12 +3275,12 @@ interface Facades {
 
         @Override
         public javax.servlet.FilterRegistration getFilterRegistration(String name) {
-            return ServletShim.of(delegate.getFilterRegistration(name));
+            return ServletShim.of(target.getFilterRegistration(name));
         }
 
         @Override
         public Map getFilterRegistrations() {
-            return delegate
+            return target
                 .getFilterRegistrations()
                 .entrySet()
                 .stream()
@@ -3292,12 +3292,12 @@ interface Facades {
 
         @Override
         public SessionCookieConfig getSessionCookieConfig() {
-            return ServletShim.of(delegate.getSessionCookieConfig());
+            return ServletShim.of(target.getSessionCookieConfig());
         }
 
         @Override
         public void setSessionTrackingModes(Set sessionTrackingModes) {
-            delegate.setSessionTrackingModes(
+            target.setSessionTrackingModes(
                 ServletShim
                     .<javax.servlet.SessionTrackingMode>of(sessionTrackingModes)
                     .collect(Collectors.toCollection(LinkedHashSet::new))
@@ -3307,36 +3307,36 @@ interface Facades {
         @Override
         public Set getDefaultSessionTrackingModes() {
             return ServletShim
-                .<javax.servlet.SessionTrackingMode>of(delegate.getDefaultSessionTrackingModes())
+                .<javax.servlet.SessionTrackingMode>of(target.getDefaultSessionTrackingModes())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         }
 
         @Override
         public Set getEffectiveSessionTrackingModes() {
             return ServletShim
-                .<javax.servlet.SessionTrackingMode>of(delegate.getEffectiveSessionTrackingModes())
+                .<javax.servlet.SessionTrackingMode>of(target.getEffectiveSessionTrackingModes())
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         }
 
         @Override
         public void addListener(String className) {
-            delegate.addListener(className);
+            target.addListener(className);
         }
 
         @Override
         public <T extends EventListener> void addListener(T listener) {
-            delegate.addListener(listener);
+            target.addListener(listener);
         }
 
         @Override
         public void addListener(Class<? extends EventListener> clazz) {
-            delegate.addListener(clazz);
+            target.addListener(clazz);
         }
 
         @Override
         public <T extends EventListener> T createListener(Class<T> clazz) throws javax.servlet.ServletException {
             try {
-                return delegate.createListener(clazz);
+                return target.createListener(clazz);
             } catch (jakarta.servlet.ServletException exception) {
                 throw ServletShim.of(exception);
             }
@@ -3344,67 +3344,67 @@ interface Facades {
 
         @Override
         public javax.servlet.descriptor.JspConfigDescriptor getJspConfigDescriptor() {
-            return ServletShim.of(delegate.getJspConfigDescriptor());
+            return ServletShim.of(target.getJspConfigDescriptor());
         }
 
         @Override
         public ClassLoader getClassLoader() {
-            return delegate.getClassLoader();
+            return target.getClassLoader();
         }
 
         @Override
         public void declareRoles(String... roleNames) {
-            delegate.declareRoles(roleNames);
+            target.declareRoles(roleNames);
         }
 
         @Override
         public String getVirtualServerName() {
-            return delegate.getVirtualServerName();
+            return target.getVirtualServerName();
         }
 
         @Override
         public int getSessionTimeout() {
-            return delegate.getSessionTimeout();
+            return target.getSessionTimeout();
         }
 
         @Override
         public void setSessionTimeout(int sessionTimeout) {
-            delegate.setSessionTimeout(sessionTimeout);
+            target.setSessionTimeout(sessionTimeout);
         }
 
         @Override
         public String getRequestCharacterEncoding() {
-            return delegate.getRequestCharacterEncoding();
+            return target.getRequestCharacterEncoding();
         }
 
         @Override
         public void setRequestCharacterEncoding(String encoding) {
-            delegate.setRequestCharacterEncoding(encoding);
+            target.setRequestCharacterEncoding(encoding);
         }
 
         @Override
         public String getResponseCharacterEncoding() {
-            return delegate.getResponseCharacterEncoding();
+            return target.getResponseCharacterEncoding();
         }
 
         @Override
         public void setResponseCharacterEncoding(String encoding) {
-            delegate.setResponseCharacterEncoding(encoding);
+            target.setResponseCharacterEncoding(encoding);
         }
     }
 
     final class ServletContextAttributeEvent extends javax.servlet.ServletContextAttributeEvent {
         private static final long serialVersionUID = -5804680734245618303L; // Use the ID from jakarta.servlet.
 
-        private final jakarta.servlet.ServletContextAttributeEvent delegate;
+        private final jakarta.servlet.ServletContextAttributeEvent target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletContextAttributeEvent(jakarta.servlet.ServletContextAttributeEvent delegate) {
-            super(ServletShim.of(delegate.getServletContext()), delegate.getName(), delegate.getValue());
-            this.delegate = delegate;
+        ServletContextAttributeEvent(jakarta.servlet.ServletContextAttributeEvent target) {
+            super(ServletShim.of(target.getServletContext()), target.getName(), target.getValue());
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -3413,37 +3413,37 @@ interface Facades {
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public Object getValue() {
-            return delegate.getValue();
+            return target.getValue();
         }
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public Object getSource() {
-            return delegate.getSource();
+            return target.getSource();
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
     }
 
-    final class ServletContextAttributeListener extends Shim.Delegate<jakarta.servlet.ServletContextAttributeListener> implements javax.servlet.ServletContextAttributeListener {
+    final class ServletContextAttributeListener extends Shim.Facade<jakarta.servlet.ServletContextAttributeListener> implements javax.servlet.ServletContextAttributeListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletContextAttributeListener(jakarta.servlet.ServletContextAttributeListener delegate) {
-            super(delegate);
+        ServletContextAttributeListener(jakarta.servlet.ServletContextAttributeListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -3452,7 +3452,7 @@ interface Facades {
 
         @Override
         public void attributeAdded(javax.servlet.ServletContextAttributeEvent event) {
-            delegate.attributeAdded(new jakarta.servlet.ServletContextAttributeEvent(
+            target.attributeAdded(new jakarta.servlet.ServletContextAttributeEvent(
                 event.getServletContext(),
                 event.getName(),
                 event.getValue()
@@ -3461,12 +3461,12 @@ interface Facades {
 
         @Override
         public void attributeAdded(jakarta.servlet.ServletContextAttributeEvent event) {
-            delegate.attributeAdded(event);
+            target.attributeAdded(event);
         }
 
         @Override
         public void attributeRemoved(javax.servlet.ServletContextAttributeEvent event) {
-            delegate.attributeRemoved(new jakarta.servlet.ServletContextAttributeEvent(
+            target.attributeRemoved(new jakarta.servlet.ServletContextAttributeEvent(
                 event.getServletContext(),
                 event.getName(),
                 event.getValue()
@@ -3475,12 +3475,12 @@ interface Facades {
 
         @Override
         public void attributeRemoved(jakarta.servlet.ServletContextAttributeEvent event) {
-            delegate.attributeRemoved(event);
+            target.attributeRemoved(event);
         }
 
         @Override
         public void attributeReplaced(javax.servlet.ServletContextAttributeEvent event) {
-            delegate.attributeReplaced(new jakarta.servlet.ServletContextAttributeEvent(
+            target.attributeReplaced(new jakarta.servlet.ServletContextAttributeEvent(
                 event.getServletContext(),
                 event.getName(),
                 event.getValue()
@@ -3489,22 +3489,22 @@ interface Facades {
 
         @Override
         public void attributeReplaced(jakarta.servlet.ServletContextAttributeEvent event) {
-            delegate.attributeReplaced(event);
+            target.attributeReplaced(event);
         }
     }
 
     final class ServletContextEvent extends javax.servlet.ServletContextEvent {
         private static final long serialVersionUID = -7501701636134222423L; // Use the ID from jakarta.servlet.
 
-        private final jakarta.servlet.ServletContextEvent delegate;
+        private final jakarta.servlet.ServletContextEvent target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletContextEvent(jakarta.servlet.ServletContextEvent delegate) {
-            super(ServletShim.of(delegate.getServletContext()));
-            this.delegate = delegate;
+        ServletContextEvent(jakarta.servlet.ServletContextEvent target) {
+            super(ServletShim.of(target.getServletContext()));
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -3513,27 +3513,27 @@ interface Facades {
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public Object getSource() {
-            return delegate.getSource();
+            return target.getSource();
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
     }
 
-    final class ServletContextListener extends Shim.Delegate<jakarta.servlet.ServletContextListener> implements javax.servlet.ServletContextListener {
+    final class ServletContextListener extends Shim.Facade<jakarta.servlet.ServletContextListener> implements javax.servlet.ServletContextListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletContextListener(jakarta.servlet.ServletContextListener delegate) {
-            super(delegate);
+        ServletContextListener(jakarta.servlet.ServletContextListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -3542,37 +3542,37 @@ interface Facades {
 
         @Override
         public void contextInitialized(javax.servlet.ServletContextEvent event) {
-            delegate.contextInitialized(event);
+            target.contextInitialized(event);
         }
 
         @Override
         public void contextInitialized(jakarta.servlet.ServletContextEvent event) {
-            delegate.contextInitialized(event);
+            target.contextInitialized(event);
         }
 
         @Override
         public void contextDestroyed(javax.servlet.ServletContextEvent event) {
-            delegate.contextDestroyed(event);
+            target.contextDestroyed(event);
         }
 
         @Override
         public void contextDestroyed(jakarta.servlet.ServletContextEvent event) {
-            delegate.contextDestroyed(event);
+            target.contextDestroyed(event);
         }
     }
 
     final class ServletRequestAttributeEvent extends javax.servlet.ServletRequestAttributeEvent {
         private static final long serialVersionUID = -1466635426192317793L; // Use the ID from jakarta.servlet.
 
-        private final jakarta.servlet.ServletRequestAttributeEvent delegate;
+        private final jakarta.servlet.ServletRequestAttributeEvent target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletRequestAttributeEvent(jakarta.servlet.ServletRequestAttributeEvent delegate) {
-            super(ServletShim.of(delegate.getServletContext()), delegate.getName(), delegate.getValue());
-            this.delegate = delegate;
+        ServletRequestAttributeEvent(jakarta.servlet.ServletRequestAttributeEvent target) {
+            super(ServletShim.of(target.getServletContext()), target.getName(), target.getValue());
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -3581,42 +3581,42 @@ interface Facades {
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public Object getValue() {
-            return delegate.getValue();
+            return target.getValue();
         }
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public javax.servlet.ServletRequest getServletRequest() {
-            return ServletShim.of(delegate.getServletRequest());
+            return ServletShim.of(target.getServletRequest());
         }
 
         @Override
         public Object getSource() {
-            return delegate.getSource();
+            return target.getSource();
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
     }
 
-    final class ServletRequestAttributeListener extends Shim.Delegate<jakarta.servlet.ServletRequestAttributeListener> implements javax.servlet.ServletRequestAttributeListener {
+    final class ServletRequestAttributeListener extends Shim.Facade<jakarta.servlet.ServletRequestAttributeListener> implements javax.servlet.ServletRequestAttributeListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletRequestAttributeListener(jakarta.servlet.ServletRequestAttributeListener delegate) {
-            super(delegate);
+        ServletRequestAttributeListener(jakarta.servlet.ServletRequestAttributeListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -3625,7 +3625,7 @@ interface Facades {
 
         @Override
         public void attributeAdded(javax.servlet.ServletRequestAttributeEvent event) {
-            delegate.attributeAdded(new jakarta.servlet.ServletRequestAttributeEvent(
+            target.attributeAdded(new jakarta.servlet.ServletRequestAttributeEvent(
                 event.getServletContext(),
                 event.getServletRequest(),
                 event.getName(),
@@ -3635,12 +3635,12 @@ interface Facades {
 
         @Override
         public void attributeAdded(jakarta.servlet.ServletRequestAttributeEvent event) {
-            delegate.attributeAdded(event);
+            target.attributeAdded(event);
         }
 
         @Override
         public void attributeRemoved(javax.servlet.ServletRequestAttributeEvent event) {
-            delegate.attributeRemoved(new jakarta.servlet.ServletRequestAttributeEvent(
+            target.attributeRemoved(new jakarta.servlet.ServletRequestAttributeEvent(
                 event.getServletContext(),
                 event.getServletRequest(),
                 event.getName(),
@@ -3650,12 +3650,12 @@ interface Facades {
 
         @Override
         public void attributeRemoved(jakarta.servlet.ServletRequestAttributeEvent event) {
-            delegate.attributeRemoved(event);
+            target.attributeRemoved(event);
         }
 
         @Override
         public void attributeReplaced(javax.servlet.ServletRequestAttributeEvent event) {
-            delegate.attributeReplaced(new jakarta.servlet.ServletRequestAttributeEvent(
+            target.attributeReplaced(new jakarta.servlet.ServletRequestAttributeEvent(
                 event.getServletContext(),
                 event.getServletRequest(),
                 event.getName(),
@@ -3665,22 +3665,22 @@ interface Facades {
 
         @Override
         public void attributeReplaced(jakarta.servlet.ServletRequestAttributeEvent event) {
-            delegate.attributeReplaced(event);
+            target.attributeReplaced(event);
         }
     }
 
     final class ServletRequestEvent extends javax.servlet.ServletRequestEvent {
         private static final long serialVersionUID = -7467864054698729101L; // Use the ID from jakarta.servlet.
 
-        private final jakarta.servlet.ServletRequestEvent delegate;
+        private final jakarta.servlet.ServletRequestEvent target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletRequestEvent(jakarta.servlet.ServletRequestEvent delegate) {
-            super(ServletShim.of(delegate.getServletRequest()));
-            this.delegate = delegate;
+        ServletRequestEvent(jakarta.servlet.ServletRequestEvent target) {
+            super(ServletShim.of(target.getServletRequest()));
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -3689,32 +3689,32 @@ interface Facades {
 
         @Override
         public javax.servlet.ServletRequest getServletRequest() {
-            return ServletShim.of(delegate.getServletRequest());
+            return ServletShim.of(target.getServletRequest());
         }
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public Object getSource() {
-            return delegate.getSource();
+            return target.getSource();
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
     }
 
-    final class ServletRequestListener extends Shim.Delegate<jakarta.servlet.ServletRequestListener> implements javax.servlet.ServletRequestListener {
+    final class ServletRequestListener extends Shim.Facade<jakarta.servlet.ServletRequestListener> implements javax.servlet.ServletRequestListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletRequestListener(jakarta.servlet.ServletRequestListener delegate) {
-            super(delegate);
+        ServletRequestListener(jakarta.servlet.ServletRequestListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -3723,35 +3723,35 @@ interface Facades {
 
         @Override
         public void requestInitialized(javax.servlet.ServletRequestEvent event) {
-            delegate.requestInitialized(event);
+            target.requestInitialized(event);
         }
 
         @Override
         public void requestInitialized(jakarta.servlet.ServletRequestEvent event) {
-            delegate.requestInitialized(event);
+            target.requestInitialized(event);
         }
 
         @Override
         public void requestDestroyed(javax.servlet.ServletRequestEvent event) {
-            delegate.requestDestroyed(event);
+            target.requestDestroyed(event);
         }
 
         @Override
         public void requestDestroyed(jakarta.servlet.ServletRequestEvent event) {
-            delegate.requestDestroyed(event);
+            target.requestDestroyed(event);
         }
     }
 
     final class ServletException extends javax.servlet.ServletException {
-        private final jakarta.servlet.ServletException delegate;
+        private final jakarta.servlet.ServletException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletException(jakarta.servlet.ServletException delegate) {
-            super(delegate.getMessage(), delegate.getRootCause());
-            this.delegate = delegate;
+        ServletException(jakarta.servlet.ServletException target) {
+            super(target.getMessage(), target.getRootCause());
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -3760,74 +3760,74 @@ interface Facades {
 
         @Override
         public Throwable getRootCause() {
-            return delegate.getRootCause();
+            return target.getRootCause();
         }
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
     final class ServletInputStream extends javax.servlet.ServletInputStream {
-        private final jakarta.servlet.ServletInputStream delegate;
+        private final jakarta.servlet.ServletInputStream target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletInputStream(jakarta.servlet.ServletInputStream delegate) {
-            this.delegate = delegate;
+        ServletInputStream(jakarta.servlet.ServletInputStream target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -3836,104 +3836,104 @@ interface Facades {
 
         @Override
         public int readLine(byte[] b, int off, int len) throws IOException {
-            return delegate.readLine(b, off, len);
+            return target.readLine(b, off, len);
         }
 
         @Override
         public boolean isFinished() {
-            return delegate.isFinished();
+            return target.isFinished();
         }
 
         @Override
         public boolean isReady() {
-            return delegate.isReady();
+            return target.isReady();
         }
 
         @Override
         public void setReadListener(javax.servlet.ReadListener readListener) {
-            delegate.setReadListener(readListener);
+            target.setReadListener(readListener);
         }
 
         @Override
         public void setReadListener(jakarta.servlet.ReadListener readListener) {
-            delegate.setReadListener(readListener);
+            target.setReadListener(readListener);
         }
 
         @Override
         public int read() throws IOException {
-            return delegate.read();
+            return target.read();
         }
 
         @Override
         public int read(byte[] b) throws IOException {
-            return delegate.read(b);
+            return target.read(b);
         }
 
         @Override
         public int read(byte[] b, int off, int len) throws IOException {
-            return delegate.read(b, off, len);
+            return target.read(b, off, len);
         }
 
         @Override
         public byte[] readAllBytes() throws IOException {
-            return delegate.readAllBytes();
+            return target.readAllBytes();
         }
 
         @Override
         public byte[] readNBytes(int len) throws IOException {
-            return delegate.readNBytes(len);
+            return target.readNBytes(len);
         }
 
         @Override
         public int readNBytes(byte[] b, int off, int len) throws IOException {
-            return delegate.readNBytes(b, off, len);
+            return target.readNBytes(b, off, len);
         }
 
         @Override
         public long skip(long n) throws IOException {
-            return delegate.skip(n);
+            return target.skip(n);
         }
 
         @Override
         public int available() throws IOException {
-            return delegate.available();
+            return target.available();
         }
 
         @Override
         public void close() throws IOException {
-            delegate.close();
+            target.close();
         }
 
         @Override
         public void mark(int limit) {
-            delegate.mark(limit);
+            target.mark(limit);
         }
 
         @Override
         public void reset() throws IOException {
-            delegate.reset();
+            target.reset();
         }
 
         @Override
         public boolean markSupported() {
-            return delegate.markSupported();
+            return target.markSupported();
         }
 
         @Override
         public long transferTo(OutputStream out) throws IOException {
-            return delegate.transferTo(out);
+            return target.transferTo(out);
         }
     }
 
     final class ServletOutputStream extends javax.servlet.ServletOutputStream {
-        private final jakarta.servlet.ServletOutputStream delegate;
+        private final jakarta.servlet.ServletOutputStream target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletOutputStream(jakarta.servlet.ServletOutputStream delegate) {
-            this.delegate = delegate;
+        ServletOutputStream(jakarta.servlet.ServletOutputStream target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -3942,127 +3942,127 @@ interface Facades {
 
         @Override
         public void print(String s) throws IOException {
-            delegate.print(s);
+            target.print(s);
         }
 
         @Override
         public void print(boolean b) throws IOException {
-            delegate.print(b);
+            target.print(b);
         }
 
         @Override
         public void print(char c) throws IOException {
-            delegate.print(c);
+            target.print(c);
         }
 
         @Override
         public void print(int i) throws IOException {
-            delegate.print(i);
+            target.print(i);
         }
 
         @Override
         public void print(long l) throws IOException {
-            delegate.print(l);
+            target.print(l);
         }
 
         @Override
         public void print(float f) throws IOException {
-            delegate.print(f);
+            target.print(f);
         }
 
         @Override
         public void print(double d) throws IOException {
-            delegate.print(d);
+            target.print(d);
         }
 
         @Override
         public void println() throws IOException {
-            delegate.println();
+            target.println();
         }
 
         @Override
         public void println(String s) throws IOException {
-            delegate.println(s);
+            target.println(s);
         }
 
         @Override
         public void println(boolean b) throws IOException {
-            delegate.println(b);
+            target.println(b);
         }
 
         @Override
         public void println(char c) throws IOException {
-            delegate.println(c);
+            target.println(c);
         }
 
         @Override
         public void println(int i) throws IOException {
-            delegate.println(i);
+            target.println(i);
         }
 
         @Override
         public void println(long l) throws IOException {
-            delegate.println(l);
+            target.println(l);
         }
 
         @Override
         public void println(float f) throws IOException {
-            delegate.println(f);
+            target.println(f);
         }
 
         @Override
         public void println(double d) throws IOException {
-            delegate.println(d);
+            target.println(d);
         }
 
         @Override
         public boolean isReady() {
-            return delegate.isReady();
+            return target.isReady();
         }
 
         @Override
         public void setWriteListener(javax.servlet.WriteListener writeListener) {
-            delegate.setWriteListener(writeListener);
+            target.setWriteListener(writeListener);
         }
 
         @Override
         public void setWriteListener(jakarta.servlet.WriteListener writeListener) {
-            delegate.setWriteListener(writeListener);
+            target.setWriteListener(writeListener);
         }
 
         @Override
         public void write(int b) throws IOException {
-            delegate.write(b);
+            target.write(b);
         }
 
         @Override
         public void write(byte[] b) throws IOException {
-            delegate.write(b);
+            target.write(b);
         }
 
         @Override
         public void write(byte[] b, int off, int len) throws IOException {
-            delegate.write(b, off, len);
+            target.write(b, off, len);
         }
 
         @Override
         public void flush() throws IOException {
-            delegate.flush();
+            target.flush();
         }
 
         @Override
         public void close() throws IOException {
-            delegate.close();
+            target.close();
         }
     }
 
-    final class ServletRegistration extends Shim.Delegate<jakarta.servlet.ServletRegistration> implements javax.servlet.ServletRegistration {
+    final class ServletRegistration extends Shim.Facade<jakarta.servlet.ServletRegistration> implements javax.servlet.ServletRegistration {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletRegistration(jakarta.servlet.ServletRegistration delegate) {
-            super(delegate);
+        ServletRegistration(jakarta.servlet.ServletRegistration target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -4071,57 +4071,57 @@ interface Facades {
 
         @Override
         public Set<String> addMapping(String... urlPatterns) {
-            return delegate.addMapping(urlPatterns);
+            return target.addMapping(urlPatterns);
         }
 
         @Override
         public Collection<String> getMappings() {
-            return delegate.getMappings();
+            return target.getMappings();
         }
 
         @Override
         public String getRunAsRole() {
-            return delegate.getRunAsRole();
+            return target.getRunAsRole();
         }
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public String getClassName() {
-            return delegate.getClassName();
+            return target.getClassName();
         }
 
         @Override
         public boolean setInitParameter(String name, String value) {
-            return delegate.setInitParameter(name, value);
+            return target.setInitParameter(name, value);
         }
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Set<String> setInitParameters(Map<String, String> initParameters) {
-            return delegate.setInitParameters(initParameters);
+            return target.setInitParameters(initParameters);
         }
 
         @Override
         public Map<String, String> getInitParameters() {
-            return delegate.getInitParameters();
+            return target.getInitParameters();
         }
     }
 
-    final class ServletRegistration$Dynamic extends Shim.Delegate<jakarta.servlet.ServletRegistration.Dynamic> implements javax.servlet.ServletRegistration.Dynamic {
+    final class ServletRegistration$Dynamic extends Shim.Facade<jakarta.servlet.ServletRegistration.Dynamic> implements javax.servlet.ServletRegistration.Dynamic {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletRegistration$Dynamic(jakarta.servlet.ServletRegistration.Dynamic delegate) {
-            super(delegate);
+        ServletRegistration$Dynamic(jakarta.servlet.ServletRegistration.Dynamic target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -4130,27 +4130,27 @@ interface Facades {
 
         @Override
         public Set<String> addMapping(String... urlPatterns) {
-            return delegate.addMapping(urlPatterns);
+            return target.addMapping(urlPatterns);
         }
 
         @Override
         public Collection<String> getMappings() {
-            return delegate.getMappings();
+            return target.getMappings();
         }
 
         @Override
         public String getRunAsRole() {
-            return delegate.getRunAsRole();
+            return target.getRunAsRole();
         }
 
         @Override
         public void setRunAsRole(String roleName) {
-            delegate.setRunAsRole(roleName);
+            target.setRunAsRole(roleName);
         }
 
         @Override
         public void setLoadOnStartup(int loadOnStartup) {
-            delegate.setLoadOnStartup(loadOnStartup);
+            target.setLoadOnStartup(loadOnStartup);
         }
 
         @Override
@@ -4165,67 +4165,67 @@ interface Facades {
                         methodConstraint
                     ))
                     .collect(Collectors.toList());
-            return delegate.setServletSecurity(new jakarta.servlet.ServletSecurityElement(constraint, methodConstraints));
+            return target.setServletSecurity(new jakarta.servlet.ServletSecurityElement(constraint, methodConstraints));
         }
 
         @Override
         public Set<String> setServletSecurity(jakarta.servlet.ServletSecurityElement constraint) {
-            return delegate.setServletSecurity(constraint);
+            return target.setServletSecurity(constraint);
         }
 
         @Override
         public void setMultipartConfig(javax.servlet.MultipartConfigElement multipartConfig) {
-            delegate.setMultipartConfig(multipartConfig);
+            target.setMultipartConfig(multipartConfig);
         }
 
         @Override
         public void setMultipartConfig(jakarta.servlet.MultipartConfigElement multipartConfig) {
-            delegate.setMultipartConfig(multipartConfig);
+            target.setMultipartConfig(multipartConfig);
         }
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public String getClassName() {
-            return delegate.getClassName();
+            return target.getClassName();
         }
 
         @Override
         public boolean setInitParameter(String name, String value) {
-            return delegate.setInitParameter(name, value);
+            return target.setInitParameter(name, value);
         }
 
         @Override
         public String getInitParameter(String name) {
-            return delegate.getInitParameter(name);
+            return target.getInitParameter(name);
         }
 
         @Override
         public Set<String> setInitParameters(Map<String, String> initParameters) {
-            return delegate.setInitParameters(initParameters);
+            return target.setInitParameters(initParameters);
         }
 
         @Override
         public Map<String, String> getInitParameters() {
-            return delegate.getInitParameters();
+            return target.getInitParameters();
         }
 
         @Override
         public void setAsyncSupported(boolean isAsyncSupported) {
-            delegate.setAsyncSupported(isAsyncSupported);
+            target.setAsyncSupported(isAsyncSupported);
         }
     }
 
-    final class ServletRequest extends Shim.Delegate<jakarta.servlet.ServletRequest> implements javax.servlet.ServletRequest {
+    final class ServletRequest extends Shim.Facade<jakarta.servlet.ServletRequest> implements javax.servlet.ServletRequest {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletRequest(jakarta.servlet.ServletRequest delegate) {
-            super(delegate);
+        ServletRequest(jakarta.servlet.ServletRequest target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -4234,157 +4234,157 @@ interface Facades {
 
         @Override
         public Object getAttribute(String name) {
-            return delegate.getAttribute(name);
+            return target.getAttribute(name);
         }
 
         @Override
         public Enumeration<String> getAttributeNames() {
-            return delegate.getAttributeNames();
+            return target.getAttributeNames();
         }
 
         @Override
         public String getCharacterEncoding() {
-            return delegate.getCharacterEncoding();
+            return target.getCharacterEncoding();
         }
 
         @Override
         public void setCharacterEncoding(String encoding) throws UnsupportedEncodingException {
-            delegate.setCharacterEncoding(encoding);
+            target.setCharacterEncoding(encoding);
         }
 
         @Override
         public int getContentLength() {
-            return delegate.getContentLength();
+            return target.getContentLength();
         }
 
         @Override
         public long getContentLengthLong() {
-            return delegate.getContentLengthLong();
+            return target.getContentLengthLong();
         }
 
         @Override
         public String getContentType() {
-            return delegate.getContentType();
+            return target.getContentType();
         }
 
         @Override
         public javax.servlet.ServletInputStream getInputStream() throws IOException {
-            return ServletShim.of(delegate.getInputStream());
+            return ServletShim.of(target.getInputStream());
         }
 
         @Override
         public String getParameter(String name) {
-            return delegate.getParameter(name);
+            return target.getParameter(name);
         }
 
         @Override
         public Enumeration<String> getParameterNames() {
-            return delegate.getParameterNames();
+            return target.getParameterNames();
         }
 
         @Override
         public String[] getParameterValues(String name) {
-            return delegate.getParameterValues(name);
+            return target.getParameterValues(name);
         }
 
         @Override
         public Map<String, String[]> getParameterMap() {
-            return delegate.getParameterMap();
+            return target.getParameterMap();
         }
 
         @Override
         public String getProtocol() {
-            return delegate.getProtocol();
+            return target.getProtocol();
         }
 
         @Override
         public String getScheme() {
-            return delegate.getScheme();
+            return target.getScheme();
         }
 
         @Override
         public String getServerName() {
-            return delegate.getServerName();
+            return target.getServerName();
         }
 
         @Override
         public int getServerPort() {
-            return delegate.getServerPort();
+            return target.getServerPort();
         }
 
         @Override
         public BufferedReader getReader() throws IOException {
-            return delegate.getReader();
+            return target.getReader();
         }
 
         @Override
         public String getRemoteAddr() {
-            return delegate.getRemoteAddr();
+            return target.getRemoteAddr();
         }
 
         @Override
         public String getRemoteHost() {
-            return delegate.getRemoteHost();
+            return target.getRemoteHost();
         }
 
         @Override
         public void setAttribute(String name, Object o) {
-            delegate.setAttribute(name, o);
+            target.setAttribute(name, o);
         }
 
         @Override
         public void removeAttribute(String name) {
-            delegate.removeAttribute(name);
+            target.removeAttribute(name);
         }
 
         @Override
         public Locale getLocale() {
-            return delegate.getLocale();
+            return target.getLocale();
         }
 
         @Override
         public Enumeration<Locale> getLocales() {
-            return delegate.getLocales();
+            return target.getLocales();
         }
 
         @Override
         public boolean isSecure() {
-            return delegate.isSecure();
+            return target.isSecure();
         }
 
         @Override
         public javax.servlet.RequestDispatcher getRequestDispatcher(String path) {
-            return ServletShim.of(delegate.getRequestDispatcher(path));
+            return ServletShim.of(target.getRequestDispatcher(path));
         }
 
         @Override
         public int getRemotePort() {
-            return delegate.getRemotePort();
+            return target.getRemotePort();
         }
 
         @Override
         public String getLocalName() {
-            return delegate.getLocalName();
+            return target.getLocalName();
         }
 
         @Override
         public String getLocalAddr() {
-            return delegate.getLocalAddr();
+            return target.getLocalAddr();
         }
 
         @Override
         public int getLocalPort() {
-            return delegate.getLocalPort();
+            return target.getLocalPort();
         }
 
         @Override
         public javax.servlet.ServletContext getServletContext() {
-            return ServletShim.of(delegate.getServletContext());
+            return ServletShim.of(target.getServletContext());
         }
 
         @Override
         public javax.servlet.AsyncContext startAsync() throws IllegalStateException {
-            return ServletShim.of(delegate.startAsync());
+            return ServletShim.of(target.startAsync());
         }
 
         @Override
@@ -4392,7 +4392,7 @@ interface Facades {
             javax.servlet.ServletRequest request,
             javax.servlet.ServletResponse response
         ) throws IllegalStateException {
-            return ServletShim.of(delegate.startAsync(request, response));
+            return ServletShim.of(target.startAsync(request, response));
         }
 
         @Override
@@ -4400,55 +4400,55 @@ interface Facades {
             jakarta.servlet.ServletRequest request,
             jakarta.servlet.ServletResponse response
         ) throws IllegalStateException {
-            return ServletShim.of(delegate.startAsync(request, response));
+            return ServletShim.of(target.startAsync(request, response));
         }
 
         @Override
         public boolean isAsyncStarted() {
-            return delegate.isAsyncStarted();
+            return target.isAsyncStarted();
         }
 
         @Override
         public boolean isAsyncSupported() {
-            return delegate.isAsyncSupported();
+            return target.isAsyncSupported();
         }
 
         @Override
         public javax.servlet.AsyncContext getAsyncContext() {
-            return ServletShim.of(delegate.getAsyncContext());
+            return ServletShim.of(target.getAsyncContext());
         }
 
         @Override
         public javax.servlet.DispatcherType getDispatcherType() {
-            return ServletShim.of(delegate.getDispatcherType());
+            return ServletShim.of(target.getDispatcherType());
         }
 
         @Override
         public String getRequestId() {
-            return delegate.getRequestId();
+            return target.getRequestId();
         }
 
         @Override
         public String getProtocolRequestId() {
-            return delegate.getProtocolRequestId();
+            return target.getProtocolRequestId();
         }
 
         @Override
         public javax.servlet.ServletConnection getServletConnection() {
-            return ServletShim.of(delegate.getServletConnection());
+            return ServletShim.of(target.getServletConnection());
         }
     }
 
     final class ServletRequestWrapper extends javax.servlet.ServletRequestWrapper {
-        private final jakarta.servlet.ServletRequestWrapper delegate;
+        private final jakarta.servlet.ServletRequestWrapper target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletRequestWrapper(jakarta.servlet.ServletRequestWrapper delegate) {
-            super(new ServletRequest(delegate));
-            this.delegate = delegate;
+        ServletRequestWrapper(jakarta.servlet.ServletRequestWrapper target) {
+            super(new ServletRequest(target));
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -4457,32 +4457,32 @@ interface Facades {
 
         @Override
         public javax.servlet.ServletRequest getRequest() {
-            return ServletShim.of(delegate.getRequest());
+            return ServletShim.of(target.getRequest());
         }
 
         @Override
         public void setRequest(jakarta.servlet.ServletRequest request) {
-            delegate.setRequest(request);
+            target.setRequest(request);
         }
 
         @Override
         public boolean isWrapperFor(jakarta.servlet.ServletRequest wrapped) {
-            return delegate.isWrapperFor(wrapped);
+            return target.isWrapperFor(wrapped);
         }
 
         @Override
         public boolean isWrapperFor(Class<?> wrappedType) {
-            return delegate.isWrapperFor(wrappedType);
+            return target.isWrapperFor(wrappedType);
         }
     }
 
-    final class ServletResponse extends Shim.Delegate<jakarta.servlet.ServletResponse> implements javax.servlet.ServletResponse {
+    final class ServletResponse extends Shim.Facade<jakarta.servlet.ServletResponse> implements javax.servlet.ServletResponse {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletResponse(jakarta.servlet.ServletResponse delegate) {
-            super(delegate);
+        ServletResponse(jakarta.servlet.ServletResponse target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -4491,95 +4491,95 @@ interface Facades {
 
         @Override
         public String getCharacterEncoding() {
-            return delegate.getCharacterEncoding();
+            return target.getCharacterEncoding();
         }
 
         @Override
         public String getContentType() {
-            return delegate.getContentType();
+            return target.getContentType();
         }
 
         @Override
         public javax.servlet.ServletOutputStream getOutputStream() throws IOException {
-            return ServletShim.of(delegate.getOutputStream());
+            return ServletShim.of(target.getOutputStream());
         }
 
         @Override
         public PrintWriter getWriter() throws IOException {
-            return delegate.getWriter();
+            return target.getWriter();
         }
 
         @Override
         public void setCharacterEncoding(String charset) {
-            delegate.setCharacterEncoding(charset);
+            target.setCharacterEncoding(charset);
         }
 
         @Override
         public void setContentLength(int len) {
-            delegate.setContentLength(len);
+            target.setContentLength(len);
         }
 
         @Override
         public void setContentLengthLong(long len) {
-            delegate.setContentLengthLong(len);
+            target.setContentLengthLong(len);
         }
 
         @Override
         public void setContentType(String type) {
-            delegate.setContentType(type);
+            target.setContentType(type);
         }
 
         @Override
         public void setBufferSize(int size) {
-            delegate.setBufferSize(size);
+            target.setBufferSize(size);
         }
 
         @Override
         public int getBufferSize() {
-            return delegate.getBufferSize();
+            return target.getBufferSize();
         }
 
         @Override
         public void flushBuffer() throws IOException {
-            delegate.flushBuffer();
+            target.flushBuffer();
         }
 
         @Override
         public void resetBuffer() {
-            delegate.resetBuffer();
+            target.resetBuffer();
         }
 
         @Override
         public boolean isCommitted() {
-            return delegate.isCommitted();
+            return target.isCommitted();
         }
 
         @Override
         public void reset() {
-            delegate.reset();
+            target.reset();
         }
 
         @Override
         public void setLocale(Locale loc) {
-            delegate.setLocale(loc);
+            target.setLocale(loc);
         }
 
         @Override
         public Locale getLocale() {
-            return delegate.getLocale();
+            return target.getLocale();
         }
     }
 
     final class ServletResponseWrapper extends javax.servlet.ServletResponseWrapper {
-        private final jakarta.servlet.ServletResponseWrapper delegate;
+        private final jakarta.servlet.ServletResponseWrapper target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletResponseWrapper(jakarta.servlet.ServletResponseWrapper delegate) {
-            super(new ServletResponse(delegate));
-            this.delegate = delegate;
+        ServletResponseWrapper(jakarta.servlet.ServletResponseWrapper target) {
+            super(new ServletResponse(target));
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -4588,20 +4588,20 @@ interface Facades {
 
         @Override
         public javax.servlet.ServletResponse getResponse() {
-            return ServletShim.of(delegate.getResponse());
+            return ServletShim.of(target.getResponse());
         }
     }
 
     final class ServletSecurityElement extends javax.servlet.ServletSecurityElement {
-        private final jakarta.servlet.ServletSecurityElement delegate;
+        private final jakarta.servlet.ServletSecurityElement target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletSecurityElement(jakarta.servlet.ServletSecurityElement delegate) {
-            super(delegate);
-            this.delegate = delegate;
+        ServletSecurityElement(jakarta.servlet.ServletSecurityElement target) {
+            super(target);
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -4611,38 +4611,38 @@ interface Facades {
         @Override
         public Collection<javax.servlet.HttpMethodConstraintElement> getHttpMethodConstraints() {
             return ServletShim
-                .<javax.servlet.HttpMethodConstraintElement>of(delegate.getHttpMethodConstraints())
+                .<javax.servlet.HttpMethodConstraintElement>of(target.getHttpMethodConstraints())
                 .collect(Collectors.toList());
         }
 
         @Override
         public Collection<String> getMethodNames() {
-            return delegate.getMethodNames();
+            return target.getMethodNames();
         }
 
         @Override
         public jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic getEmptyRoleSemantic() {
-            return delegate.getEmptyRoleSemantic();
+            return target.getEmptyRoleSemantic();
         }
 
         @Override
         public jakarta.servlet.annotation.ServletSecurity.TransportGuarantee getTransportGuarantee() {
-            return delegate.getTransportGuarantee();
+            return target.getTransportGuarantee();
         }
 
         @Override
         public String[] getRolesAllowed() {
-            return delegate.getRolesAllowed();
+            return target.getRolesAllowed();
         }
     }
 
-    final class SessionCookieConfig extends Shim.Delegate<jakarta.servlet.SessionCookieConfig> implements javax.servlet.SessionCookieConfig {
+    final class SessionCookieConfig extends Shim.Facade<jakarta.servlet.SessionCookieConfig> implements javax.servlet.SessionCookieConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        SessionCookieConfig(jakarta.servlet.SessionCookieConfig delegate) {
-            super(delegate);
+        SessionCookieConfig(jakarta.servlet.SessionCookieConfig target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -4651,102 +4651,102 @@ interface Facades {
 
         @Override
         public void setName(String name) {
-            delegate.setName(name);
+            target.setName(name);
         }
 
         @Override
         public String getName() {
-            return delegate.getName();
+            return target.getName();
         }
 
         @Override
         public void setDomain(String domain) {
-            delegate.setDomain(domain);
+            target.setDomain(domain);
         }
 
         @Override
         public String getDomain() {
-            return delegate.getDomain();
+            return target.getDomain();
         }
 
         @Override
         public void setPath(String path) {
-            delegate.setPath(path);
+            target.setPath(path);
         }
 
         @Override
         public String getPath() {
-            return delegate.getPath();
+            return target.getPath();
         }
 
         @Override
         @SuppressWarnings("removal")
         public void setComment(String comment) {
-            delegate.setComment(comment);
+            target.setComment(comment);
         }
 
         @Override
         @SuppressWarnings("removal")
         public String getComment() {
-            return delegate.getComment();
+            return target.getComment();
         }
 
         @Override
         public void setHttpOnly(boolean httpOnly) {
-            delegate.setHttpOnly(httpOnly);
+            target.setHttpOnly(httpOnly);
         }
 
         @Override
         public boolean isHttpOnly() {
-            return delegate.isHttpOnly();
+            return target.isHttpOnly();
         }
 
         @Override
         public void setSecure(boolean secure) {
-            delegate.setSecure(secure);
+            target.setSecure(secure);
         }
 
         @Override
         public boolean isSecure() {
-            return delegate.isSecure();
+            return target.isSecure();
         }
 
         @Override
         public void setMaxAge(int maxAge) {
-            delegate.setMaxAge(maxAge);
+            target.setMaxAge(maxAge);
         }
 
         @Override
         public int getMaxAge() {
-            return delegate.getMaxAge();
+            return target.getMaxAge();
         }
 
         @Override
         public void setAttribute(String name, String value) {
-            delegate.setAttribute(name, value);
+            target.setAttribute(name, value);
         }
 
         @Override
         public String getAttribute(String name) {
-            return delegate.getAttribute(name);
+            return target.getAttribute(name);
         }
 
         @Override
         public Map<String, String> getAttributes() {
-            return delegate.getAttributes();
+            return target.getAttributes();
         }
     }
 
     final class UnavailableException extends javax.servlet.UnavailableException {
-        private final jakarta.servlet.UnavailableException delegate;
+        private final jakarta.servlet.UnavailableException target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        UnavailableException(jakarta.servlet.UnavailableException delegate) {
-            super(delegate.getMessage(), delegate.getUnavailableSeconds());
-            this.delegate = delegate;
+        UnavailableException(jakarta.servlet.UnavailableException target) {
+            super(target.getMessage(), target.getUnavailableSeconds());
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -4755,82 +4755,82 @@ interface Facades {
 
         @Override
         public boolean isPermanent() {
-            return delegate.isPermanent();
+            return target.isPermanent();
         }
 
         @Override
         public int getUnavailableSeconds() {
-            return delegate.getUnavailableSeconds();
+            return target.getUnavailableSeconds();
         }
 
         @Override
         public Throwable getRootCause() {
-            return delegate.getRootCause();
+            return target.getRootCause();
         }
 
         @Override
         public String getMessage() {
-            return delegate.getMessage();
+            return target.getMessage();
         }
 
         @Override
         public String getLocalizedMessage() {
-            return delegate.getLocalizedMessage();
+            return target.getLocalizedMessage();
         }
 
         @Override
         public Throwable getCause() {
-            return delegate.getCause();
+            return target.getCause();
         }
 
         @Override
         public Throwable initCause(Throwable cause) {
-            return delegate.initCause(cause);
+            return target.initCause(cause);
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
 
         @Override
         public void printStackTrace() {
-            delegate.printStackTrace();
+            target.printStackTrace();
         }
 
         @Override
         public void printStackTrace(PrintStream s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public void printStackTrace(PrintWriter s) {
-            delegate.printStackTrace(s);
+            target.printStackTrace(s);
         }
 
         @Override
         public Throwable fillInStackTrace() {
-            return delegate.fillInStackTrace();
+            return target.fillInStackTrace();
         }
 
         @Override
         public StackTraceElement[] getStackTrace() {
-            return delegate.getStackTrace();
+            return target.getStackTrace();
         }
 
         @Override
         public void setStackTrace(StackTraceElement[] stackTrace) {
-            delegate.setStackTrace(stackTrace);
+            target.setStackTrace(stackTrace);
         }
     }
 
-    final class WebConnection extends Shim.Delegate<jakarta.servlet.http.WebConnection> implements javax.servlet.http.WebConnection {
+    final class WebConnection extends Shim.Facade<jakarta.servlet.http.WebConnection> implements javax.servlet.http.WebConnection {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        WebConnection(jakarta.servlet.http.WebConnection delegate) {
-            super(delegate);
+        WebConnection(jakarta.servlet.http.WebConnection target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -4839,27 +4839,27 @@ interface Facades {
 
         @Override
         public javax.servlet.ServletInputStream getInputStream() throws IOException {
-            return ServletShim.of(delegate.getInputStream());
+            return ServletShim.of(target.getInputStream());
         }
 
         @Override
         public javax.servlet.ServletOutputStream getOutputStream() throws IOException {
-            return ServletShim.of(delegate.getOutputStream());
+            return ServletShim.of(target.getOutputStream());
         }
 
         @Override
         public void close() throws Exception {
-            delegate.close();
+            target.close();
         }
     }
 
-    final class WriteListener extends Shim.Delegate<jakarta.servlet.WriteListener> implements javax.servlet.WriteListener {
+    final class WriteListener extends Shim.Facade<jakarta.servlet.WriteListener> implements javax.servlet.WriteListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        WriteListener(jakarta.servlet.WriteListener delegate) {
-            super(delegate);
+        WriteListener(jakarta.servlet.WriteListener target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -4868,12 +4868,12 @@ interface Facades {
 
         @Override
         public void onWritePossible() throws IOException {
-            delegate.onWritePossible();
+            target.onWritePossible();
         }
 
         @Override
         public void onError(Throwable cause) {
-            delegate.onError(cause);
+            target.onError(cause);
         }
     }
 }

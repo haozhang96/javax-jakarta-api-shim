@@ -18,83 +18,83 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
-    final class AroundConstruct extends Shim.Delegate.Annotation<jakarta.interceptor.AroundConstruct> implements javax.interceptor.AroundConstruct, InterceptorShim {
+    final class AroundConstruct extends Shim.Facade.Annotation<jakarta.interceptor.AroundConstruct> implements javax.interceptor.AroundConstruct, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        AroundConstruct(jakarta.interceptor.AroundConstruct delegate) {
-            super(delegate);
+        AroundConstruct(jakarta.interceptor.AroundConstruct target) {
+            super(target);
         }
     }
 
-    final class AroundInvoke extends Shim.Delegate.Annotation<jakarta.interceptor.AroundInvoke> implements javax.interceptor.AroundInvoke, InterceptorShim {
+    final class AroundInvoke extends Shim.Facade.Annotation<jakarta.interceptor.AroundInvoke> implements javax.interceptor.AroundInvoke, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        AroundInvoke(jakarta.interceptor.AroundInvoke delegate) {
-            super(delegate);
+        AroundInvoke(jakarta.interceptor.AroundInvoke target) {
+            super(target);
         }
     }
 
-    final class AroundTimeout extends Shim.Delegate.Annotation<jakarta.interceptor.AroundTimeout> implements javax.interceptor.AroundTimeout, InterceptorShim {
+    final class AroundTimeout extends Shim.Facade.Annotation<jakarta.interceptor.AroundTimeout> implements javax.interceptor.AroundTimeout, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        AroundTimeout(jakarta.interceptor.AroundTimeout delegate) {
-            super(delegate);
+        AroundTimeout(jakarta.interceptor.AroundTimeout target) {
+            super(target);
         }
     }
 
-    final class ExcludeClassInterceptors extends Shim.Delegate.Annotation<jakarta.interceptor.ExcludeClassInterceptors> implements javax.interceptor.ExcludeClassInterceptors, InterceptorShim {
+    final class ExcludeClassInterceptors extends Shim.Facade.Annotation<jakarta.interceptor.ExcludeClassInterceptors> implements javax.interceptor.ExcludeClassInterceptors, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ExcludeClassInterceptors(jakarta.interceptor.ExcludeClassInterceptors delegate) {
-            super(delegate);
+        ExcludeClassInterceptors(jakarta.interceptor.ExcludeClassInterceptors target) {
+            super(target);
         }
     }
 
-    final class ExcludeDefaultInterceptors extends Shim.Delegate.Annotation<jakarta.interceptor.ExcludeDefaultInterceptors> implements javax.interceptor.ExcludeDefaultInterceptors, InterceptorShim {
+    final class ExcludeDefaultInterceptors extends Shim.Facade.Annotation<jakarta.interceptor.ExcludeDefaultInterceptors> implements javax.interceptor.ExcludeDefaultInterceptors, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ExcludeDefaultInterceptors(jakarta.interceptor.ExcludeDefaultInterceptors delegate) {
-            super(delegate);
+        ExcludeDefaultInterceptors(jakarta.interceptor.ExcludeDefaultInterceptors target) {
+            super(target);
         }
     }
 
-    final class Interceptor extends Shim.Delegate.Annotation<jakarta.interceptor.Interceptor> implements javax.interceptor.Interceptor, InterceptorShim {
+    final class Interceptor extends Shim.Facade.Annotation<jakarta.interceptor.Interceptor> implements javax.interceptor.Interceptor, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Interceptor(jakarta.interceptor.Interceptor delegate) {
-            super(delegate);
+        Interceptor(jakarta.interceptor.Interceptor target) {
+            super(target);
         }
     }
 
-    final class InterceptorBinding extends Shim.Delegate.Annotation<jakarta.interceptor.InterceptorBinding> implements javax.interceptor.InterceptorBinding, InterceptorShim {
+    final class InterceptorBinding extends Shim.Facade.Annotation<jakarta.interceptor.InterceptorBinding> implements javax.interceptor.InterceptorBinding, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        InterceptorBinding(jakarta.interceptor.InterceptorBinding delegate) {
-            super(delegate);
+        InterceptorBinding(jakarta.interceptor.InterceptorBinding target) {
+            super(target);
         }
     }
 
-    final class Interceptors extends Shim.Delegate.Annotation<jakarta.interceptor.Interceptors> implements javax.interceptor.Interceptors, InterceptorShim {
+    final class Interceptors extends Shim.Facade.Annotation<jakarta.interceptor.Interceptors> implements javax.interceptor.Interceptors, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Interceptors(jakarta.interceptor.Interceptors delegate) {
-            super(delegate);
+        Interceptors(jakarta.interceptor.Interceptors target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -103,7 +103,7 @@ interface Facades {
 
         @Override
         public Class<?>[] value() {
-            return delegate.value();
+            return target.value();
         }
     }
 
@@ -112,14 +112,14 @@ interface Facades {
     //==================================================================================================================
 
     final class Interceptor$Priority extends javax.interceptor.Interceptor.Priority {
-        private final jakarta.interceptor.Interceptor.Priority delegate;
+        private final jakarta.interceptor.Interceptor.Priority target;
 
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        Interceptor$Priority(jakarta.interceptor.Interceptor.Priority delegate) {
-            this.delegate = delegate;
+        Interceptor$Priority(jakarta.interceptor.Interceptor.Priority target) {
+            this.target = target;
         }
 
         //==============================================================================================================
@@ -128,27 +128,27 @@ interface Facades {
 
         @Override
         public boolean equals(Object other) {
-            return delegate.equals(other);
+            return target.equals(other);
         }
 
         @Override
         public int hashCode() {
-            return delegate.hashCode();
+            return target.hashCode();
         }
 
         @Override
         public String toString() {
-            return delegate.toString();
+            return target.toString();
         }
     }
 
-    final class InvocationContext extends Shim.Delegate<jakarta.interceptor.InvocationContext> implements javax.interceptor.InvocationContext {
+    final class InvocationContext extends Shim.Facade<jakarta.interceptor.InvocationContext> implements javax.interceptor.InvocationContext {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        InvocationContext(jakarta.interceptor.InvocationContext delegate) {
-            super(delegate);
+        InvocationContext(jakarta.interceptor.InvocationContext target) {
+            super(target);
         }
 
         //==============================================================================================================
@@ -157,42 +157,42 @@ interface Facades {
 
         @Override
         public Object getTarget() {
-            return delegate.getTarget();
+            return target.getTarget();
         }
 
         @Override
         public Object getTimer() {
-            return delegate.getTimer();
+            return target.getTimer();
         }
 
         @Override
         public Method getMethod() {
-            return delegate.getMethod();
+            return target.getMethod();
         }
 
         @Override
         public Constructor<?> getConstructor() {
-            return delegate.getConstructor();
+            return target.getConstructor();
         }
 
         @Override
         public Object[] getParameters() {
-            return delegate.getParameters();
+            return target.getParameters();
         }
 
         @Override
         public void setParameters(Object[] parameters) {
-            delegate.setParameters(parameters);
+            target.setParameters(parameters);
         }
 
         @Override
         public Map<String, Object> getContextData() {
-            return delegate.getContextData();
+            return target.getContextData();
         }
 
         @Override
         public Object proceed() throws Exception {
-            return delegate.proceed();
+            return target.proceed();
         }
     }
 }
