@@ -22,4 +22,12 @@ public abstract class ContainerProvider extends jakarta.websocket.ContainerProvi
 
     @Override
     protected abstract WebSocketContainer getContainer();
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        WebSocketShim.initialize();
+    }
 }

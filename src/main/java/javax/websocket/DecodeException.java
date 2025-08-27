@@ -40,4 +40,12 @@ public class DecodeException extends jakarta.websocket.DecodeException implement
     public DecodeException(ByteBuffer bytes, String message, Throwable cause) {
         super(bytes, message, cause);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        WebSocketShim.initialize();
+    }
 }

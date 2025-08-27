@@ -31,4 +31,12 @@ public class SystemException extends jakarta.transaction.SystemException impleme
     public SystemException(int errorCode) {
         super(errorCode);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        TransactionShim.initialize();
+    }
 }

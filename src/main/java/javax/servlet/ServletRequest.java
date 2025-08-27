@@ -48,8 +48,8 @@ public interface ServletRequest extends jakarta.servlet.ServletRequest, ServletS
         return startAsync(ServletShim.of(request), ServletShim.of(response));
     }
 
-    @Override
-    DispatcherType getDispatcherType();
+//    @Override
+//    DispatcherType getDispatcherType();
 
     @Override
     AsyncContext getAsyncContext();

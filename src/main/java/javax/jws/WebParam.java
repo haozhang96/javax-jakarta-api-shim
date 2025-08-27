@@ -31,7 +31,7 @@ public @interface WebParam {
      * @deprecated Use {@link jakarta.jws.WebParam.Mode} instead.
      */
     @Deprecated(since = "jakarta.jws.WebParam.Mode")
-    enum Mode implements JWSShim { IN, OUT, INOUT }
+    enum Mode implements JWSShim.Enum<jakarta.jws.WebParam.Mode> { IN, OUT, INOUT }
 
     /**
      * @see jakarta.jws.WebParam#mode()

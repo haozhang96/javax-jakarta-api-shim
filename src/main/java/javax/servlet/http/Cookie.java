@@ -16,4 +16,12 @@ public class Cookie extends jakarta.servlet.http.Cookie implements ServletShim {
     public Cookie(String name, String value) {
         super(name, value);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
+    }
 }

@@ -22,4 +22,12 @@ public abstract class ServletInputStream extends jakarta.servlet.ServletInputStr
     public void setReadListener(jakarta.servlet.ReadListener readListener) {
         setReadListener(ServletShim.of(readListener));
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
+    }
 }

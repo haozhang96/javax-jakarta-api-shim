@@ -1,13 +1,11 @@
 package javax.websocket;
 
-import javax.Shim;
-
 /**
  * @deprecated Use {@link jakarta.websocket.SendResult} instead.
  * @apiNote This class cannot extend {@link jakarta.websocket.SendResult} due to it being a final class.
  */
 @Deprecated(since = "jakarta.websocket.SendResult")
-public class SendResult extends Shim.Facade<jakarta.websocket.SendResult> implements WebSocketShim {
+public class SendResult extends WebSocketShim.Facade<jakarta.websocket.SendResult> implements WebSocketShim {
     //==================================================================================================================
     // Constructors
     //==================================================================================================================
@@ -54,5 +52,13 @@ public class SendResult extends Shim.Facade<jakarta.websocket.SendResult> implem
 
     jakarta.websocket.SendResult getTarget() {
         return target;
+    }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        WebSocketShim.initialize();
     }
 }

@@ -1,8 +1,8 @@
 package javax.servlet;
 
-import javax.Shim;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.http.MappingMatch;
+import javax.shim.Shim;
 import java.lang.annotation.Annotation;
 import java.util.EventListener;
 import java.util.EventObject;
@@ -14,11 +14,19 @@ import java.util.stream.Stream;
 @Deprecated(since = "jakarta.servlet")
 public interface ServletShim extends Shim {
     //==================================================================================================================
+    // Helper Methods
+    //==================================================================================================================
+
+    static void initialize() {
+        Shim.initialize();
+    }
+
+    //==================================================================================================================
     // Factory Methods
     //==================================================================================================================
 
     @SuppressWarnings("rawtypes")
-    static <S> S of(Object object) {
+    static <S extends ServletShim> S of(Object object) {
         //==============================================================================================================
         // Specializations
         //==============================================================================================================
@@ -27,8 +35,8 @@ public interface ServletShim extends Shim {
             return S(object);
         } else if (object instanceof jakarta.servlet.ServletException) {
             return S(of((jakarta.servlet.ServletException) object));
-        } else if (object instanceof Enum<?>) {
-            return S(of((Enum) object));
+        } else if (object instanceof java.lang.Enum<?>) {
+            return S(of((java.lang.Enum) object));
         } else if (object instanceof Annotation) {
             return S(of((Annotation) object));
         } else if (object instanceof EventListener) {
@@ -156,23 +164,37 @@ public interface ServletShim extends Shim {
         return S(new Facades.ServletException(exception));
     }
 
-    static <S> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
+    static <S extends ServletShim> Stream<S> of(Object... objects) {
+        return Shim.of(ServletShim::of, objects);
+    }
+
+    static <S extends ServletShim> Stream<S> of(Iterable<?> objects) {
+        return Shim.of(ServletShim::of, objects);
+    }
+
+    static <S extends ServletShim & Annotation> Stream<S> of(Annotation... annotations) {
+        return Shim.of(ServletShim::of, annotations);
+    }
+
+    static <S extends ServletShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
         return Shim.of(shimType, interfaceType);
     }
 
-    static <S> Stream<S> of(Object[] objects) {
-        return Shim.of(ServletShim::of, objects);
-    }
+    //==================================================================================================================
+    // Enum-specific Implementation
+    //==================================================================================================================
 
-    static <S> Stream<S> of(Iterable<?> objects) {
-        return Shim.of(ServletShim::of, objects);
-    }
+    /**
+     * @deprecated Use {@link jakarta.servlet} instead.
+     */
+    @Deprecated(since = "jakarta.servlet")
+    interface Enum<E extends java.lang.Enum<E>> extends ServletShim, Shim.Enum<E> { }
 
     //==================================================================================================================
     // Private Helper Methods
     //==================================================================================================================
 
-    private static <S extends Enum<S>> S of(Enum<?> enumeration) {
+    private static <S extends java.lang.Enum<S>> S of(java.lang.Enum<?> enumeration) {
         if (enumeration == null || enumeration instanceof ServletShim) {
             return S(enumeration);
         } else if (enumeration instanceof jakarta.servlet.DispatcherType) {

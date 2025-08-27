@@ -17,7 +17,7 @@ public @interface SOAPBinding {
      * @deprecated Use {@link jakarta.jws.soap.SOAPBinding.Style} instead.
      */
     @Deprecated(since = "jakarta.jws.soap.SOAPBinding.Style")
-    enum Style implements JWSShim { DOCUMENT, RPC }
+    enum Style implements JWSShim.Enum<jakarta.jws.soap.SOAPBinding.Style> { DOCUMENT, RPC }
 
     /**
      * @see jakarta.jws.soap.SOAPBinding#style()
@@ -28,7 +28,7 @@ public @interface SOAPBinding {
      * @deprecated Use {@link jakarta.jws.soap.SOAPBinding.Use} instead.
      */
     @Deprecated(since = "jakarta.jws.soap.SOAPBinding.Use")
-    enum Use implements JWSShim { LITERAL, ENCODED }
+    enum Use implements JWSShim.Enum<jakarta.jws.soap.SOAPBinding.Use> { LITERAL, ENCODED }
 
     /**
      * @see jakarta.jws.soap.SOAPBinding#use()
@@ -39,7 +39,7 @@ public @interface SOAPBinding {
      * @deprecated Use {@link jakarta.jws.soap.SOAPBinding.ParameterStyle} instead.
      */
     @Deprecated(since = "jakarta.jws.soap.SOAPBinding.ParameterStyle")
-    enum ParameterStyle implements JWSShim { BARE, WRAPPED }
+    enum ParameterStyle implements JWSShim.Enum<jakarta.jws.soap.SOAPBinding.ParameterStyle> { BARE, WRAPPED }
 
     /**
      * @see jakarta.jws.soap.SOAPBinding#parameterStyle()

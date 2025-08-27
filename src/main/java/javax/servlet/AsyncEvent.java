@@ -55,4 +55,12 @@ public class AsyncEvent extends jakarta.servlet.AsyncEvent implements ServletShi
     public ServletResponse getSuppliedResponse() {
         return ServletShim.of(super.getSuppliedResponse());
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
+    }
 }

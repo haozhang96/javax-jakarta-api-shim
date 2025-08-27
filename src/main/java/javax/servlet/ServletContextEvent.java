@@ -26,4 +26,12 @@ public class ServletContextEvent extends jakarta.servlet.ServletContextEvent imp
     public ServletContext getServletContext() {
         return ServletShim.of(super.getServletContext());
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
+    }
 }

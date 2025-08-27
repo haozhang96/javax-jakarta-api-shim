@@ -24,4 +24,12 @@ public class EncodeException extends jakarta.websocket.EncodeException implement
     public EncodeException(Object object, String message, Throwable cause) {
         super(object, message, cause);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        WebSocketShim.initialize();
+    }
 }

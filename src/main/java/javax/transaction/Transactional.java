@@ -16,7 +16,7 @@ public @interface Transactional {
      * @deprecated Use {@link jakarta.transaction.Transactional.TxType} instead.
      */
     @Deprecated(since = "jakarta.transaction.Transactional.TxType")
-    enum TxType implements TransactionShim {
+    enum TxType implements TransactionShim.Enum<jakarta.transaction.Transactional.TxType> {
         /**
          * @see jakarta.transaction.Transactional.TxType#REQUIRED
          */

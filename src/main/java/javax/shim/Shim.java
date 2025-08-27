@@ -1,14 +1,16 @@
-package javax;
+package javax.shim;
 
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.lang.ref.Reference;
 import java.lang.reflect.Proxy;
-import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * @deprecated Use {@link jakarta} instead.
@@ -32,28 +34,78 @@ public interface Shim {
     // Helper Methods
     //==================================================================================================================
 
-    static <S> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
+    static void initialize() {
+        Reference.reachabilityFence(ShimSupport.STACK_WALKER); // Initialize the class.
+    }
+
+    static <S extends Shim> Stream<S> of(Function<Object, ? extends S> shim, Object... objects) {
+        return objects != null ? Stream.of(objects).map(shim) : Stream.empty();
+    }
+
+    static <S extends Shim> Stream<S> of(Function<Object, ? extends S> shim, Iterable<?> objects) {
+        return objects != null ? ShimSupport.stream(objects).map(shim) : Stream.empty();
+    }
+
+    static <S extends Shim & Annotation> Stream<S> of(Function<Object, ? extends S> shim, Annotation... annotations) {
+        return annotations != null ? Stream.of(annotations).map(shim) : Stream.empty();
+    }
+
+    static <S extends Shim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
         if (shimType.isAssignableFrom(interfaceType)) {
             return interfaceType.asSubclass(shimType);
         }
 
         return Proxy
-            .getProxyClass(MethodHandles.lookup().lookupClass().getClassLoader(), shimType, interfaceType)
+            .getProxyClass(ShimSupport.STACK_WALKER.getCallerClass().getClassLoader(), shimType, interfaceType)
             .asSubclass(shimType);
     }
 
-    static <S> Stream<S> of(Function<Object, ? extends S> shimFactory, Object[] objects) {
-        return Stream
-            .of(objects)
-            .map(shimFactory);
-    }
+    //==================================================================================================================
+    // Enum-specific Implementation
+    //==================================================================================================================
 
-    static <S> Stream<S> of(Function<Object, ? extends S> shimFactory, Iterable<?> objects) {
-        final var stream =
-            objects instanceof Collection<?>
-                ? ((Collection<?>) objects).stream()
-                : StreamSupport.stream(objects.spliterator(), false);
-        return stream.map(shimFactory);
+    /**
+     * @deprecated Use {@link jakarta} instead.
+     */
+    @Deprecated(since = "jakarta")
+    interface Enum<E extends java.lang.Enum<E>> extends Shim, Serializable {
+        //==============================================================================================================
+        // Helper Methods
+        //==============================================================================================================
+
+        static <E extends java.lang.Enum<E>> EnumSet<E> toJakarta(Class<E> type, Iterable<? extends Enum<E>> values) {
+            return ShimSupport
+                .stream(values)
+                .map(Enum::toJakarta)
+                .collect(Collectors.toCollection(() -> EnumSet.noneOf(type)));
+        }
+
+        //==============================================================================================================
+        // Implementation Methods
+        //==============================================================================================================
+
+        default E toJakarta() {
+            return java.lang.Enum.valueOf(ShimSupport.<E>toJakarta(getDeclaringClass()), name());
+        }
+
+        //==============================================================================================================
+        // Enum Implementation Methods
+        //==============================================================================================================
+
+        /**
+         * @see java.lang.Enum#name()
+         */
+        String name();
+
+        /**
+         * @see java.lang.Enum#ordinal()
+         */
+        int ordinal();
+
+        /**
+         * @see java.lang.Enum#getDeclaringClass()
+         */
+        Class<? extends java.lang.Enum<?>> getDeclaringClass();
     }
 
     //==================================================================================================================
@@ -65,8 +117,6 @@ public interface Shim {
      */
     @Deprecated(since = "jakarta")
     abstract class Facade<T> implements Shim, Serializable, Cloneable {
-        private static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
-
         protected final T target; // Conditionally serializable
 
         //==============================================================================================================
@@ -74,8 +124,8 @@ public interface Shim {
         //==============================================================================================================
 
         protected Facade(T target) {
-            this.target = Objects.requireNonNull(target);
-            logEntryPoint();
+            this.target = ShimSupport.proxy(this, Objects.requireNonNull(target));
+            ShimSupport.logEntryPoint(getClass(), target);
         }
 
         //==============================================================================================================
@@ -100,12 +150,25 @@ public interface Shim {
 
         @Override
         @SuppressWarnings("unchecked")
-        protected final Facade<T> clone() {
+        public final Facade<T> clone() {
             try {
                 return getClass().cast(super.clone());
             } catch (CloneNotSupportedException exception) {
                 // This should never happen since we implement Cloneable.
                 throw new InternalError(exception);
+            }
+        }
+
+        @Override
+        @SuppressWarnings("deprecation")
+        protected final void finalize() throws Throwable {
+            try {
+                MethodHandles
+                    .privateLookupIn(target.getClass(), MethodHandles.lookup())
+                    .findVirtual(Object.class, "finalize", MethodType.methodType(void.class))
+                    .invoke(target);
+            } finally {
+                super.finalize();
             }
         }
 
@@ -137,21 +200,11 @@ public interface Shim {
         }
 
         //==============================================================================================================
-        // Private Helper Methods
+        // Static Initialization
         //==============================================================================================================
 
-        private void logEntryPoint() {
-            final var stackTrace =
-                STACK_WALKER.walk(stackFrames ->
-                    stackFrames
-                        .dropWhile(stackFrame -> Shim.class.isAssignableFrom(stackFrame.getDeclaringClass()))
-                        .limit(5L)
-                        .map(StackWalker.StackFrame::toString)
-                        .collect(Collectors.joining(System.lineSeparator() + "\t", System.lineSeparator() + "\t", ""))
-                );
-            System
-                .getLogger(getClass().getName())
-                .log(System.Logger.Level.INFO, "Shimming -> " + target.getClass().getName() + stackTrace);
+        static {
+            initialize();
         }
     }
 }

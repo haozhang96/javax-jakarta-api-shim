@@ -24,4 +24,12 @@ public class TransactionRolledbackException extends jakarta.transaction.Transact
     public TransactionRolledbackException(String message) {
         super(message);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        TransactionShim.initialize();
+    }
 }

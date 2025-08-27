@@ -61,4 +61,12 @@ public abstract class GenericServlet extends jakarta.servlet.GenericServlet impl
     public ServletContext getServletContext() {
         return ServletShim.of(super.getServletContext());
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
+    }
 }

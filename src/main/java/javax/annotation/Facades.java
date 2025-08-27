@@ -1,7 +1,5 @@
 package javax.annotation;
 
-import javax.Shim;
-
 /**
  * This interface contains {@link jakarta.annotation}-to-{@link javax.annotation} facades used for wrapping Jakarta
  *   Annotations objects into their Java Annotations counterparts.
@@ -15,7 +13,7 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
-    final class DataSourceDefinition extends Shim.Facade.Annotation<jakarta.annotation.sql.DataSourceDefinition> implements javax.annotation.sql.DataSourceDefinition, AnnotationShim {
+    final class DataSourceDefinition extends AnnotationShim.Facade.Annotation<jakarta.annotation.sql.DataSourceDefinition> implements javax.annotation.sql.DataSourceDefinition, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -119,7 +117,7 @@ interface Facades {
         }
     }
 
-    final class DataSourceDefinitions extends Shim.Facade.Annotation<jakarta.annotation.sql.DataSourceDefinitions> implements javax.annotation.sql.DataSourceDefinitions, AnnotationShim {
+    final class DataSourceDefinitions extends AnnotationShim.Facade.Annotation<jakarta.annotation.sql.DataSourceDefinitions> implements javax.annotation.sql.DataSourceDefinitions, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -135,12 +133,12 @@ interface Facades {
         @Override
         public javax.annotation.sql.DataSourceDefinition[] value() {
             return AnnotationShim
-                .<javax.annotation.sql.DataSourceDefinition>of(target.value())
+                .of(target.value())
                 .toArray(javax.annotation.sql.DataSourceDefinition[]::new);
         }
     }
 
-    final class DeclareRoles extends Shim.Facade.Annotation<jakarta.annotation.security.DeclareRoles> implements javax.annotation.security.DeclareRoles, AnnotationShim {
+    final class DeclareRoles extends AnnotationShim.Facade.Annotation<jakarta.annotation.security.DeclareRoles> implements javax.annotation.security.DeclareRoles, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -159,7 +157,7 @@ interface Facades {
         }
     }
 
-    final class DenyAll extends Shim.Facade.Annotation<jakarta.annotation.security.DenyAll> implements javax.annotation.security.DenyAll, AnnotationShim {
+    final class DenyAll extends AnnotationShim.Facade.Annotation<jakarta.annotation.security.DenyAll> implements javax.annotation.security.DenyAll, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -169,7 +167,7 @@ interface Facades {
         }
     }
 
-    final class ManagedBean extends Shim.Facade.Annotation<jakarta.annotation.ManagedBean> implements javax.annotation.ManagedBean, AnnotationShim {
+    final class ManagedBean extends AnnotationShim.Facade.Annotation<jakarta.annotation.ManagedBean> implements javax.annotation.ManagedBean, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -188,7 +186,7 @@ interface Facades {
         }
     }
 
-    final class PermitAll extends Shim.Facade.Annotation<jakarta.annotation.security.PermitAll> implements javax.annotation.security.PermitAll, AnnotationShim {
+    final class PermitAll extends AnnotationShim.Facade.Annotation<jakarta.annotation.security.PermitAll> implements javax.annotation.security.PermitAll, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -198,7 +196,7 @@ interface Facades {
         }
     }
 
-    final class PostConstruct extends Shim.Facade.Annotation<jakarta.annotation.PostConstruct> implements javax.annotation.PostConstruct, AnnotationShim {
+    final class PostConstruct extends AnnotationShim.Facade.Annotation<jakarta.annotation.PostConstruct> implements javax.annotation.PostConstruct, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -208,7 +206,7 @@ interface Facades {
         }
     }
 
-    final class PreDestroy extends Shim.Facade.Annotation<jakarta.annotation.PreDestroy> implements javax.annotation.PreDestroy, AnnotationShim {
+    final class PreDestroy extends AnnotationShim.Facade.Annotation<jakarta.annotation.PreDestroy> implements javax.annotation.PreDestroy, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -218,7 +216,7 @@ interface Facades {
         }
     }
 
-    final class Priority extends Shim.Facade.Annotation<jakarta.annotation.Priority> implements javax.annotation.Priority, AnnotationShim {
+    final class Priority extends AnnotationShim.Facade.Annotation<jakarta.annotation.Priority> implements javax.annotation.Priority, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -237,7 +235,7 @@ interface Facades {
         }
     }
 
-    final class Resource extends Shim.Facade.Annotation<jakarta.annotation.Resource> implements javax.annotation.Resource, AnnotationShim {
+    final class Resource extends AnnotationShim.Facade.Annotation<jakarta.annotation.Resource> implements javax.annotation.Resource, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -286,7 +284,7 @@ interface Facades {
         }
     }
 
-    final class Resources extends Shim.Facade.Annotation<jakarta.annotation.Resources> implements javax.annotation.Resources, AnnotationShim {
+    final class Resources extends AnnotationShim.Facade.Annotation<jakarta.annotation.Resources> implements javax.annotation.Resources, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -302,12 +300,12 @@ interface Facades {
         @Override
         public javax.annotation.Resource[] value() {
             return AnnotationShim
-                .<javax.annotation.Resource>of(target.value())
+                .of(target.value())
                 .toArray(javax.annotation.Resource[]::new);
         }
     }
 
-    final class RolesAllowed extends Shim.Facade.Annotation<jakarta.annotation.security.RolesAllowed> implements javax.annotation.security.RolesAllowed, AnnotationShim {
+    final class RolesAllowed extends AnnotationShim.Facade.Annotation<jakarta.annotation.security.RolesAllowed> implements javax.annotation.security.RolesAllowed, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -326,7 +324,7 @@ interface Facades {
         }
     }
 
-    final class RunAs extends Shim.Facade.Annotation<jakarta.annotation.security.RunAs> implements javax.annotation.security.RunAs, AnnotationShim {
+    final class RunAs extends AnnotationShim.Facade.Annotation<jakarta.annotation.security.RunAs> implements javax.annotation.security.RunAs, AnnotationShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================

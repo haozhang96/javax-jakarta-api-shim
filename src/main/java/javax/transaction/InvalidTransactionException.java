@@ -24,4 +24,12 @@ public class InvalidTransactionException extends jakarta.transaction.InvalidTran
     public InvalidTransactionException(String message) {
         super(message);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        TransactionShim.initialize();
+    }
 }

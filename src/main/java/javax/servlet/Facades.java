@@ -1,6 +1,6 @@
 package javax.servlet;
 
-import javax.Shim;
+import javax.shim.Shim;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,7 +9,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * This interface contains {@link jakarta.servlet}-to-{@link javax.servlet} facades used for wrapping Jakarta Servlet
@@ -24,7 +23,7 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
-    final class HandlesTypes extends Shim.Facade.Annotation<jakarta.servlet.annotation.HandlesTypes> implements javax.servlet.annotation.HandlesTypes, ServletShim {
+    final class HandlesTypes extends ServletShim.Facade.Annotation<jakarta.servlet.annotation.HandlesTypes> implements javax.servlet.annotation.HandlesTypes, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -43,7 +42,7 @@ interface Facades {
         }
     }
 
-    final class HttpConstraint extends Shim.Facade.Annotation<jakarta.servlet.annotation.HttpConstraint> implements javax.servlet.annotation.HttpConstraint, ServletShim {
+    final class HttpConstraint extends ServletShim.Facade.Annotation<jakarta.servlet.annotation.HttpConstraint> implements javax.servlet.annotation.HttpConstraint, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -72,7 +71,7 @@ interface Facades {
         }
     }
 
-    final class HttpMethodConstraint extends Shim.Facade.Annotation<jakarta.servlet.annotation.HttpMethodConstraint> implements javax.servlet.annotation.HttpMethodConstraint, ServletShim {
+    final class HttpMethodConstraint extends ServletShim.Facade.Annotation<jakarta.servlet.annotation.HttpMethodConstraint> implements javax.servlet.annotation.HttpMethodConstraint, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -106,7 +105,7 @@ interface Facades {
         }
     }
 
-    final class MultipartConfig extends Shim.Facade.Annotation<jakarta.servlet.annotation.MultipartConfig> implements javax.servlet.annotation.MultipartConfig, ServletShim {
+    final class MultipartConfig extends ServletShim.Facade.Annotation<jakarta.servlet.annotation.MultipartConfig> implements javax.servlet.annotation.MultipartConfig, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -140,7 +139,7 @@ interface Facades {
         }
     }
 
-    final class ServletSecurity extends Shim.Facade.Annotation<jakarta.servlet.annotation.ServletSecurity> implements javax.servlet.annotation.ServletSecurity, ServletShim {
+    final class ServletSecurity extends ServletShim.Facade.Annotation<jakarta.servlet.annotation.ServletSecurity> implements javax.servlet.annotation.ServletSecurity, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -160,14 +159,13 @@ interface Facades {
 
         @Override
         public javax.servlet.annotation.HttpMethodConstraint[] httpMethodConstraints() {
-            return Stream
+            return ServletShim
                 .of(target.httpMethodConstraints())
-                .<javax.servlet.annotation.HttpMethodConstraint>map(ServletShim::of)
                 .toArray(javax.servlet.annotation.HttpMethodConstraint[]::new);
         }
     }
 
-    final class WebFilter extends Shim.Facade.Annotation<jakarta.servlet.annotation.WebFilter> implements javax.servlet.annotation.WebFilter, ServletShim {
+    final class WebFilter extends ServletShim.Facade.Annotation<jakarta.servlet.annotation.WebFilter> implements javax.servlet.annotation.WebFilter, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -192,9 +190,8 @@ interface Facades {
 
         @Override
         public javax.servlet.annotation.WebInitParam[] initParams() {
-            return Stream
+            return ServletShim
                 .of(target.initParams())
-                .<javax.servlet.annotation.WebInitParam>map(ServletShim::of)
                 .toArray(javax.servlet.annotation.WebInitParam[]::new);
         }
 
@@ -231,7 +228,7 @@ interface Facades {
         @Override
         public javax.servlet.DispatcherType[] dispatcherTypes() {
             return ServletShim
-                .<javax.servlet.DispatcherType>of(target.dispatcherTypes())
+                .of(target.dispatcherTypes())
                 .toArray(javax.servlet.DispatcherType[]::new);
         }
 
@@ -241,7 +238,7 @@ interface Facades {
         }
     }
 
-    final class WebInitParam extends Shim.Facade.Annotation<jakarta.servlet.annotation.WebInitParam> implements javax.servlet.annotation.WebInitParam, ServletShim {
+    final class WebInitParam extends ServletShim.Facade.Annotation<jakarta.servlet.annotation.WebInitParam> implements javax.servlet.annotation.WebInitParam, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -270,7 +267,7 @@ interface Facades {
         }
     }
 
-    final class WebListener extends Shim.Facade.Annotation<jakarta.servlet.annotation.WebListener> implements javax.servlet.annotation.WebListener, ServletShim {
+    final class WebListener extends ServletShim.Facade.Annotation<jakarta.servlet.annotation.WebListener> implements javax.servlet.annotation.WebListener, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -289,7 +286,7 @@ interface Facades {
         }
     }
 
-    final class WebServlet extends Shim.Facade.Annotation<jakarta.servlet.annotation.WebServlet> implements javax.servlet.annotation.WebServlet, ServletShim {
+    final class WebServlet extends ServletShim.Facade.Annotation<jakarta.servlet.annotation.WebServlet> implements javax.servlet.annotation.WebServlet, ServletShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -324,9 +321,8 @@ interface Facades {
 
         @Override
         public javax.servlet.annotation.WebInitParam[] initParams() {
-            return Stream
+            return ServletShim
                 .of(target.initParams())
-                .<javax.servlet.annotation.WebInitParam>map(ServletShim::of)
                 .toArray(javax.servlet.annotation.WebInitParam[]::new);
         }
 
@@ -360,7 +356,7 @@ interface Facades {
     // Classes
     //==================================================================================================================
 
-    final class AsyncContext extends Shim.Facade<jakarta.servlet.AsyncContext> implements javax.servlet.AsyncContext {
+    final class AsyncContext extends ServletShim.Facade<jakarta.servlet.AsyncContext> implements javax.servlet.AsyncContext {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -508,7 +504,7 @@ interface Facades {
         }
     }
 
-    final class AsyncListener extends Shim.Facade<jakarta.servlet.AsyncListener> implements javax.servlet.AsyncListener {
+    final class AsyncListener extends ServletShim.Facade<jakarta.servlet.AsyncListener> implements javax.servlet.AsyncListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -700,7 +696,7 @@ interface Facades {
         }
     }
 
-    final class Filter extends Shim.Facade<jakarta.servlet.Filter> implements javax.servlet.Filter {
+    final class Filter extends ServletShim.Facade<jakarta.servlet.Filter> implements javax.servlet.Filter {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -763,7 +759,7 @@ interface Facades {
         }
     }
 
-    final class FilterChain extends Shim.Facade<jakarta.servlet.FilterChain> implements javax.servlet.FilterChain {
+    final class FilterChain extends ServletShim.Facade<jakarta.servlet.FilterChain> implements javax.servlet.FilterChain {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -801,7 +797,7 @@ interface Facades {
         }
     }
 
-    final class FilterConfig extends Shim.Facade<jakarta.servlet.FilterConfig> implements javax.servlet.FilterConfig {
+    final class FilterConfig extends ServletShim.Facade<jakarta.servlet.FilterConfig> implements javax.servlet.FilterConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -835,7 +831,7 @@ interface Facades {
         }
     }
 
-    final class FilterRegistration extends Shim.Facade<jakarta.servlet.FilterRegistration> implements javax.servlet.FilterRegistration {
+    final class FilterRegistration extends ServletShim.Facade<jakarta.servlet.FilterRegistration> implements javax.servlet.FilterRegistration {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -849,13 +845,39 @@ interface Facades {
         //==============================================================================================================
 
         @Override
+        public void addMappingForServletNames(Set dispatcherTypes, boolean isMatchAfter, String... servletNames) {
+            target.addMappingForServletNames(
+                Shim.Enum.toJakarta(jakarta.servlet.DispatcherType.class, dispatcherTypes),
+                isMatchAfter,
+                servletNames
+            );
+        }
+
+        @Override
         public void addMappingForServletNames(EnumSet dispatcherTypes, boolean isMatchAfter, String... servletNames) {
-            target.addMappingForServletNames(dispatcherTypes, isMatchAfter, servletNames);
+            target.addMappingForServletNames(
+                Shim.Enum.toJakarta(jakarta.servlet.DispatcherType.class, dispatcherTypes),
+                isMatchAfter,
+                servletNames
+            );
+        }
+
+        @Override
+        public void addMappingForUrlPatterns(Set dispatcherTypes, boolean isMatchAfter, String... urlPatterns) {
+            target.addMappingForUrlPatterns(
+                Shim.Enum.toJakarta(jakarta.servlet.DispatcherType.class, dispatcherTypes),
+                isMatchAfter,
+                urlPatterns
+            );
         }
 
         @Override
         public void addMappingForUrlPatterns(EnumSet dispatcherTypes, boolean isMatchAfter, String... urlPatterns) {
-            target.addMappingForUrlPatterns(dispatcherTypes, isMatchAfter, urlPatterns);
+            target.addMappingForUrlPatterns(
+                Shim.Enum.toJakarta(jakarta.servlet.DispatcherType.class, dispatcherTypes),
+                isMatchAfter,
+                urlPatterns
+            );
         }
 
         @Override
@@ -899,7 +921,7 @@ interface Facades {
         }
     }
 
-    final class FilterRegistration$Dynamic extends Shim.Facade<jakarta.servlet.FilterRegistration.Dynamic> implements javax.servlet.FilterRegistration.Dynamic {
+    final class FilterRegistration$Dynamic extends ServletShim.Facade<jakarta.servlet.FilterRegistration.Dynamic> implements javax.servlet.FilterRegistration.Dynamic {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -913,13 +935,39 @@ interface Facades {
         //==============================================================================================================
 
         @Override
+        public void addMappingForServletNames(Set dispatcherTypes, boolean isMatchAfter, String... servletNames) {
+            target.addMappingForServletNames(
+                Shim.Enum.toJakarta(jakarta.servlet.DispatcherType.class, dispatcherTypes),
+                isMatchAfter,
+                servletNames
+            );
+        }
+
+        @Override
         public void addMappingForServletNames(EnumSet dispatcherTypes, boolean isMatchAfter, String... servletNames) {
-            target.addMappingForServletNames(dispatcherTypes, isMatchAfter, servletNames);
+            target.addMappingForServletNames(
+                Shim.Enum.toJakarta(jakarta.servlet.DispatcherType.class, dispatcherTypes),
+                isMatchAfter,
+                servletNames
+            );
+        }
+
+        @Override
+        public void addMappingForUrlPatterns(Set dispatcherTypes, boolean isMatchAfter, String... urlPatterns) {
+            target.addMappingForUrlPatterns(
+                Shim.Enum.toJakarta(jakarta.servlet.DispatcherType.class, dispatcherTypes),
+                isMatchAfter,
+                urlPatterns
+            );
         }
 
         @Override
         public void addMappingForUrlPatterns(EnumSet dispatcherTypes, boolean isMatchAfter, String... urlPatterns) {
-            target.addMappingForUrlPatterns(dispatcherTypes, isMatchAfter, urlPatterns);
+            target.addMappingForUrlPatterns(
+                Shim.Enum.toJakarta(jakarta.servlet.DispatcherType.class, dispatcherTypes),
+                isMatchAfter,
+                urlPatterns
+            );
         }
 
         @Override
@@ -1447,7 +1495,7 @@ interface Facades {
         }
     }
 
-    final class HttpServletMapping extends Shim.Facade<jakarta.servlet.http.HttpServletMapping> implements javax.servlet.http.HttpServletMapping {
+    final class HttpServletMapping extends ServletShim.Facade<jakarta.servlet.http.HttpServletMapping> implements javax.servlet.http.HttpServletMapping {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1476,12 +1524,12 @@ interface Facades {
         }
 
         @Override
-        public javax.servlet.http.MappingMatch getMappingMatch() {
-            return ServletShim.of(target.getMappingMatch());
+        public jakarta.servlet.http.MappingMatch getMappingMatch() {
+            return target.getMappingMatch();
         }
     }
 
-    final class HttpServletRequest extends Shim.Facade<jakarta.servlet.http.HttpServletRequest> implements javax.servlet.http.HttpServletRequest {
+    final class HttpServletRequest extends ServletShim.Facade<jakarta.servlet.http.HttpServletRequest> implements javax.servlet.http.HttpServletRequest {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1502,7 +1550,7 @@ interface Facades {
         @Override
         public javax.servlet.http.Cookie[] getCookies() {
             return ServletShim
-                .<javax.servlet.http.Cookie>of(target.getCookies())
+                .of(target.getCookies())
                 .toArray(javax.servlet.http.Cookie[]::new);
         }
 
@@ -1899,8 +1947,8 @@ interface Facades {
         }
 
         @Override
-        public javax.servlet.DispatcherType getDispatcherType() {
-            return ServletShim.of(target.getDispatcherType());
+        public jakarta.servlet.DispatcherType getDispatcherType() {
+            return target.getDispatcherType();
         }
 
         @Override
@@ -1929,7 +1977,7 @@ interface Facades {
         }
     }
 
-    final class HttpServletResponse extends Shim.Facade<jakarta.servlet.http.HttpServletResponse> implements javax.servlet.http.HttpServletResponse {
+    final class HttpServletResponse extends ServletShim.Facade<jakarta.servlet.http.HttpServletResponse> implements javax.servlet.http.HttpServletResponse {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2138,7 +2186,7 @@ interface Facades {
         }
     }
 
-    final class HttpSession extends Shim.Facade<jakarta.servlet.http.HttpSession> implements javax.servlet.http.HttpSession {
+    final class HttpSession extends ServletShim.Facade<jakarta.servlet.http.HttpSession> implements javax.servlet.http.HttpSession {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2212,7 +2260,7 @@ interface Facades {
         }
     }
 
-    final class HttpSessionActivationListener extends Shim.Facade<jakarta.servlet.http.HttpSessionActivationListener> implements javax.servlet.http.HttpSessionActivationListener {
+    final class HttpSessionActivationListener extends ServletShim.Facade<jakarta.servlet.http.HttpSessionActivationListener> implements javax.servlet.http.HttpSessionActivationListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2246,7 +2294,7 @@ interface Facades {
         }
     }
 
-    final class HttpSessionAttributeListener extends Shim.Facade<jakarta.servlet.http.HttpSessionAttributeListener> implements javax.servlet.http.HttpSessionAttributeListener {
+    final class HttpSessionAttributeListener extends ServletShim.Facade<jakarta.servlet.http.HttpSessionAttributeListener> implements javax.servlet.http.HttpSessionAttributeListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2346,7 +2394,7 @@ interface Facades {
         }
     }
 
-    final class HttpSessionBindingListener extends Shim.Facade<jakarta.servlet.http.HttpSessionBindingListener> implements javax.servlet.http.HttpSessionBindingListener {
+    final class HttpSessionBindingListener extends ServletShim.Facade<jakarta.servlet.http.HttpSessionBindingListener> implements javax.servlet.http.HttpSessionBindingListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2422,7 +2470,7 @@ interface Facades {
         }
     }
 
-    final class HttpSessionIdListener extends Shim.Facade<jakarta.servlet.http.HttpSessionIdListener> implements javax.servlet.http.HttpSessionIdListener {
+    final class HttpSessionIdListener extends ServletShim.Facade<jakarta.servlet.http.HttpSessionIdListener> implements javax.servlet.http.HttpSessionIdListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2446,7 +2494,7 @@ interface Facades {
         }
     }
 
-    final class HttpSessionListener extends Shim.Facade<jakarta.servlet.http.HttpSessionListener> implements javax.servlet.http.HttpSessionListener {
+    final class HttpSessionListener extends ServletShim.Facade<jakarta.servlet.http.HttpSessionListener> implements javax.servlet.http.HttpSessionListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2480,7 +2528,7 @@ interface Facades {
         }
     }
 
-    final class HttpUpgradeHandler extends Shim.Facade<jakarta.servlet.http.HttpUpgradeHandler> implements javax.servlet.http.HttpUpgradeHandler {
+    final class HttpUpgradeHandler extends ServletShim.Facade<jakarta.servlet.http.HttpUpgradeHandler> implements javax.servlet.http.HttpUpgradeHandler {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2551,7 +2599,7 @@ interface Facades {
         }
     }
 
-    final class Part extends Shim.Facade<jakarta.servlet.http.Part> implements javax.servlet.http.Part {
+    final class Part extends ServletShim.Facade<jakarta.servlet.http.Part> implements javax.servlet.http.Part {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2615,7 +2663,7 @@ interface Facades {
         }
     }
 
-    final class PushBuilder extends Shim.Facade<jakarta.servlet.http.PushBuilder> implements javax.servlet.http.PushBuilder {
+    final class PushBuilder extends ServletShim.Facade<jakarta.servlet.http.PushBuilder> implements javax.servlet.http.PushBuilder {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2699,7 +2747,7 @@ interface Facades {
         }
     }
 
-    final class ReadListener extends Shim.Facade<jakarta.servlet.ReadListener> implements javax.servlet.ReadListener {
+    final class ReadListener extends ServletShim.Facade<jakarta.servlet.ReadListener> implements javax.servlet.ReadListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2728,7 +2776,7 @@ interface Facades {
         }
     }
 
-    final class Registration extends Shim.Facade<jakarta.servlet.Registration> implements javax.servlet.Registration {
+    final class Registration extends ServletShim.Facade<jakarta.servlet.Registration> implements javax.servlet.Registration {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2772,7 +2820,7 @@ interface Facades {
         }
     }
 
-    final class Registration$Dynamic extends Shim.Facade<jakarta.servlet.Registration.Dynamic> implements javax.servlet.Registration.Dynamic {
+    final class Registration$Dynamic extends ServletShim.Facade<jakarta.servlet.Registration.Dynamic> implements javax.servlet.Registration.Dynamic {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2821,7 +2869,7 @@ interface Facades {
         }
     }
 
-    final class RequestDispatcher extends Shim.Facade<jakarta.servlet.RequestDispatcher> implements javax.servlet.RequestDispatcher {
+    final class RequestDispatcher extends ServletShim.Facade<jakarta.servlet.RequestDispatcher> implements javax.servlet.RequestDispatcher {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2883,7 +2931,7 @@ interface Facades {
         }
     }
 
-    final class Servlet extends Shim.Facade<jakarta.servlet.Servlet> implements javax.servlet.Servlet {
+    final class Servlet extends ServletShim.Facade<jakarta.servlet.Servlet> implements javax.servlet.Servlet {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2954,7 +3002,7 @@ interface Facades {
         }
     }
 
-    final class ServletConfig extends Shim.Facade<jakarta.servlet.ServletConfig> implements javax.servlet.ServletConfig {
+    final class ServletConfig extends ServletShim.Facade<jakarta.servlet.ServletConfig> implements javax.servlet.ServletConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2988,7 +3036,7 @@ interface Facades {
         }
     }
 
-    final class ServletConnection extends Shim.Facade<jakarta.servlet.ServletConnection> implements javax.servlet.ServletConnection {
+    final class ServletConnection extends ServletShim.Facade<jakarta.servlet.ServletConnection> implements javax.servlet.ServletConnection {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -3022,7 +3070,7 @@ interface Facades {
         }
     }
 
-    final class ServletContainerInitializer extends Shim.Facade<jakarta.servlet.ServletContainerInitializer> implements javax.servlet.ServletContainerInitializer {
+    final class ServletContainerInitializer extends ServletShim.Facade<jakarta.servlet.ServletContainerInitializer> implements javax.servlet.ServletContainerInitializer {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -3060,7 +3108,7 @@ interface Facades {
         }
     }
 
-    final class ServletContext extends Shim.Facade<jakarta.servlet.ServletContext> implements javax.servlet.ServletContext {
+    final class ServletContext extends ServletShim.Facade<jakarta.servlet.ServletContext> implements javax.servlet.ServletContext {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -3297,11 +3345,7 @@ interface Facades {
 
         @Override
         public void setSessionTrackingModes(Set sessionTrackingModes) {
-            target.setSessionTrackingModes(
-                ServletShim
-                    .<javax.servlet.SessionTrackingMode>of(sessionTrackingModes)
-                    .collect(Collectors.toCollection(LinkedHashSet::new))
-            );
+            target.setSessionTrackingModes(Shim.Enum.toJakarta(jakarta.servlet.SessionTrackingMode.class, sessionTrackingModes));
         }
 
         @Override
@@ -3437,7 +3481,7 @@ interface Facades {
         }
     }
 
-    final class ServletContextAttributeListener extends Shim.Facade<jakarta.servlet.ServletContextAttributeListener> implements javax.servlet.ServletContextAttributeListener {
+    final class ServletContextAttributeListener extends ServletShim.Facade<jakarta.servlet.ServletContextAttributeListener> implements javax.servlet.ServletContextAttributeListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -3527,7 +3571,7 @@ interface Facades {
         }
     }
 
-    final class ServletContextListener extends Shim.Facade<jakarta.servlet.ServletContextListener> implements javax.servlet.ServletContextListener {
+    final class ServletContextListener extends ServletShim.Facade<jakarta.servlet.ServletContextListener> implements javax.servlet.ServletContextListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -3610,7 +3654,7 @@ interface Facades {
         }
     }
 
-    final class ServletRequestAttributeListener extends Shim.Facade<jakarta.servlet.ServletRequestAttributeListener> implements javax.servlet.ServletRequestAttributeListener {
+    final class ServletRequestAttributeListener extends ServletShim.Facade<jakarta.servlet.ServletRequestAttributeListener> implements javax.servlet.ServletRequestAttributeListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -3708,7 +3752,7 @@ interface Facades {
         }
     }
 
-    final class ServletRequestListener extends Shim.Facade<jakarta.servlet.ServletRequestListener> implements javax.servlet.ServletRequestListener {
+    final class ServletRequestListener extends ServletShim.Facade<jakarta.servlet.ServletRequestListener> implements javax.servlet.ServletRequestListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -3805,7 +3849,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -4056,7 +4106,7 @@ interface Facades {
         }
     }
 
-    final class ServletRegistration extends Shim.Facade<jakarta.servlet.ServletRegistration> implements javax.servlet.ServletRegistration {
+    final class ServletRegistration extends ServletShim.Facade<jakarta.servlet.ServletRegistration> implements javax.servlet.ServletRegistration {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -4115,7 +4165,7 @@ interface Facades {
         }
     }
 
-    final class ServletRegistration$Dynamic extends Shim.Facade<jakarta.servlet.ServletRegistration.Dynamic> implements javax.servlet.ServletRegistration.Dynamic {
+    final class ServletRegistration$Dynamic extends ServletShim.Facade<jakarta.servlet.ServletRegistration.Dynamic> implements javax.servlet.ServletRegistration.Dynamic {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -4219,7 +4269,7 @@ interface Facades {
         }
     }
 
-    final class ServletRequest extends Shim.Facade<jakarta.servlet.ServletRequest> implements javax.servlet.ServletRequest {
+    final class ServletRequest extends ServletShim.Facade<jakarta.servlet.ServletRequest> implements javax.servlet.ServletRequest {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -4419,8 +4469,8 @@ interface Facades {
         }
 
         @Override
-        public javax.servlet.DispatcherType getDispatcherType() {
-            return ServletShim.of(target.getDispatcherType());
+        public jakarta.servlet.DispatcherType getDispatcherType() {
+            return target.getDispatcherType();
         }
 
         @Override
@@ -4476,7 +4526,7 @@ interface Facades {
         }
     }
 
-    final class ServletResponse extends Shim.Facade<jakarta.servlet.ServletResponse> implements javax.servlet.ServletResponse {
+    final class ServletResponse extends ServletShim.Facade<jakarta.servlet.ServletResponse> implements javax.servlet.ServletResponse {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -4636,7 +4686,7 @@ interface Facades {
         }
     }
 
-    final class SessionCookieConfig extends Shim.Facade<jakarta.servlet.SessionCookieConfig> implements javax.servlet.SessionCookieConfig {
+    final class SessionCookieConfig extends ServletShim.Facade<jakarta.servlet.SessionCookieConfig> implements javax.servlet.SessionCookieConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -4810,7 +4860,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -4824,7 +4880,7 @@ interface Facades {
         }
     }
 
-    final class WebConnection extends Shim.Facade<jakarta.servlet.http.WebConnection> implements javax.servlet.http.WebConnection {
+    final class WebConnection extends ServletShim.Facade<jakarta.servlet.http.WebConnection> implements javax.servlet.http.WebConnection {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -4853,7 +4909,7 @@ interface Facades {
         }
     }
 
-    final class WriteListener extends Shim.Facade<jakarta.servlet.WriteListener> implements javax.servlet.WriteListener {
+    final class WriteListener extends ServletShim.Facade<jakarta.servlet.WriteListener> implements javax.servlet.WriteListener {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================

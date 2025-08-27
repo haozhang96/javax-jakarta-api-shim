@@ -35,4 +35,12 @@ public class ServletResponseWrapper extends jakarta.servlet.ServletResponseWrapp
     public ServletOutputStream getOutputStream() throws IOException {
         return ServletShim.of(super.getOutputStream());
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
+    }
 }

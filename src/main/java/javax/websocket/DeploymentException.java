@@ -24,4 +24,12 @@ public class DeploymentException extends jakarta.websocket.DeploymentException i
     public DeploymentException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        WebSocketShim.initialize();
+    }
 }

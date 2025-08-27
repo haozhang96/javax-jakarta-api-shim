@@ -1,14 +1,11 @@
 package javax.servlet.jsp;
 
-import javax.Shim;
-import javax.servlet.ServletShim;
-
 /**
  * @deprecated Use {@link jakarta.servlet.jsp.ErrorData} instead.
  * @apiNote This class cannot extend {@link jakarta.servlet.jsp.ErrorData} due to it being a final class.
  */
 @Deprecated(since = "jakarta.servlet.jsp.ErrorData")
-public class ErrorData extends Shim.Facade<jakarta.servlet.jsp.ErrorData> implements ServletShim {
+public class ErrorData extends JSPShim.Facade<jakarta.servlet.jsp.ErrorData> implements JSPShim {
     //==================================================================================================================
     // Constructors
     //==================================================================================================================

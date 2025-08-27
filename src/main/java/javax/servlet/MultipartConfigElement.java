@@ -9,11 +9,25 @@ public class MultipartConfigElement extends jakarta.servlet.MultipartConfigEleme
     // Constructors
     //==================================================================================================================
 
+    /**
+     * @see jakarta.servlet.MultipartConfigElement#MultipartConfigElement(String)
+     */
     public MultipartConfigElement(String location) {
         super(location);
     }
 
+    /**
+     * @see jakarta.servlet.MultipartConfigElement#MultipartConfigElement(String, long, long, int)
+     */
     public MultipartConfigElement(String location, long maxFileSize, long maxRequestSize, int fileSizeThreshold) {
         super(location, maxFileSize, maxRequestSize, fileSizeThreshold);
+    }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
     }
 }

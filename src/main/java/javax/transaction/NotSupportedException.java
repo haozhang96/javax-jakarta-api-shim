@@ -24,4 +24,12 @@ public class NotSupportedException extends jakarta.transaction.NotSupportedExcep
     public NotSupportedException(String message) {
         super(message);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        TransactionShim.initialize();
+    }
 }

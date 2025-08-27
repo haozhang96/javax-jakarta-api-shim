@@ -1,6 +1,6 @@
 package javax.websocket;
 
-import javax.Shim;
+import javax.shim.Shim;
 import java.lang.annotation.Annotation;
 import java.util.stream.Stream;
 
@@ -10,10 +10,18 @@ import java.util.stream.Stream;
 @Deprecated(since = "jakarta.websocket")
 public interface WebSocketShim extends Shim {
     //==================================================================================================================
+    // Helper Methods
+    //==================================================================================================================
+
+    static void initialize() {
+        Shim.initialize();
+    }
+
+    //==================================================================================================================
     // Factory Methods
     //==================================================================================================================
 
-    static <S> S of(Object object) {
+    static <S extends WebSocketShim> S of(Object object) {
         //==============================================================================================================
         // Specializations
         //==============================================================================================================
@@ -120,7 +128,7 @@ public interface WebSocketShim extends Shim {
         throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
     }
 
-    static <S extends Exception> S of(Exception exception) {
+    static <S extends Exception & WebSocketShim> S of(Exception exception) {
         if (exception == null || exception instanceof WebSocketShim) {
             return S(exception);
         } else if (exception instanceof jakarta.websocket.DecodeException) {
@@ -136,17 +144,31 @@ public interface WebSocketShim extends Shim {
         throw new UnsupportedOperationException("Unknown exception type: " + exception.getClass().getName());
     }
 
-    static <S> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
+    static <S extends WebSocketShim> Stream<S> of(Object... objects) {
+        return Shim.of(WebSocketShim::of, objects);
+    }
+
+    static <S extends WebSocketShim> Stream<S> of(Iterable<?> objects) {
+        return Shim.of(WebSocketShim::of, objects);
+    }
+
+    static <S extends WebSocketShim & Annotation> Stream<S> of(Annotation... annotations) {
+        return Shim.of(WebSocketShim::of, annotations);
+    }
+
+    static <S extends WebSocketShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
         return Shim.of(shimType, interfaceType);
     }
 
-    static <S> Stream<S> of(Object[] objects) {
-        return Shim.of(WebSocketShim::of, objects);
-    }
+    //==================================================================================================================
+    // Enum-specific Implementation
+    //==================================================================================================================
 
-    static <S> Stream<S> of(Iterable<?> objects) {
-        return Shim.of(WebSocketShim::of, objects);
-    }
+    /**
+     * @deprecated Use {@link jakarta.websocket} instead.
+     */
+    @Deprecated(since = "jakarta.websocket")
+    interface Enum<E extends java.lang.Enum<E>> extends WebSocketShim, Shim.Enum<E> { }
 
     //==================================================================================================================
     // Private Helper Methods

@@ -1,6 +1,5 @@
 package javax.websocket;
 
-import javax.Shim;
 import javax.net.ssl.SSLContext;
 import java.io.*;
 import java.lang.invoke.MethodHandles;
@@ -28,7 +27,7 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
-    final class ClientEndpoint extends Shim.Facade.Annotation<jakarta.websocket.ClientEndpoint> implements javax.websocket.ClientEndpoint, WebSocketShim {
+    final class ClientEndpoint extends WebSocketShim.Facade.Annotation<jakarta.websocket.ClientEndpoint> implements javax.websocket.ClientEndpoint, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -68,7 +67,7 @@ interface Facades {
         }
     }
 
-    final class OnClose extends Shim.Facade.Annotation<jakarta.websocket.OnClose> implements javax.websocket.OnClose, WebSocketShim {
+    final class OnClose extends WebSocketShim.Facade.Annotation<jakarta.websocket.OnClose> implements javax.websocket.OnClose, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -78,7 +77,7 @@ interface Facades {
         }
     }
 
-    final class OnError extends Shim.Facade.Annotation<jakarta.websocket.OnError> implements javax.websocket.OnError, WebSocketShim {
+    final class OnError extends WebSocketShim.Facade.Annotation<jakarta.websocket.OnError> implements javax.websocket.OnError, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -88,7 +87,7 @@ interface Facades {
         }
     }
 
-    final class OnMessage extends Shim.Facade.Annotation<jakarta.websocket.OnMessage> implements javax.websocket.OnMessage, WebSocketShim {
+    final class OnMessage extends WebSocketShim.Facade.Annotation<jakarta.websocket.OnMessage> implements javax.websocket.OnMessage, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -107,7 +106,7 @@ interface Facades {
         }
     }
 
-    final class OnOpen extends Shim.Facade.Annotation<jakarta.websocket.OnOpen> implements javax.websocket.OnOpen, WebSocketShim {
+    final class OnOpen extends WebSocketShim.Facade.Annotation<jakarta.websocket.OnOpen> implements javax.websocket.OnOpen, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -117,7 +116,7 @@ interface Facades {
         }
     }
 
-    final class PathParam extends Shim.Facade.Annotation<jakarta.websocket.server.PathParam> implements javax.websocket.server.PathParam, WebSocketShim {
+    final class PathParam extends WebSocketShim.Facade.Annotation<jakarta.websocket.server.PathParam> implements javax.websocket.server.PathParam, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -136,7 +135,7 @@ interface Facades {
         }
     }
 
-    final class ServerEndpoint extends Shim.Facade.Annotation<jakarta.websocket.server.ServerEndpoint> implements javax.websocket.server.ServerEndpoint, WebSocketShim {
+    final class ServerEndpoint extends WebSocketShim.Facade.Annotation<jakarta.websocket.server.ServerEndpoint> implements javax.websocket.server.ServerEndpoint, WebSocketShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -186,7 +185,7 @@ interface Facades {
     // Classes
     //==================================================================================================================
 
-    final class ClientEndpointConfig extends Shim.Facade<jakarta.websocket.ClientEndpointConfig> implements javax.websocket.ClientEndpointConfig {
+    final class ClientEndpointConfig extends WebSocketShim.Facade<jakarta.websocket.ClientEndpointConfig> implements javax.websocket.ClientEndpointConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -318,7 +317,7 @@ interface Facades {
         }
     }
 
-    final class CloseReason$CloseCode extends Shim.Facade<jakarta.websocket.CloseReason.CloseCode> implements javax.websocket.CloseReason.CloseCode {
+    final class CloseReason$CloseCode extends WebSocketShim.Facade<jakarta.websocket.CloseReason.CloseCode> implements javax.websocket.CloseReason.CloseCode {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -433,7 +432,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -447,7 +452,7 @@ interface Facades {
         }
     }
 
-    final class Decoder extends Shim.Facade<jakarta.websocket.Decoder> implements javax.websocket.Decoder {
+    final class Decoder extends WebSocketShim.Facade<jakarta.websocket.Decoder> implements javax.websocket.Decoder {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -476,7 +481,7 @@ interface Facades {
         }
     }
 
-    final class Decoder$Binary<T> extends Shim.Facade<jakarta.websocket.Decoder.Binary<T>> implements javax.websocket.Decoder.Binary<T> {
+    final class Decoder$Binary<T> extends WebSocketShim.Facade<jakarta.websocket.Decoder.Binary<T>> implements javax.websocket.Decoder.Binary<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -518,7 +523,7 @@ interface Facades {
         }
     }
 
-    final class Decoder$BinaryStream<T> extends Shim.Facade<jakarta.websocket.Decoder.BinaryStream<T>> implements javax.websocket.Decoder.BinaryStream<T> {
+    final class Decoder$BinaryStream<T> extends WebSocketShim.Facade<jakarta.websocket.Decoder.BinaryStream<T>> implements javax.websocket.Decoder.BinaryStream<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -556,7 +561,7 @@ interface Facades {
         }
     }
 
-    final class Decoder$Text<T> extends Shim.Facade<jakarta.websocket.Decoder.Text<T>> implements javax.websocket.Decoder.Text<T> {
+    final class Decoder$Text<T> extends WebSocketShim.Facade<jakarta.websocket.Decoder.Text<T>> implements javax.websocket.Decoder.Text<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -598,7 +603,7 @@ interface Facades {
         }
     }
 
-    final class Decoder$TextStream<T> extends Shim.Facade<jakarta.websocket.Decoder.TextStream<T>> implements javax.websocket.Decoder.TextStream<T> {
+    final class Decoder$TextStream<T> extends WebSocketShim.Facade<jakarta.websocket.Decoder.TextStream<T>> implements javax.websocket.Decoder.TextStream<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -694,7 +699,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -771,7 +782,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -785,7 +802,7 @@ interface Facades {
         }
     }
 
-    final class Encoder extends Shim.Facade<jakarta.websocket.Encoder> implements javax.websocket.Encoder {
+    final class Encoder extends WebSocketShim.Facade<jakarta.websocket.Encoder> implements javax.websocket.Encoder {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -814,7 +831,7 @@ interface Facades {
         }
     }
 
-    final class Encoder$Binary<T> extends Shim.Facade<jakarta.websocket.Encoder.Binary<T>> implements javax.websocket.Encoder.Binary<T> {
+    final class Encoder$Binary<T> extends WebSocketShim.Facade<jakarta.websocket.Encoder.Binary<T>> implements javax.websocket.Encoder.Binary<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -852,7 +869,7 @@ interface Facades {
         }
     }
 
-    final class Encoder$BinaryStream<T> extends Shim.Facade<jakarta.websocket.Encoder.BinaryStream<T>> implements javax.websocket.Encoder.BinaryStream<T> {
+    final class Encoder$BinaryStream<T> extends WebSocketShim.Facade<jakarta.websocket.Encoder.BinaryStream<T>> implements javax.websocket.Encoder.BinaryStream<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -890,7 +907,7 @@ interface Facades {
         }
     }
 
-    final class Encoder$Text<T> extends Shim.Facade<jakarta.websocket.Encoder.Text<T>> implements javax.websocket.Encoder.Text<T> {
+    final class Encoder$Text<T> extends WebSocketShim.Facade<jakarta.websocket.Encoder.Text<T>> implements javax.websocket.Encoder.Text<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -928,7 +945,7 @@ interface Facades {
         }
     }
 
-    final class Encoder$TextStream<T> extends Shim.Facade<jakarta.websocket.Encoder.TextStream<T>> implements javax.websocket.Encoder.TextStream<T> {
+    final class Encoder$TextStream<T> extends WebSocketShim.Facade<jakarta.websocket.Encoder.TextStream<T>> implements javax.websocket.Encoder.TextStream<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1012,7 +1029,7 @@ interface Facades {
         }
     }
 
-    final class EndpointConfig extends Shim.Facade<jakarta.websocket.EndpointConfig> implements javax.websocket.EndpointConfig {
+    final class EndpointConfig extends WebSocketShim.Facade<jakarta.websocket.EndpointConfig> implements javax.websocket.EndpointConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1045,7 +1062,7 @@ interface Facades {
         }
     }
 
-    final class Extension extends Shim.Facade<jakarta.websocket.Extension> implements javax.websocket.Extension {
+    final class Extension extends WebSocketShim.Facade<jakarta.websocket.Extension> implements javax.websocket.Extension {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1071,7 +1088,7 @@ interface Facades {
         }
     }
 
-    final class Extension$Parameter extends Shim.Facade<jakarta.websocket.Extension.Parameter> implements javax.websocket.Extension.Parameter {
+    final class Extension$Parameter extends WebSocketShim.Facade<jakarta.websocket.Extension.Parameter> implements javax.websocket.Extension.Parameter {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1095,7 +1112,7 @@ interface Facades {
         }
     }
 
-    final class HandshakeRequest extends Shim.Facade<jakarta.websocket.server.HandshakeRequest> implements javax.websocket.server.HandshakeRequest {
+    final class HandshakeRequest extends WebSocketShim.Facade<jakarta.websocket.server.HandshakeRequest> implements javax.websocket.server.HandshakeRequest {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1144,7 +1161,7 @@ interface Facades {
         }
     }
 
-    final class HandshakeResponse extends Shim.Facade<jakarta.websocket.HandshakeResponse> implements javax.websocket.HandshakeResponse {
+    final class HandshakeResponse extends WebSocketShim.Facade<jakarta.websocket.HandshakeResponse> implements javax.websocket.HandshakeResponse {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1163,7 +1180,7 @@ interface Facades {
         }
     }
 
-    final class MessageHandler extends Shim.Facade<jakarta.websocket.MessageHandler> implements javax.websocket.MessageHandler {
+    final class MessageHandler extends WebSocketShim.Facade<jakarta.websocket.MessageHandler> implements javax.websocket.MessageHandler {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1173,7 +1190,7 @@ interface Facades {
         }
     }
 
-    final class MessageHandler$Partial<T> extends Shim.Facade<jakarta.websocket.MessageHandler.Partial<T>> implements javax.websocket.MessageHandler.Partial<T> {
+    final class MessageHandler$Partial<T> extends WebSocketShim.Facade<jakarta.websocket.MessageHandler.Partial<T>> implements javax.websocket.MessageHandler.Partial<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1192,7 +1209,7 @@ interface Facades {
         }
     }
 
-    final class MessageHandler$Whole<T> extends Shim.Facade<jakarta.websocket.MessageHandler.Whole<T>> implements javax.websocket.MessageHandler.Whole<T> {
+    final class MessageHandler$Whole<T> extends WebSocketShim.Facade<jakarta.websocket.MessageHandler.Whole<T>> implements javax.websocket.MessageHandler.Whole<T> {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1211,7 +1228,7 @@ interface Facades {
         }
     }
 
-    final class PongMessage extends Shim.Facade<jakarta.websocket.PongMessage> implements javax.websocket.PongMessage {
+    final class PongMessage extends WebSocketShim.Facade<jakarta.websocket.PongMessage> implements javax.websocket.PongMessage {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1230,7 +1247,7 @@ interface Facades {
         }
     }
 
-    final class RemoteEndpoint extends Shim.Facade<jakarta.websocket.RemoteEndpoint> implements javax.websocket.RemoteEndpoint {
+    final class RemoteEndpoint extends WebSocketShim.Facade<jakarta.websocket.RemoteEndpoint> implements javax.websocket.RemoteEndpoint {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1269,7 +1286,7 @@ interface Facades {
         }
     }
 
-    final class RemoteEndpoint$Async extends Shim.Facade<jakarta.websocket.RemoteEndpoint.Async> implements javax.websocket.RemoteEndpoint.Async {
+    final class RemoteEndpoint$Async extends WebSocketShim.Facade<jakarta.websocket.RemoteEndpoint.Async> implements javax.websocket.RemoteEndpoint.Async {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1363,7 +1380,7 @@ interface Facades {
         }
     }
 
-    final class RemoteEndpoint$Basic extends Shim.Facade<jakarta.websocket.RemoteEndpoint.Basic> implements javax.websocket.RemoteEndpoint.Basic {
+    final class RemoteEndpoint$Basic extends WebSocketShim.Facade<jakarta.websocket.RemoteEndpoint.Basic> implements javax.websocket.RemoteEndpoint.Basic {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1441,7 +1458,7 @@ interface Facades {
         }
     }
 
-    final class SendHandler extends Shim.Facade<jakarta.websocket.SendHandler> implements javax.websocket.SendHandler {
+    final class SendHandler extends WebSocketShim.Facade<jakarta.websocket.SendHandler> implements javax.websocket.SendHandler {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1475,7 +1492,7 @@ interface Facades {
         }
     }
 
-    final class ServerApplicationConfig extends Shim.Facade<jakarta.websocket.server.ServerApplicationConfig> implements javax.websocket.server.ServerApplicationConfig {
+    final class ServerApplicationConfig extends WebSocketShim.Facade<jakarta.websocket.server.ServerApplicationConfig> implements javax.websocket.server.ServerApplicationConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1501,7 +1518,7 @@ interface Facades {
         }
     }
 
-    final class ServerContainer extends Shim.Facade<jakarta.websocket.server.ServerContainer> implements javax.websocket.server.ServerContainer {
+    final class ServerContainer extends WebSocketShim.Facade<jakarta.websocket.server.ServerContainer> implements javax.websocket.server.ServerContainer {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1697,7 +1714,7 @@ interface Facades {
         }
     }
 
-    final class ServerEndpointConfig extends Shim.Facade<jakarta.websocket.server.ServerEndpointConfig> implements javax.websocket.server.ServerEndpointConfig {
+    final class ServerEndpointConfig extends WebSocketShim.Facade<jakarta.websocket.server.ServerEndpointConfig> implements javax.websocket.server.ServerEndpointConfig {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1832,7 +1849,7 @@ interface Facades {
         }
     }
 
-    final class Session extends Shim.Facade<jakarta.websocket.Session> implements javax.websocket.Session {
+    final class Session extends WebSocketShim.Facade<jakarta.websocket.Session> implements javax.websocket.Session {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -2085,7 +2102,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -2099,7 +2122,7 @@ interface Facades {
         }
     }
 
-    final class WebSocketContainer extends Shim.Facade<jakarta.websocket.WebSocketContainer> implements javax.websocket.WebSocketContainer {
+    final class WebSocketContainer extends WebSocketShim.Facade<jakarta.websocket.WebSocketContainer> implements javax.websocket.WebSocketContainer {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================

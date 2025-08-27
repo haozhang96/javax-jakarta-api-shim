@@ -22,4 +22,12 @@ public abstract class ServletOutputStream extends jakarta.servlet.ServletOutputS
     public void setWriteListener(jakarta.servlet.WriteListener writeListener) {
         setWriteListener(ServletShim.of(writeListener));
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
+    }
 }

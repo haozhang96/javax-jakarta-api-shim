@@ -1,7 +1,5 @@
 package javax.jws;
 
-import javax.Shim;
-
 /**
  * This interface contains {@link jakarta.jws}-to-{@link javax.jws} facades used for wrapping Jakarta Web Services
  *   Metadata objects into their Java Web Services Metadata counterparts.
@@ -15,7 +13,7 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
-    final class HandlerChain extends Shim.Facade.Annotation<jakarta.jws.HandlerChain> implements javax.jws.HandlerChain, JWSShim {
+    final class HandlerChain extends JWSShim.Facade.Annotation<jakarta.jws.HandlerChain> implements javax.jws.HandlerChain, JWSShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -39,7 +37,7 @@ interface Facades {
         }
     }
 
-    final class InitParam extends Shim.Facade.Annotation<jakarta.jws.soap.InitParam> implements javax.jws.soap.InitParam, JWSShim {
+    final class InitParam extends JWSShim.Facade.Annotation<jakarta.jws.soap.InitParam> implements javax.jws.soap.InitParam, JWSShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -63,7 +61,7 @@ interface Facades {
         }
     }
 
-    final class Oneway extends Shim.Facade.Annotation<jakarta.jws.Oneway> implements javax.jws.Oneway, JWSShim {
+    final class Oneway extends JWSShim.Facade.Annotation<jakarta.jws.Oneway> implements javax.jws.Oneway, JWSShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -73,7 +71,7 @@ interface Facades {
         }
     }
 
-    final class SOAPBinding extends Shim.Facade.Annotation<jakarta.jws.soap.SOAPBinding> implements javax.jws.soap.SOAPBinding, JWSShim {
+    final class SOAPBinding extends JWSShim.Facade.Annotation<jakarta.jws.soap.SOAPBinding> implements javax.jws.soap.SOAPBinding, JWSShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -102,7 +100,7 @@ interface Facades {
         }
     }
 
-    final class SOAPMessageHandler extends Shim.Facade.Annotation<jakarta.jws.soap.SOAPMessageHandler> implements javax.jws.soap.SOAPMessageHandler, JWSShim {
+    final class SOAPMessageHandler extends JWSShim.Facade.Annotation<jakarta.jws.soap.SOAPMessageHandler> implements javax.jws.soap.SOAPMessageHandler, JWSShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -128,7 +126,7 @@ interface Facades {
         @Override
         public javax.jws.soap.InitParam[] initParams() {
             return JWSShim
-                .<javax.jws.soap.InitParam>of(target.initParams())
+                .of(target.initParams())
                 .toArray(javax.jws.soap.InitParam[]::new);
         }
 
@@ -143,7 +141,7 @@ interface Facades {
         }
     }
 
-    final class SOAPMessageHandlers extends Shim.Facade.Annotation<jakarta.jws.soap.SOAPMessageHandlers> implements javax.jws.soap.SOAPMessageHandlers, JWSShim {
+    final class SOAPMessageHandlers extends JWSShim.Facade.Annotation<jakarta.jws.soap.SOAPMessageHandlers> implements javax.jws.soap.SOAPMessageHandlers, JWSShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -160,13 +158,13 @@ interface Facades {
         @Override
         public javax.jws.soap.SOAPMessageHandler[] value() {
             return JWSShim
-                .<javax.jws.soap.SOAPMessageHandler>of(target.value())
+                .of(target.value())
                 .toArray(javax.jws.soap.SOAPMessageHandler[]::new);
         }
     }
 
 
-    final class WebMethod extends Shim.Facade.Annotation<jakarta.jws.WebMethod> implements javax.jws.WebMethod, JWSShim {
+    final class WebMethod extends JWSShim.Facade.Annotation<jakarta.jws.WebMethod> implements javax.jws.WebMethod, JWSShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -195,7 +193,7 @@ interface Facades {
         }
     }
 
-    final class WebParam extends Shim.Facade.Annotation<jakarta.jws.WebParam> implements javax.jws.WebParam, JWSShim {
+    final class WebParam extends JWSShim.Facade.Annotation<jakarta.jws.WebParam> implements javax.jws.WebParam, JWSShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -234,7 +232,7 @@ interface Facades {
         }
     }
 
-    final class WebResult extends Shim.Facade.Annotation<jakarta.jws.WebResult> implements javax.jws.WebResult, JWSShim {
+    final class WebResult extends JWSShim.Facade.Annotation<jakarta.jws.WebResult> implements javax.jws.WebResult, JWSShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -268,7 +266,7 @@ interface Facades {
         }
     }
 
-    final class WebService extends Shim.Facade.Annotation<jakarta.jws.WebService> implements javax.jws.WebService, JWSShim {
+    final class WebService extends JWSShim.Facade.Annotation<jakarta.jws.WebService> implements javax.jws.WebService, JWSShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================

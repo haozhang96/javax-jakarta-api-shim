@@ -17,4 +17,12 @@ public class TransactionalException extends jakarta.transaction.TransactionalExc
     public TransactionalException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        TransactionShim.initialize();
+    }
 }

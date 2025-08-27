@@ -63,4 +63,12 @@ public class HttpConstraintElement extends jakarta.servlet.HttpConstraintElement
     ) {
         super(semantic, guarantee, roleNames);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
+    }
 }

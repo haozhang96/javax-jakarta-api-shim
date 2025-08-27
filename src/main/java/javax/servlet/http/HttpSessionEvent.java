@@ -28,4 +28,12 @@ public class HttpSessionEvent extends jakarta.servlet.http.HttpSessionEvent impl
     public HttpSession getSession() {
         return ServletShim.of(super.getSession());
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
+    }
 }

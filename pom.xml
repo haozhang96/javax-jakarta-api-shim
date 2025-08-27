@@ -20,11 +20,16 @@
     </developers>
 
     <properties>
+        <!-- Dependency versioning -->
         <version.jakarta.platform>10.0.0</version.jakarta.platform>
-        <version.springframework.boot.v2>2.7.18</version.springframework.boot.v2>
-        <version.springframework.boot.v3>3.3.5</version.springframework.boot.v3>
-        <version.junit.jupiter>5.11.2</version.junit.jupiter>
+        <version.javassist>3.30.2-GA</version.javassist>
+        <version.junit.jupiter>5.13.4</version.junit.jupiter>
+        <version.slf4j>2.0.17</version.slf4j>
+        <version.springframework.boot.v2>2.7.18</version.springframework.boot.v2><!-- Java 8+ -->
+        <version.springframework.boot.v3>3.5.4</version.springframework.boot.v3><!-- Java 17+ -->
+        <version.springframework.boot.v4>4.0.0-M1</version.springframework.boot.v4><!-- Java 17+ -->
 
+        <!-- Compilation -->
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
         <maven.compiler.release>${maven.compiler.target}</maven.compiler.release>
@@ -37,13 +42,6 @@
                 <groupId>jakarta.platform</groupId>
                 <artifactId>jakarta.jakartaee-bom</artifactId>
                 <version>${version.jakarta.platform}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${version.springframework.boot.v2}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -198,32 +196,54 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- Runtime Support -->
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>[${version.javassist},)</version>
+        </dependency>
+
         <!-- Testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>[${version.junit.jupiter},)</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>${version.springframework.boot.v2}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <artifactId>spring-boot-starter-jetty</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-undertow</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jetty</artifactId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <version>${version.springframework.boot.v3}</version>
             <scope>test</scope>
             <exclusions>
+                <exclusion>
+                    <groupId>jakarta.servlet</groupId>
+                    <artifactId>jakarta.servlet-api</artifactId>
+                </exclusion>
                 <exclusion>
                     <groupId>javax.servlet</groupId>
                     <artifactId>javax.servlet-api</artifactId>
@@ -231,15 +251,15 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${version.junit.jupiter}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>[${version.slf4j},)</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.owasp.esapi</groupId>
             <artifactId>esapi</artifactId>
-            <version>2.5.5.0</version>
+            <version>[2.5.5.0,)</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

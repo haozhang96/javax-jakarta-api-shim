@@ -44,7 +44,7 @@ public class CloseReason extends jakarta.websocket.CloseReason implements WebSoc
      * @deprecated Use {@link jakarta.websocket.CloseReason.CloseCodes} instead.
      */
     @Deprecated(since = "jakarta.websocket.CloseReason.CloseCodes")
-    public enum CloseCodes implements CloseCode {
+    public enum CloseCodes implements CloseCode, WebSocketShim.Enum<jakarta.websocket.CloseReason.CloseCodes> {
         NORMAL_CLOSURE(jakarta.websocket.CloseReason.CloseCodes.NORMAL_CLOSURE),
         GOING_AWAY(jakarta.websocket.CloseReason.CloseCodes.GOING_AWAY),
         PROTOCOL_ERROR(jakarta.websocket.CloseReason.CloseCodes.PROTOCOL_ERROR),
@@ -87,5 +87,13 @@ public class CloseReason extends jakarta.websocket.CloseReason implements WebSoc
         public static CloseCode getCloseCode(int code) {
             return WebSocketShim.of(jakarta.websocket.CloseReason.CloseCodes.getCloseCode(code));
         }
+    }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        WebSocketShim.initialize();
     }
 }

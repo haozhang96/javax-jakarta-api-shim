@@ -35,4 +35,12 @@ public class ServletRequestEvent extends jakarta.servlet.ServletRequestEvent imp
     public ServletRequest getServletRequest() {
         return ServletShim.of(super.getServletRequest());
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
+    }
 }

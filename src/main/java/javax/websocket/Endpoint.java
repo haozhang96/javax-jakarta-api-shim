@@ -37,4 +37,12 @@ public abstract class Endpoint extends jakarta.websocket.Endpoint implements Web
     public void onError(jakarta.websocket.Session session, Throwable cause) {
         onError(WebSocketShim.of(session), cause);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        WebSocketShim.initialize();
+    }
 }

@@ -51,4 +51,12 @@ public abstract class GenericFilter extends jakarta.servlet.GenericFilter implem
     public ServletContext getServletContext() {
         return ServletShim.of(super.getServletContext());
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
+    }
 }

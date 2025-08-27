@@ -24,4 +24,12 @@ public class TransactionRequiredException extends jakarta.transaction.Transactio
     public TransactionRequiredException(String message) {
         super(message);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        TransactionShim.initialize();
+    }
 }

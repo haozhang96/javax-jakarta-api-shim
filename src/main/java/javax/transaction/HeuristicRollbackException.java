@@ -24,4 +24,12 @@ public class HeuristicRollbackException extends jakarta.transaction.HeuristicRol
     public HeuristicRollbackException(String message) {
         super(message);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        TransactionShim.initialize();
+    }
 }

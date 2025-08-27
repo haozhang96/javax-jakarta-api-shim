@@ -26,4 +26,12 @@ public class SessionException extends jakarta.websocket.SessionException impleme
     public Session getSession() {
         return WebSocketShim.of(super.getSession());
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        WebSocketShim.initialize();
+    }
 }

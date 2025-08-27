@@ -1,6 +1,7 @@
 package javax.transaction;
 
-import javax.Shim;
+import javax.shim.Shim;
+import java.lang.annotation.Annotation;
 import java.util.stream.Stream;
 
 /**
@@ -9,10 +10,18 @@ import java.util.stream.Stream;
 @Deprecated(since = "jakarta.transaction")
 public interface TransactionShim extends Shim {
     //==================================================================================================================
+    // Helper Methods
+    //==================================================================================================================
+
+    static void initialize() {
+        Shim.initialize();
+    }
+
+    //==================================================================================================================
     // Factory Methods
     //==================================================================================================================
 
-    static <S> S of(Object object) {
+    static <S extends TransactionShim> S of(Object object) {
         if (object == null || object instanceof TransactionShim) {
             return S(object);
         } else if (object instanceof Exception) {
@@ -34,7 +43,7 @@ public interface TransactionShim extends Shim {
         throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
     }
 
-    static <S extends Exception> S of(Exception exception) {
+    static <S extends Exception & TransactionShim> S of(Exception exception) {
         if (exception == null || exception instanceof TransactionShim) {
             return S(exception);
         } else if (exception instanceof jakarta.transaction.HeuristicCommitException) {
@@ -62,17 +71,31 @@ public interface TransactionShim extends Shim {
         throw new UnsupportedOperationException("Unknown exception type: " + exception.getClass().getName());
     }
 
-    static <S> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
+    static <S extends TransactionShim> Stream<S> of(Object... objects) {
+        return Shim.of(TransactionShim::of, objects);
+    }
+
+    static <S extends TransactionShim> Stream<S> of(Iterable<?> objects) {
+        return Shim.of(TransactionShim::of, objects);
+    }
+
+    static <S extends TransactionShim & Annotation> Stream<S> of(Annotation... annotations) {
+        return Shim.of(TransactionShim::of, annotations);
+    }
+
+    static <S extends TransactionShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
         return Shim.of(shimType, interfaceType);
     }
 
-    static <S> Stream<S> of(Object[] objects) {
-        return Shim.of(TransactionShim::of, objects);
-    }
+    //==================================================================================================================
+    // Enum-specific Implementation
+    //==================================================================================================================
 
-    static <S> Stream<S> of(Iterable<?> objects) {
-        return Shim.of(TransactionShim::of, objects);
-    }
+    /**
+     * @deprecated Use {@link jakarta.transaction} instead.
+     */
+    @Deprecated(since = "jakarta.transaction")
+    interface Enum<E extends java.lang.Enum<E>> extends TransactionShim, Shim.Enum<E> { }
 
     //==================================================================================================================
     // Private Helper Methods

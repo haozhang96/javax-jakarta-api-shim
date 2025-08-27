@@ -26,7 +26,7 @@ public @interface ServletSecurity {
      * @deprecated Use {@link jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic} instead.
      */
     @Deprecated(since = "jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic")
-    enum EmptyRoleSemantic implements ServletShim {
+    enum EmptyRoleSemantic implements ServletShim.Enum<jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic> {
         PERMIT, DENY
     }
 
@@ -34,7 +34,7 @@ public @interface ServletSecurity {
      * @deprecated Use {@link jakarta.servlet.annotation.ServletSecurity.TransportGuarantee} instead.
      */
     @Deprecated(since = "jakarta.servlet.annotation.ServletSecurity.TransportGuarantee")
-    enum TransportGuarantee implements ServletShim {
+    enum TransportGuarantee implements ServletShim.Enum<jakarta.servlet.annotation.ServletSecurity.TransportGuarantee> {
         NONE, CONFIDENTIAL
     }
 }

@@ -24,4 +24,12 @@ public class HeuristicMixedException extends jakarta.transaction.HeuristicMixedE
     public HeuristicMixedException(String message) {
         super(message);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        TransactionShim.initialize();
+    }
 }

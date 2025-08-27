@@ -29,7 +29,9 @@ public @interface Resource {
      * @deprecated Use {@link jakarta.annotation.Resource.AuthenticationType} instead.
      */
     @Deprecated(since = "jakarta.annotation.Resource.AuthenticationType")
-    enum AuthenticationType implements AnnotationShim { CONTAINER, APPLICATION }
+    enum AuthenticationType implements AnnotationShim.Enum<jakarta.annotation.Resource.AuthenticationType> {
+        CONTAINER, APPLICATION
+    }
 
     /**
      * @see jakarta.annotation.Resource#authenticationType()

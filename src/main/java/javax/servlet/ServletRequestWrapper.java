@@ -64,10 +64,10 @@ public class ServletRequestWrapper extends jakarta.servlet.ServletRequestWrapper
         return ServletRequest.super.startAsync(request, response);
     }
 
-    @Override
-    public DispatcherType getDispatcherType() {
-        return ServletShim.of(super.getDispatcherType());
-    }
+//    @Override
+//    public DispatcherType getDispatcherType() {
+//        return ServletShim.of(super.getDispatcherType());
+//    }
 
     @Override
     public AsyncContext getAsyncContext() {
@@ -77,5 +77,13 @@ public class ServletRequestWrapper extends jakarta.servlet.ServletRequestWrapper
     @Override
     public ServletConnection getServletConnection() {
         return ServletShim.of(super.getServletContext());
+    }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
     }
 }

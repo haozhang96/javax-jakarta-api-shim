@@ -43,7 +43,7 @@ public abstract class HttpServlet extends GenericServlet {
         HttpServletResponse response
     ) throws ServletException, IOException {
         switch (request.getMethod()) {
-            case HttpMethods.GET: {
+            case HttpMethod.GET: {
                 final var lastModified = getLastModified(request);
                 if (lastModified == -1L) {
                     doGet(request, response);
@@ -56,12 +56,12 @@ public abstract class HttpServlet extends GenericServlet {
                 break;
             }
 
-            case HttpMethods.HEAD: updateLastModified(request, response); doHead(request, response); break;
-            case HttpMethods.POST: doPost(request, response); break;
-            case HttpMethods.PUT: doPut(request, response); break;
-            case HttpMethods.DELETE: doDelete(request, response); break;
-            case HttpMethods.OPTIONS: doOptions(request, response); break;
-            case HttpMethods.TRACE: doTrace(request, response); break;
+            case HttpMethod.HEAD: updateLastModified(request, response); doHead(request, response); break;
+            case HttpMethod.POST: doPost(request, response); break;
+            case HttpMethod.PUT: doPut(request, response); break;
+            case HttpMethod.DELETE: doDelete(request, response); break;
+            case HttpMethod.OPTIONS: doOptions(request, response); break;
+            case HttpMethod.TRACE: doTrace(request, response); break;
             default: response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, unsupported(null, request.getMethod()));
         }
     }
@@ -154,7 +154,7 @@ public abstract class HttpServlet extends GenericServlet {
         HttpServletResponse response
     ) throws ServletException, IOException {
         var payload =
-            new StringBuilder(HttpMethods.TRACE)
+            new StringBuilder(HttpMethod.TRACE)
                 .append(' ')
                 .append(request.getRequestURI())
                 .append(' ')
@@ -218,13 +218,13 @@ public abstract class HttpServlet extends GenericServlet {
             .map(method -> method.getName().substring(2).toUpperCase())
             .flatMap(method -> {
                 switch (method) {
-                    case HttpMethods.GET: return Stream.of(method, HttpMethods.HEAD);
-                    case HttpMethods.HEAD:
-                    case HttpMethods.POST:
-                    case HttpMethods.PUT:
-                    case HttpMethods.DELETE:
-                    case HttpMethods.OPTIONS:
-                    case HttpMethods.TRACE: return Stream.of(method);
+                    case HttpMethod.GET: return Stream.of(method, HttpMethod.HEAD);
+                    case HttpMethod.HEAD:
+                    case HttpMethod.POST:
+                    case HttpMethod.PUT:
+                    case HttpMethod.DELETE:
+                    case HttpMethod.OPTIONS:
+                    case HttpMethod.TRACE: return Stream.of(method);
                     default: return Stream.empty();
                 }
             })
@@ -252,7 +252,7 @@ public abstract class HttpServlet extends GenericServlet {
     }
 
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    private interface HttpMethods extends jakarta.ws.rs.HttpMethod {
+    private interface HttpMethod extends jakarta.ws.rs.HttpMethod {
         String TRACE = "TRACE";
     }
 }

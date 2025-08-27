@@ -24,4 +24,12 @@ public class HeuristicCommitException extends jakarta.transaction.HeuristicCommi
     public HeuristicCommitException(String message) {
         super(message);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        TransactionShim.initialize();
+    }
 }

@@ -38,4 +38,12 @@ public class ServletException extends jakarta.servlet.ServletException implement
     public ServletException(Throwable rootCause) {
         super(rootCause);
     }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        ServletShim.initialize();
+    }
 }

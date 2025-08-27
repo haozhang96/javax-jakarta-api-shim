@@ -1,6 +1,5 @@
 package javax.interceptor;
 
-import javax.Shim;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -18,7 +17,7 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
-    final class AroundConstruct extends Shim.Facade.Annotation<jakarta.interceptor.AroundConstruct> implements javax.interceptor.AroundConstruct, InterceptorShim {
+    final class AroundConstruct extends InterceptorShim.Facade.Annotation<jakarta.interceptor.AroundConstruct> implements javax.interceptor.AroundConstruct, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -28,7 +27,7 @@ interface Facades {
         }
     }
 
-    final class AroundInvoke extends Shim.Facade.Annotation<jakarta.interceptor.AroundInvoke> implements javax.interceptor.AroundInvoke, InterceptorShim {
+    final class AroundInvoke extends InterceptorShim.Facade.Annotation<jakarta.interceptor.AroundInvoke> implements javax.interceptor.AroundInvoke, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -38,7 +37,7 @@ interface Facades {
         }
     }
 
-    final class AroundTimeout extends Shim.Facade.Annotation<jakarta.interceptor.AroundTimeout> implements javax.interceptor.AroundTimeout, InterceptorShim {
+    final class AroundTimeout extends InterceptorShim.Facade.Annotation<jakarta.interceptor.AroundTimeout> implements javax.interceptor.AroundTimeout, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -48,7 +47,7 @@ interface Facades {
         }
     }
 
-    final class ExcludeClassInterceptors extends Shim.Facade.Annotation<jakarta.interceptor.ExcludeClassInterceptors> implements javax.interceptor.ExcludeClassInterceptors, InterceptorShim {
+    final class ExcludeClassInterceptors extends InterceptorShim.Facade.Annotation<jakarta.interceptor.ExcludeClassInterceptors> implements javax.interceptor.ExcludeClassInterceptors, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -58,7 +57,7 @@ interface Facades {
         }
     }
 
-    final class ExcludeDefaultInterceptors extends Shim.Facade.Annotation<jakarta.interceptor.ExcludeDefaultInterceptors> implements javax.interceptor.ExcludeDefaultInterceptors, InterceptorShim {
+    final class ExcludeDefaultInterceptors extends InterceptorShim.Facade.Annotation<jakarta.interceptor.ExcludeDefaultInterceptors> implements javax.interceptor.ExcludeDefaultInterceptors, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -68,7 +67,7 @@ interface Facades {
         }
     }
 
-    final class Interceptor extends Shim.Facade.Annotation<jakarta.interceptor.Interceptor> implements javax.interceptor.Interceptor, InterceptorShim {
+    final class Interceptor extends InterceptorShim.Facade.Annotation<jakarta.interceptor.Interceptor> implements javax.interceptor.Interceptor, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -78,7 +77,7 @@ interface Facades {
         }
     }
 
-    final class InterceptorBinding extends Shim.Facade.Annotation<jakarta.interceptor.InterceptorBinding> implements javax.interceptor.InterceptorBinding, InterceptorShim {
+    final class InterceptorBinding extends InterceptorShim.Facade.Annotation<jakarta.interceptor.InterceptorBinding> implements javax.interceptor.InterceptorBinding, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -88,7 +87,7 @@ interface Facades {
         }
     }
 
-    final class Interceptors extends Shim.Facade.Annotation<jakarta.interceptor.Interceptors> implements javax.interceptor.Interceptors, InterceptorShim {
+    final class Interceptors extends InterceptorShim.Facade.Annotation<jakarta.interceptor.Interceptors> implements javax.interceptor.Interceptors, InterceptorShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -142,7 +141,7 @@ interface Facades {
         }
     }
 
-    final class InvocationContext extends Shim.Facade<jakarta.interceptor.InvocationContext> implements javax.interceptor.InvocationContext {
+    final class InvocationContext extends InterceptorShim.Facade<jakarta.interceptor.InvocationContext> implements javax.interceptor.InvocationContext {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================

@@ -1,6 +1,5 @@
 package javax.transaction;
 
-import javax.Shim;
 import javax.transaction.xa.XAResource;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -18,7 +17,7 @@ interface Facades {
     // Annotations
     //==================================================================================================================
 
-    final class Transactional extends Shim.Facade.Annotation<jakarta.transaction.Transactional> implements javax.transaction.Transactional, TransactionShim {
+    final class Transactional extends TransactionShim.Facade.Annotation<jakarta.transaction.Transactional> implements javax.transaction.Transactional, TransactionShim {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -110,7 +109,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -183,7 +188,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -256,7 +267,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -329,7 +346,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -402,7 +425,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -475,7 +504,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -489,7 +524,7 @@ interface Facades {
         }
     }
 
-    final class Status extends Shim.Facade<jakarta.transaction.Status> implements javax.transaction.Status {
+    final class Status extends TransactionShim.Facade<jakarta.transaction.Status> implements javax.transaction.Status {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -499,7 +534,7 @@ interface Facades {
         }
     }
 
-    final class Synchronization extends Shim.Facade<jakarta.transaction.Synchronization> implements javax.transaction.Synchronization {
+    final class Synchronization extends TransactionShim.Facade<jakarta.transaction.Synchronization> implements javax.transaction.Synchronization {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -582,7 +617,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -596,7 +637,7 @@ interface Facades {
         }
     }
 
-    final class Transaction extends Shim.Facade<jakarta.transaction.Transaction> implements javax.transaction.Transaction {
+    final class Transaction extends TransactionShim.Facade<jakarta.transaction.Transaction> implements javax.transaction.Transaction {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -760,7 +801,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -774,7 +821,7 @@ interface Facades {
         }
     }
 
-    final class TransactionManager extends Shim.Facade<jakarta.transaction.TransactionManager> implements javax.transaction.TransactionManager {
+    final class TransactionManager extends TransactionShim.Facade<jakarta.transaction.TransactionManager> implements javax.transaction.TransactionManager {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -953,7 +1000,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -1026,7 +1079,13 @@ interface Facades {
 
         @Override
         public Throwable fillInStackTrace() {
-            return target.fillInStackTrace();
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
         }
 
         @Override
@@ -1040,7 +1099,7 @@ interface Facades {
         }
     }
 
-    final class TransactionSynchronizationRegistry extends Shim.Facade<jakarta.transaction.TransactionSynchronizationRegistry> implements javax.transaction.TransactionSynchronizationRegistry {
+    final class TransactionSynchronizationRegistry extends TransactionShim.Facade<jakarta.transaction.TransactionSynchronizationRegistry> implements javax.transaction.TransactionSynchronizationRegistry {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
@@ -1094,7 +1153,7 @@ interface Facades {
         }
     }
 
-    final class UserTransaction extends Shim.Facade<jakarta.transaction.UserTransaction> implements javax.transaction.UserTransaction {
+    final class UserTransaction extends TransactionShim.Facade<jakarta.transaction.UserTransaction> implements javax.transaction.UserTransaction {
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
