@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 /**
  * @deprecated Use {@link jakarta.servlet.http.HttpServlet} instead.
+ * @apiNote This class cannot extend {@link jakarta.servlet.http.HttpServlet} due to class hierarchy divergence.
  */
 @Deprecated(since = "jakarta.servlet.http.HttpServlet")
 @SuppressWarnings("JavadocReference")

@@ -16,9 +16,6 @@ public abstract class VariableMapper extends jakarta.el.VariableMapper implement
     //==================================================================================================================
 
     @Override
-    public abstract jakarta.el.ValueExpression resolveVariable(String variable); // TODO
-
-    @Override
     public jakarta.el.ValueExpression setVariable(String variable, jakarta.el.ValueExpression expression) {
         return new Retrofits.ValueExpression(setVariable(variable, ELShim.<ValueExpression>of(expression)));
     }

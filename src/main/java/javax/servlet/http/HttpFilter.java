@@ -5,6 +5,7 @@ import java.io.IOException;
 
 /**
  * @deprecated Use {@link jakarta.servlet.http.HttpFilter} instead.
+ * @apiNote This class cannot extend {@link jakarta.servlet.http.HttpFilter} due to class hierarchy divergence.
  */
 @Deprecated(since = "jakarta.servlet.http.HttpFilter")
 public abstract class HttpFilter extends GenericFilter {

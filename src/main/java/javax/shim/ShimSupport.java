@@ -63,7 +63,7 @@ public final class ShimSupport {
 
         return (T) Proxy.newProxyInstance(
             target.getClass().getClassLoader(),
-            new Class<?>[] {proxyType, Serializable.class},
+            new Class<?>[] {proxyType, Serializable.class, Cloneable.class},
             (proxy, method, arguments) -> {
                 try {
                     return method.invoke(target, arguments);
