@@ -5,7 +5,7 @@ package javax.servlet;
  */
 @Deprecated(since = "jakarta.servlet.ServletException")
 public class ServletException extends jakarta.servlet.ServletException implements ServletShim {
-    private static final long serialVersionUID = 4221302886851315160L; // Use the ID from jakarta.servlet.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

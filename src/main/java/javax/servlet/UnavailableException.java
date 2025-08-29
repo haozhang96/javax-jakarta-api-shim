@@ -5,7 +5,7 @@ package javax.servlet;
  */
 @Deprecated(since = "jakarta.servlet.UnavailableException")
 public class UnavailableException extends ServletException {
-    private static final long serialVersionUID = 5622686609215003468L; // Use the ID from jakarta.servlet.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
     private static final int INDETERMINATE = -1;
 
     private final int seconds;

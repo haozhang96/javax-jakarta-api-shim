@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
  */
 @Deprecated(since = "jakarta.websocket.DecodeException")
 public class DecodeException extends jakarta.websocket.DecodeException implements WebSocketShim {
-    private static final long serialVersionUID = 6L; // Use the ID from jakarta.websocket.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

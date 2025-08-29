@@ -8,7 +8,7 @@ import java.io.IOException;
  */
 @Deprecated(since = "jakarta.servlet.http.HttpFilter")
 public abstract class HttpFilter extends GenericFilter {
-    private static final long serialVersionUID = 7478463438252262094L; // Use the ID from jakarta.servlet.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // HttpFilter Implementation Methods

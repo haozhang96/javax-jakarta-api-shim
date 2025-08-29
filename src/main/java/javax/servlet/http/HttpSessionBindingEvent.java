@@ -5,7 +5,7 @@ package javax.servlet.http;
  */
 @Deprecated(since = "jakarta.servlet.http.HttpSessionBindingEvent")
 public class HttpSessionBindingEvent extends HttpSessionEvent {
-    private static final long serialVersionUID = 7308000419984825907L; // Use the ID from jakarta.servlet.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     private final String name;
     private final Object value;

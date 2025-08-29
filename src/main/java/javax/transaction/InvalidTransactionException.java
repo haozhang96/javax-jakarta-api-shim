@@ -5,7 +5,7 @@ package javax.transaction;
  */
 @Deprecated(since = "jakarta.transaction.InvalidTransactionException")
 public class InvalidTransactionException extends jakarta.transaction.InvalidTransactionException implements TransactionShim {
-    private static final long serialVersionUID = 3597320220337691496L; // Use the ID from jakarta.transaction.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

@@ -5,7 +5,7 @@ package javax.transaction;
  */
 @Deprecated(since = "jakarta.transaction.SystemException")
 public class SystemException extends jakarta.transaction.SystemException implements TransactionShim {
-    private static final long serialVersionUID = 839699079412719325L; // Use the ID from jakarta.transaction.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

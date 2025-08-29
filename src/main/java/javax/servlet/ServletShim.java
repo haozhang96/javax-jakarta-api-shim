@@ -164,7 +164,7 @@ public interface ServletShim extends Shim {
         return S(new Facades.ServletException(exception));
     }
 
-    static <S extends ServletShim> Stream<S> of(Object... objects) {
+    static <S extends ServletShim> Stream<S> of(Object[] objects) {
         return Shim.of(ServletShim::of, objects);
     }
 
@@ -172,7 +172,7 @@ public interface ServletShim extends Shim {
         return Shim.of(ServletShim::of, objects);
     }
 
-    static <S extends ServletShim & Annotation> Stream<S> of(Annotation... annotations) {
+    static <S extends ServletShim & Annotation> Stream<S> of(Annotation[] annotations) {
         return Shim.of(ServletShim::of, annotations);
     }
 

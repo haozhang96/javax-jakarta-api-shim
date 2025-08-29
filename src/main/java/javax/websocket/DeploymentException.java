@@ -5,7 +5,7 @@ package javax.websocket;
  */
 @Deprecated(since = "jakarta.websocket.DeploymentException")
 public class DeploymentException extends jakarta.websocket.DeploymentException implements WebSocketShim {
-    private static final long serialVersionUID = 7576860738144220015L; // Use the ID from jakarta.websocket.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

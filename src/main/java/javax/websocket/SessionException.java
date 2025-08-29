@@ -5,7 +5,7 @@ package javax.websocket;
  */
 @Deprecated(since = "jakarta.websocket.SessionException")
 public class SessionException extends jakarta.websocket.SessionException implements WebSocketShim {
-    private static final long serialVersionUID = 12L; // Use the ID from jakarta.websocket.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

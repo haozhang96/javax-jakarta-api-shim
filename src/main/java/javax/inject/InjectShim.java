@@ -33,7 +33,7 @@ public interface InjectShim extends Shim {
         throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
     }
 
-    static <S extends InjectShim> Stream<S> of(Object... objects) {
+    static <S extends InjectShim> Stream<S> of(Object[] objects) {
         return Shim.of(InjectShim::of, objects);
     }
 
@@ -41,7 +41,7 @@ public interface InjectShim extends Shim {
         return Shim.of(InjectShim::of, objects);
     }
 
-    static <S extends InjectShim & Annotation> Stream<S> of(Annotation... annotations) {
+    static <S extends InjectShim & Annotation> Stream<S> of(Annotation[] annotations) {
         return Shim.of(InjectShim::of, annotations);
     }
 

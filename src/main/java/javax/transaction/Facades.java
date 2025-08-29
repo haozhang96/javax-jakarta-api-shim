@@ -51,7 +51,7 @@ interface Facades {
     //==================================================================================================================
 
     final class HeuristicCommitException extends javax.transaction.HeuristicCommitException {
-        private static final long serialVersionUID = -3977609782149921760L; // Use the ID from jakarta.transaction.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.transaction.HeuristicCommitException target;
 
@@ -130,7 +130,7 @@ interface Facades {
     }
 
     final class HeuristicMixedException extends javax.transaction.HeuristicMixedException {
-        private static final long serialVersionUID = 2345014349685956666L; // Use the ID from jakarta.transaction.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.transaction.HeuristicMixedException target;
 
@@ -209,7 +209,7 @@ interface Facades {
     }
 
     final class HeuristicRollbackException extends javax.transaction.HeuristicRollbackException {
-        private static final long serialVersionUID = -3483618944556408897L; // Use the ID from jakarta.transaction.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.transaction.HeuristicRollbackException target;
 
@@ -288,7 +288,7 @@ interface Facades {
     }
 
     final class InvalidTransactionException extends javax.transaction.InvalidTransactionException {
-        private static final long serialVersionUID = 3597320220337691496L; // Use the ID from jakarta.transaction.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.transaction.InvalidTransactionException target;
 
@@ -367,7 +367,7 @@ interface Facades {
     }
 
     final class NotSupportedException extends javax.transaction.NotSupportedException {
-        private static final long serialVersionUID = 56870312332816390L; // Use the ID from jakarta.transaction.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.transaction.NotSupportedException target;
 
@@ -446,7 +446,7 @@ interface Facades {
     }
 
     final class RollbackException extends javax.transaction.RollbackException {
-        private static final long serialVersionUID = 4151607774785285395L; // Use the ID from jakarta.transaction.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.transaction.RollbackException target;
 
@@ -559,7 +559,7 @@ interface Facades {
     }
 
     final class SystemException extends javax.transaction.SystemException {
-        private static final long serialVersionUID = 839699079412719325L; // Use the ID from jakarta.transaction.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.transaction.SystemException target;
 
@@ -742,7 +742,7 @@ interface Facades {
     }
 
     final class TransactionalException extends javax.transaction.TransactionalException {
-        private static final long serialVersionUID = -8196645329560986417L; // Use the ID from jakarta.transaction.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.transaction.TransactionalException target;
 
@@ -942,7 +942,7 @@ interface Facades {
     }
 
     final class TransactionRequiredException extends javax.transaction.TransactionRequiredException {
-        private static final long serialVersionUID = -1898806419937446439L; // Use the ID from jakarta.transaction.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.transaction.TransactionRequiredException target;
 
@@ -1021,7 +1021,7 @@ interface Facades {
     }
 
     final class TransactionRolledbackException extends javax.transaction.TransactionRolledbackException {
-        private static final long serialVersionUID = -3142798139623020577L; // Use the ID from jakarta.transaction.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.transaction.TransactionRolledbackException target;
 

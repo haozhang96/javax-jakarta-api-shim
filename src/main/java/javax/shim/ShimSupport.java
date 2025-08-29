@@ -15,32 +15,43 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Deprecated
-final class ShimSupport {
+public final class ShimSupport {
     static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
 
     private static final ShimPatcher PATCHER = new ShimPatcher(ClassPool.getDefault());
     private static final Set<Class<?>> LOGGED_ENTRY_POINT_CLASSES = Collections.newSetFromMap(new WeakHashMap<>());
 
-    static {
-        // Spring Framework
-        PATCHER.patch("org.springframework.web.filter.OncePerRequestFilter");
-//        PATCHER.patch(
-//            "org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory",
-//            "io.undertow.servlet.core.DeploymentManagerImpl"
-//        );
-        PATCHER.patch(
-            "org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory",
-            "org.springframework.boot.autoconfigure.websocket.servlet.TomcatWebSocketServletWebServerCustomizer",
-            "org.springframework.web.util.ServletRequestPathUtils$Servlet4Delegate"
-        );
-        PATCHER.patch(
-            clazz -> clazz.getDeclaredMethod("skipServletPathDetermination").setBody("return false;"),
-            "org.springframework.web.util.UrlPathHelper"
-        );
+    //==================================================================================================================
+    // Constructors
+    //==================================================================================================================
 
-        // Apache Tomcat/Catalina/Coyote
-        PATCHER.patch("org.apache.catalina.core.ApplicationFilterRegistration");
+    private ShimSupport() {
+        throw new UnsupportedOperationException();
     }
+
+    //==================================================================================================================
+    // Support Methods
+    //==================================================================================================================
+
+    public static long getSerialVersionUID() {
+        return getSerialVersionUID(STACK_WALKER.getCallerClass().getSuperclass());
+    }
+
+    public static long getSerialVersionUID(Class<?> clazz) {
+        try {
+            final var serialVersionUID = clazz.getDeclaredField("serialVersionUID");
+            return serialVersionUID.trySetAccessible() ? serialVersionUID.getLong(null) : 1L; // Default to 1L.
+        } catch (ReflectiveOperationException exception) {
+            throw new UnsupportedOperationException(
+                "Failed to determine serialVersionUID for class: " + clazz.getName(),
+                exception
+            );
+        }
+    }
+
+    //==================================================================================================================
+    // Package-private Support Methods
+    //==================================================================================================================
 
     @SuppressWarnings("unchecked")
     static <T> T proxy(Shim.Facade<T> facade, T target) {
@@ -53,9 +64,9 @@ final class ShimSupport {
         return (T) Proxy.newProxyInstance(
             target.getClass().getClassLoader(),
             new Class<?>[] {proxyType, Serializable.class},
-            (proxy, method, args) -> {
+            (proxy, method, arguments) -> {
                 try {
-                    return method.invoke(target, args);
+                    return method.invoke(target, arguments);
                 } catch (InvocationTargetException exception) {
                     final var cause = exception.getCause();
                     if (!(cause instanceof LinkageError) && !(cause.getCause() instanceof LinkageError)) {
@@ -63,7 +74,7 @@ final class ShimSupport {
                     }
 
                     PATCHER.patch(method.getDeclaringClass());
-                    return method.invoke(target, args);
+                    return method.invoke(target, arguments);
                 }
             }
         );
@@ -104,5 +115,30 @@ final class ShimSupport {
         return iterable instanceof Collection<?>
             ? ((Collection<T>) iterable).stream()
             : StreamSupport.stream(iterable.spliterator(), false);
+    }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        // Spring Framework
+        PATCHER.patch("org.springframework.web.filter.OncePerRequestFilter");
+//        PATCHER.patch(
+//            "org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory",
+//            "io.undertow.servlet.core.DeploymentManagerImpl"
+//        );
+        PATCHER.patch(
+            "org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory",
+            "org.springframework.boot.autoconfigure.websocket.servlet.TomcatWebSocketServletWebServerCustomizer",
+            "org.springframework.web.util.ServletRequestPathUtils$Servlet4Delegate"
+        );
+        PATCHER.patch(
+            clazz -> clazz.getDeclaredMethod("skipServletPathDetermination").setBody("return false;"),
+            "org.springframework.web.util.UrlPathHelper"
+        );
+
+        // Apache Tomcat/Catalina/Coyote
+        PATCHER.patch("org.apache.catalina.core.ApplicationFilterRegistration");
     }
 }

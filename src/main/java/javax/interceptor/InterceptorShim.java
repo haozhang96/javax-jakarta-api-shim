@@ -35,7 +35,7 @@ public interface InterceptorShim extends Shim {
         throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
     }
 
-    static <S extends InterceptorShim> Stream<S> of(Object... objects) {
+    static <S extends InterceptorShim> Stream<S> of(Object[] objects) {
         return Shim.of(InterceptorShim::of, objects);
     }
 
@@ -43,7 +43,7 @@ public interface InterceptorShim extends Shim {
         return Shim.of(InterceptorShim::of, objects);
     }
 
-    static <S extends InterceptorShim & Annotation> Stream<S> of(Annotation... annotations) {
+    static <S extends InterceptorShim & Annotation> Stream<S> of(Annotation[] annotations) {
         return Shim.of(InterceptorShim::of, annotations);
     }
 

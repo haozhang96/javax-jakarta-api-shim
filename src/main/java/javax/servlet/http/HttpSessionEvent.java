@@ -7,7 +7,7 @@ import javax.servlet.ServletShim;
  */
 @Deprecated(since = "jakarta.servlet.http.HttpSessionEvent")
 public class HttpSessionEvent extends jakarta.servlet.http.HttpSessionEvent implements ServletShim {
-    private static final long serialVersionUID = -7622791603672342895L; // Use the ID from jakarta.servlet.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

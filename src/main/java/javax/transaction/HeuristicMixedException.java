@@ -5,7 +5,7 @@ package javax.transaction;
  */
 @Deprecated(since = "jakarta.transaction.HeuristicMixedException")
 public class HeuristicMixedException extends jakarta.transaction.HeuristicMixedException implements TransactionShim {
-    private static final long serialVersionUID = 2345014349685956666L; // Use the ID from jakarta.transaction.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

@@ -23,7 +23,7 @@ public abstract class HttpServlet extends GenericServlet {
     @SuppressWarnings("removal")
     public static final String LEGACY_DO_HEAD = jakarta.servlet.http.HttpServlet.LEGACY_DO_HEAD;
 
-    private static final long serialVersionUID = 8466325577512134784L; // Use the ID from jakarta.servlet.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
     private static final String PACKAGE_NAME = jakarta.servlet.http.HttpServlet.class.getPackageName();
     private static final ResourceBundle MESSAGES  = ResourceBundle.getBundle(PACKAGE_NAME + ".LocalStrings");
     private static final Collection<String> BAD_REQUEST_PROTOCOLS = Set.of("HTTP/0.9", "HTTP/1.0");

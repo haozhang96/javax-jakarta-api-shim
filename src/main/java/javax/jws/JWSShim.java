@@ -35,7 +35,7 @@ public interface JWSShim extends Shim {
         throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
     }
 
-    static <S extends JWSShim> Stream<S> of(Object... objects) {
+    static <S extends JWSShim> Stream<S> of(Object[] objects) {
         return Shim.of(JWSShim::of, objects);
     }
 
@@ -43,7 +43,7 @@ public interface JWSShim extends Shim {
         return Shim.of(JWSShim::of, objects);
     }
 
-    static <S extends JWSShim & Annotation> Stream<S> of(Annotation... annotations) {
+    static <S extends JWSShim & Annotation> Stream<S> of(Annotation[] annotations) {
         return Shim.of(JWSShim::of, annotations);
     }
 

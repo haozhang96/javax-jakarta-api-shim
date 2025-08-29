@@ -71,7 +71,7 @@ public interface TransactionShim extends Shim {
         throw new UnsupportedOperationException("Unknown exception type: " + exception.getClass().getName());
     }
 
-    static <S extends TransactionShim> Stream<S> of(Object... objects) {
+    static <S extends TransactionShim> Stream<S> of(Object[] objects) {
         return Shim.of(TransactionShim::of, objects);
     }
 
@@ -79,7 +79,7 @@ public interface TransactionShim extends Shim {
         return Shim.of(TransactionShim::of, objects);
     }
 
-    static <S extends TransactionShim & Annotation> Stream<S> of(Annotation... annotations) {
+    static <S extends TransactionShim & Annotation> Stream<S> of(Annotation[] annotations) {
         return Shim.of(TransactionShim::of, annotations);
     }
 

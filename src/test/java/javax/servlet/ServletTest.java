@@ -28,9 +28,9 @@ public class ServletTest {
     @Autowired
     private HttpServletResponse response;
 
-    public static void main(String... args) {
+    public static void main(String... arguments) {
         Thread.setDefaultUncaughtExceptionHandler((thread, cause) -> cause.printStackTrace(System.err));
-        SpringApplication.run(MethodHandles.lookup().lookupClass(), args);
+        SpringApplication.run(MethodHandles.lookup().lookupClass(), arguments);
     }
 
     @GetMapping

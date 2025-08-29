@@ -126,23 +126,6 @@ final class ShimPatcher extends ExprEditor {
         }
     }
 
-    private void patch(MethodCall expression) throws CannotCompileException {
-        try {
-            final var parameterTypes = Descriptor.getParameterTypes(expression.getSignature(), classPool);
-            final var parameters =
-                IntStream
-                    .range(0, parameterTypes.length)
-                    .mapToObj(index -> Map.entry(index, parameterTypes[index]))
-                    .map(parameterType ->
-                        String.format("(%s) $%d", toJakarta(parameterType.getValue().getName()), parameterType.getKey() + 1)
-                    )
-                    .collect(Collectors.joining(", "));
-            expression.replace(String.format("$_ = $proceed(%s);", parameters), this);
-        } catch (NotFoundException exception) {
-            throw new CannotCompileException(exception);
-        }
-    }
-
     @Override
     public void edit(FieldAccess expression) throws CannotCompileException {
         try {
@@ -186,6 +169,23 @@ final class ShimPatcher extends ExprEditor {
     @FunctionalInterface
     interface Patch {
         void patch(CtClass clazz) throws CannotCompileException, NotFoundException, IOException, ReflectiveOperationException;
+    }
+
+    private void patch(MethodCall expression) throws CannotCompileException {
+        try {
+            final var parameterTypes = Descriptor.getParameterTypes(expression.getSignature(), classPool);
+            final var parameters =
+                IntStream
+                    .range(0, parameterTypes.length)
+                    .mapToObj(index -> Map.entry(index, parameterTypes[index]))
+                    .map(parameterType ->
+                        String.format("(%s) $%d", toJakarta(parameterType.getValue().getName()), parameterType.getKey() + 1)
+                    )
+                    .collect(Collectors.joining(", "));
+            expression.replace(String.format("$_ = $proceed(%s);", parameters), this);
+        } catch (NotFoundException exception) {
+            throw new CannotCompileException(exception);
+        }
     }
 
     /**

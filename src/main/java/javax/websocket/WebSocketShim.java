@@ -144,7 +144,7 @@ public interface WebSocketShim extends Shim {
         throw new UnsupportedOperationException("Unknown exception type: " + exception.getClass().getName());
     }
 
-    static <S extends WebSocketShim> Stream<S> of(Object... objects) {
+    static <S extends WebSocketShim> Stream<S> of(Object[] objects) {
         return Shim.of(WebSocketShim::of, objects);
     }
 
@@ -152,7 +152,7 @@ public interface WebSocketShim extends Shim {
         return Shim.of(WebSocketShim::of, objects);
     }
 
-    static <S extends WebSocketShim & Annotation> Stream<S> of(Annotation... annotations) {
+    static <S extends WebSocketShim & Annotation> Stream<S> of(Annotation[] annotations) {
         return Shim.of(WebSocketShim::of, annotations);
     }
 

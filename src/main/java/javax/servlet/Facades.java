@@ -228,7 +228,7 @@ interface Facades {
         @Override
         public javax.servlet.DispatcherType[] dispatcherTypes() {
             return ServletShim
-                .of(target.dispatcherTypes())
+                .<javax.servlet.DispatcherType>of(target.dispatcherTypes())
                 .toArray(javax.servlet.DispatcherType[]::new);
         }
 
@@ -686,8 +686,8 @@ interface Facades {
         }
 
         @Override
-        public boolean equals(Object obj) {
-            return target.equals(obj);
+        public boolean equals(Object other) {
+            return target.equals(other);
         }
 
         @Override
@@ -1017,7 +1017,7 @@ interface Facades {
     }
 
     final class GenericFilter extends javax.servlet.GenericFilter {
-        private static final long serialVersionUID = 4060116231031076581L; // Use the ID from jakarta.servlet.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.GenericFilter target;
 
@@ -1244,7 +1244,7 @@ interface Facades {
     }
 
     final class HttpFilter extends javax.servlet.http.HttpFilter {
-        private static final long serialVersionUID = 7478463438252262094L; // Use the ID from jakarta.servlet.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.http.HttpFilter target;
 
@@ -1382,7 +1382,7 @@ interface Facades {
     }
 
     final class HttpServlet extends javax.servlet.http.HttpServlet {
-        private static final long serialVersionUID = 8466325577512134784L; // Use the ID from jakarta.servlet.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.http.HttpServlet target;
 
@@ -1550,7 +1550,7 @@ interface Facades {
         @Override
         public javax.servlet.http.Cookie[] getCookies() {
             return ServletShim
-                .of(target.getCookies())
+                .<javax.servlet.http.Cookie>of(target.getCookies())
                 .toArray(javax.servlet.http.Cookie[]::new);
         }
 
@@ -2351,7 +2351,7 @@ interface Facades {
     }
 
     final class HttpSessionBindingEvent extends javax.servlet.http.HttpSessionBindingEvent {
-        private static final long serialVersionUID = 7308000419984825907L; // Use the ID from jakarta.servlet.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.http.HttpSessionBindingEvent target;
 
@@ -2437,7 +2437,7 @@ interface Facades {
     }
 
     final class HttpSessionEvent extends javax.servlet.http.HttpSessionEvent {
-        private static final long serialVersionUID = -7622791603672342895L; // Use the ID from jakarta.servlet.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.http.HttpSessionEvent target;
 
@@ -3438,7 +3438,7 @@ interface Facades {
     }
 
     final class ServletContextAttributeEvent extends javax.servlet.ServletContextAttributeEvent {
-        private static final long serialVersionUID = -5804680734245618303L; // Use the ID from jakarta.servlet.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.ServletContextAttributeEvent target;
 
@@ -3538,7 +3538,7 @@ interface Facades {
     }
 
     final class ServletContextEvent extends javax.servlet.ServletContextEvent {
-        private static final long serialVersionUID = -7501701636134222423L; // Use the ID from jakarta.servlet.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.ServletContextEvent target;
 
@@ -3606,7 +3606,7 @@ interface Facades {
     }
 
     final class ServletRequestAttributeEvent extends javax.servlet.ServletRequestAttributeEvent {
-        private static final long serialVersionUID = -1466635426192317793L; // Use the ID from jakarta.servlet.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.ServletRequestAttributeEvent target;
 
@@ -3714,7 +3714,7 @@ interface Facades {
     }
 
     final class ServletRequestEvent extends javax.servlet.ServletRequestEvent {
-        private static final long serialVersionUID = -7467864054698729101L; // Use the ID from jakarta.servlet.
+        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.ServletRequestEvent target;
 

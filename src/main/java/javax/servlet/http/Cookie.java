@@ -7,7 +7,7 @@ import javax.servlet.ServletShim;
  */
 @Deprecated(since = "jakarta.servlet.http.Cookie")
 public class Cookie extends jakarta.servlet.http.Cookie implements ServletShim {
-    private static final long serialVersionUID = -5433071011125749022L; // Use the ID from jakarta.servlet.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

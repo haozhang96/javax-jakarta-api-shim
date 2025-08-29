@@ -5,7 +5,7 @@ package javax.transaction;
  */
 @Deprecated(since = "jakarta.transaction.HeuristicCommitException")
 public class HeuristicCommitException extends jakarta.transaction.HeuristicCommitException implements TransactionShim {
-    private static final long serialVersionUID = -3977609782149921760L; // Use the ID from jakarta.transaction.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

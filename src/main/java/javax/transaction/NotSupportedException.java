@@ -5,7 +5,7 @@ package javax.transaction;
  */
 @Deprecated(since = "jakarta.transaction.NotSupportedException")
 public class NotSupportedException extends jakarta.transaction.NotSupportedException implements TransactionShim {
-    private static final long serialVersionUID = 56870312332816390L; // Use the ID from jakarta.transaction.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

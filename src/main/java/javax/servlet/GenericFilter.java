@@ -5,7 +5,7 @@ package javax.servlet;
  */
 @Deprecated(since = "jakarta.servlet.GenericFilter")
 public abstract class GenericFilter extends jakarta.servlet.GenericFilter implements Filter, FilterConfig {
-    private static final long serialVersionUID = 4060116231031076581L; // Use the ID from jakarta.servlet.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // GenericFilter Implementation Methods

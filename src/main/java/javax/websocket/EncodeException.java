@@ -5,7 +5,7 @@ package javax.websocket;
  */
 @Deprecated(since = "jakarta.websocket.EncodeException")
 public class EncodeException extends jakarta.websocket.EncodeException implements WebSocketShim {
-    private static final long serialVersionUID = 6L; // Use the ID from jakarta.websocket.
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

@@ -34,7 +34,7 @@ public interface AnnotationShim extends Shim {
         throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
     }
 
-    static <S extends AnnotationShim> Stream<S> of(Object... objects) {
+    static <S extends AnnotationShim> Stream<S> of(Object[] objects) {
         return Shim.of(AnnotationShim::of, objects);
     }
 
@@ -42,7 +42,7 @@ public interface AnnotationShim extends Shim {
         return Shim.of(AnnotationShim::of, objects);
     }
 
-    static <S extends AnnotationShim & Annotation> Stream<S> of(Annotation... annotations) {
+    static <S extends AnnotationShim & Annotation> Stream<S> of(Annotation[] annotations) {
         return Shim.of(AnnotationShim::of, annotations);
     }
 

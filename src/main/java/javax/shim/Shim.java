@@ -35,10 +35,12 @@ public interface Shim {
     //==================================================================================================================
 
     static void initialize() {
-        Reference.reachabilityFence(ShimSupport.STACK_WALKER); // Initialize the class.
+        // This method helps ensure the earliest initialization possible for our classes before any bundled classes in
+        //   other dependencies.
+        Reference.reachabilityFence(ShimSupport.STACK_WALKER);
     }
 
-    static <S extends Shim> Stream<S> of(Function<Object, ? extends S> shim, Object... objects) {
+    static <S extends Shim> Stream<S> of(Function<Object, ? extends S> shim, Object[] objects) {
         return objects != null ? Stream.of(objects).map(shim) : Stream.empty();
     }
 
@@ -46,7 +48,7 @@ public interface Shim {
         return objects != null ? ShimSupport.stream(objects).map(shim) : Stream.empty();
     }
 
-    static <S extends Shim & Annotation> Stream<S> of(Function<Object, ? extends S> shim, Annotation... annotations) {
+    static <S extends Shim & Annotation> Stream<S> of(Function<Object, ? extends S> shim, Annotation[] annotations) {
         return annotations != null ? Stream.of(annotations).map(shim) : Stream.empty();
     }
 
@@ -58,54 +60,6 @@ public interface Shim {
         return Proxy
             .getProxyClass(ShimSupport.STACK_WALKER.getCallerClass().getClassLoader(), shimType, interfaceType)
             .asSubclass(shimType);
-    }
-
-    //==================================================================================================================
-    // Enum-specific Implementation
-    //==================================================================================================================
-
-    /**
-     * @deprecated Use {@link jakarta} instead.
-     */
-    @Deprecated(since = "jakarta")
-    interface Enum<E extends java.lang.Enum<E>> extends Shim, Serializable {
-        //==============================================================================================================
-        // Helper Methods
-        //==============================================================================================================
-
-        static <E extends java.lang.Enum<E>> EnumSet<E> toJakarta(Class<E> type, Iterable<? extends Enum<E>> values) {
-            return ShimSupport
-                .stream(values)
-                .map(Enum::toJakarta)
-                .collect(Collectors.toCollection(() -> EnumSet.noneOf(type)));
-        }
-
-        //==============================================================================================================
-        // Implementation Methods
-        //==============================================================================================================
-
-        default E toJakarta() {
-            return java.lang.Enum.valueOf(ShimSupport.<E>toJakarta(getDeclaringClass()), name());
-        }
-
-        //==============================================================================================================
-        // Enum Implementation Methods
-        //==============================================================================================================
-
-        /**
-         * @see java.lang.Enum#name()
-         */
-        String name();
-
-        /**
-         * @see java.lang.Enum#ordinal()
-         */
-        int ordinal();
-
-        /**
-         * @see java.lang.Enum#getDeclaringClass()
-         */
-        Class<? extends java.lang.Enum<?>> getDeclaringClass();
     }
 
     //==================================================================================================================
@@ -206,5 +160,74 @@ public interface Shim {
         static {
             initialize();
         }
+    }
+
+    //==================================================================================================================
+    // Retrofit-specific Implementation
+    //==================================================================================================================
+
+    /**
+     * This interface defines a {@link javax}-to-{@link jakarta} retrofitting shim that is required in cases where
+     *   different inheritance hierarchies require "retrofitting" a {@link javax} shim back to its {@link jakarta}
+     *   counterpart, as Java does not support extending multiple classes like it supports implementing multiple
+     *   interfaces.
+     * <br/><br/>
+     *
+     * For example, {@link javax.servlet.jsp.PageContext} extends {@link javax.servlet.jsp.JspContext}, which extends
+     *   {@link jakarta.servlet.jsp.JspContext}. However, in cases where a {@link jakarta.servlet.jsp.PageContext} is
+     *   needed, there is no way of making {@link javax.servlet.jsp.PageContext} extend its {@link jakarta} counterpart
+     *   directly. Thus, a retrofitting shim would be required.
+     *
+     * @deprecated Use {@link jakarta} instead.
+     */
+    @Deprecated(since = "jakarta")
+    interface Retrofit extends Shim { }
+
+    //==================================================================================================================
+    // Enum-specific Implementation
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta} instead.
+     */
+    @Deprecated(since = "jakarta")
+    interface Enum<E extends java.lang.Enum<E>> extends Shim, Serializable {
+        //==============================================================================================================
+        // Helper Methods
+        //==============================================================================================================
+
+        static <E extends java.lang.Enum<E>> EnumSet<E> toJakarta(Class<E> type, Iterable<? extends Enum<E>> values) {
+            return ShimSupport
+                .stream(values)
+                .map(Enum::toJakarta)
+                .collect(Collectors.toCollection(() -> EnumSet.noneOf(type)));
+        }
+
+        //==============================================================================================================
+        // Implementation Methods
+        //==============================================================================================================
+
+        default E toJakarta() {
+            return java.lang.Enum.valueOf(ShimSupport.<E>toJakarta(getDeclaringClass()), name());
+        }
+
+        //==============================================================================================================
+        // Enum Implementation Methods
+        //==============================================================================================================
+
+        /**
+         * @see java.lang.Enum#name()
+         */
+        String name();
+
+        /**
+         * @see java.lang.Enum#ordinal()
+         */
+        int ordinal();
+
+        /**
+         * @see java.lang.Enum#getDeclaringClass()
+         */
+        Class<? extends java.lang.Enum<?>> getDeclaringClass();
     }
 }
