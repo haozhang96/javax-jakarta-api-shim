@@ -42,7 +42,7 @@ public interface JSPShim extends ServletShim {
         return S(new Facades.JspException(exception));
     }
 
-    static <S extends JSPShim> Stream<S> of(Object... objects) {
+    static <S extends JSPShim> Stream<S> of(Object[] objects) {
         return Shim.of(JSPShim::of, objects);
     }
 
@@ -50,7 +50,7 @@ public interface JSPShim extends ServletShim {
         return Shim.of(JSPShim::of, objects);
     }
 
-    static <S extends JSPShim & Annotation> Stream<S> of(Annotation... annotations) {
+    static <S extends JSPShim & Annotation> Stream<S> of(Annotation[] annotations) {
         return Shim.of(JSPShim::of, annotations);
     }
 

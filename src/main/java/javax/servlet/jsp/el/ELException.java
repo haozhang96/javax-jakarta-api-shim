@@ -1,10 +1,12 @@
-package javax.servlet.jsp;
+package javax.servlet.jsp.el;
+
+import javax.servlet.jsp.JSPShim;
 
 /**
- * @deprecated Use {@link jakarta.servlet.jsp.JspException} instead.
+ * @deprecated Use {@link jakarta.servlet.jsp.el.ELException} instead.
  */
-@Deprecated(since = "jakarta.servlet.jsp.JspException")
-public class JspException extends jakarta.servlet.jsp.JspException implements JSPShim {
+@Deprecated(since = "jakarta.servlet.jsp.el.ELException")
+public class ELException extends jakarta.servlet.jsp.el.ELException implements JSPShim {
     private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
@@ -12,30 +14,30 @@ public class JspException extends jakarta.servlet.jsp.JspException implements JS
     //==================================================================================================================
 
     /**
-     * @see jakarta.servlet.jsp.JspException#JspException()
+     * @see jakarta.servlet.jsp.el.ELException#ELException()
      */
-    public JspException() {
+    public ELException() {
         super();
     }
 
     /**
-     * @see jakarta.servlet.jsp.JspException#JspException(String)
+     * @see jakarta.servlet.jsp.el.ELException#ELException(String)
      */
-    public JspException(String message) {
+    public ELException(String message) {
         super(message);
     }
 
     /**
-     * @see jakarta.servlet.jsp.JspException#JspException(String, Throwable)
+     * @see jakarta.servlet.jsp.el.ELException#ELException(String, Throwable)
      */
-    public JspException(String message, Throwable rootCause) {
+    public ELException(String message, Throwable rootCause) {
         super(message, rootCause);
     }
 
     /**
-     * @see jakarta.servlet.jsp.JspException#JspException(Throwable)
+     * @see jakarta.servlet.jsp.el.ELException#ELException(Throwable)
      */
-    public JspException(Throwable rootCause) {
+    public ELException(Throwable rootCause) {
         super(rootCause);
     }
 

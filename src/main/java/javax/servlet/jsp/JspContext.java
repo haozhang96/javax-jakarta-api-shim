@@ -1,5 +1,8 @@
 package javax.servlet.jsp;
 
+import javax.el.ELContext;
+import javax.servlet.jsp.el.ExpressionEvaluator;
+import javax.servlet.jsp.el.VariableResolver;
 import java.io.Writer;
 
 /**
@@ -10,6 +13,17 @@ public abstract class JspContext extends jakarta.servlet.jsp.JspContext implemen
     //==================================================================================================================
     // JspContext Implementation Methods
     //==================================================================================================================
+
+    @Deprecated
+    @Override
+    public abstract ExpressionEvaluator getExpressionEvaluator();
+
+    @Deprecated
+    @Override
+    public abstract VariableResolver getVariableResolver();
+
+    @Override
+    public abstract ELContext getELContext();
 
     @Override
     public abstract JspWriter getOut();
