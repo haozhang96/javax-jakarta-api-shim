@@ -43,10 +43,6 @@ public interface AnnotationShim extends Shim {
         return Shim.of(AnnotationShim::of, objects);
     }
 
-    static <S extends AnnotationShim & Annotation> Stream<S> of(Annotation[] annotations) {
-        return Shim.of(AnnotationShim::of, annotations);
-    }
-
     static <S extends AnnotationShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
         return Shim.of(shimType, interfaceType);
     }

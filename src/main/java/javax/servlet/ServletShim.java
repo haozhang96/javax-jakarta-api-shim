@@ -173,10 +173,6 @@ public interface ServletShim extends Shim {
         return Shim.of(ServletShim::of, objects);
     }
 
-    static <S extends ServletShim & Annotation> Stream<S> of(Annotation[] annotations) {
-        return Shim.of(ServletShim::of, annotations);
-    }
-
     static <S extends ServletShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
         return Shim.of(shimType, interfaceType);
     }

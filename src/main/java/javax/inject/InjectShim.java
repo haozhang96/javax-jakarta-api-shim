@@ -42,10 +42,6 @@ public interface InjectShim extends Shim {
         return Shim.of(InjectShim::of, objects);
     }
 
-    static <S extends InjectShim & Annotation> Stream<S> of(Annotation[] annotations) {
-        return Shim.of(InjectShim::of, annotations);
-    }
-
     static <S extends InjectShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
         return Shim.of(shimType, interfaceType);
     }

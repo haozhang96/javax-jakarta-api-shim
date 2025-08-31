@@ -46,10 +46,10 @@ public class ServletTest {
     @RestControllerAdvice
     static class Advice {
         @ExceptionHandler
-        public ResponseEntity<String> error(Throwable cause) {
+        public ResponseEntity<?> error(Exception exception) {
             return ResponseEntity
                 .internalServerError()
-                .body(cause.getMessage());
+                .body(exception);
         }
     }
 }

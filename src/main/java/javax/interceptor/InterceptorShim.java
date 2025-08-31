@@ -44,10 +44,6 @@ public interface InterceptorShim extends Shim {
         return Shim.of(InterceptorShim::of, objects);
     }
 
-    static <S extends InterceptorShim & Annotation> Stream<S> of(Annotation[] annotations) {
-        return Shim.of(InterceptorShim::of, annotations);
-    }
-
     static <S extends InterceptorShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
         return Shim.of(shimType, interfaceType);
     }

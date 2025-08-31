@@ -3,7 +3,6 @@ package javax.servlet.jsp;
 import javax.servlet.ServletShim;
 import javax.shim.Shim;
 import javax.shim.ShimSupport;
-import java.lang.annotation.Annotation;
 import java.util.stream.Stream;
 
 /**
@@ -49,10 +48,6 @@ public interface JSPShim extends ServletShim {
 
     static <S extends JSPShim> Stream<S> of(Iterable<?> objects) {
         return Shim.of(JSPShim::of, objects);
-    }
-
-    static <S extends JSPShim & Annotation> Stream<S> of(Annotation[] annotations) {
-        return Shim.of(JSPShim::of, annotations);
     }
 
     static <S extends JSPShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {

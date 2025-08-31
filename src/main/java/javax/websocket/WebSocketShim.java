@@ -153,10 +153,6 @@ public interface WebSocketShim extends Shim {
         return Shim.of(WebSocketShim::of, objects);
     }
 
-    static <S extends WebSocketShim & Annotation> Stream<S> of(Annotation[] annotations) {
-        return Shim.of(WebSocketShim::of, annotations);
-    }
-
     static <S extends WebSocketShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
         return Shim.of(shimType, interfaceType);
     }

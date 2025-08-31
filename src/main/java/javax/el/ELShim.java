@@ -138,10 +138,6 @@ public interface ELShim extends Shim {
         return Shim.of(ELShim::of, objects);
     }
 
-    static <S extends ELShim & Annotation> Stream<S> of(Annotation[] annotations) {
-        return Shim.of(ELShim::of, annotations);
-    }
-
     static <S extends ELShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
         return Shim.of(shimType, interfaceType);
     }

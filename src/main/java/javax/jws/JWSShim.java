@@ -44,10 +44,6 @@ public interface JWSShim extends Shim {
         return Shim.of(JWSShim::of, objects);
     }
 
-    static <S extends JWSShim & Annotation> Stream<S> of(Annotation[] annotations) {
-        return Shim.of(JWSShim::of, annotations);
-    }
-
     static <S extends JWSShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
         return Shim.of(shimType, interfaceType);
     }

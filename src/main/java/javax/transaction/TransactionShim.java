@@ -2,7 +2,6 @@ package javax.transaction;
 
 import javax.shim.Shim;
 import javax.shim.ShimSupport;
-import java.lang.annotation.Annotation;
 import java.util.stream.Stream;
 
 /**
@@ -78,10 +77,6 @@ public interface TransactionShim extends Shim {
 
     static <S extends TransactionShim> Stream<S> of(Iterable<?> objects) {
         return Shim.of(TransactionShim::of, objects);
-    }
-
-    static <S extends TransactionShim & Annotation> Stream<S> of(Annotation[] annotations) {
-        return Shim.of(TransactionShim::of, annotations);
     }
 
     static <S extends TransactionShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
