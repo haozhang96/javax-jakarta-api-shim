@@ -3,6 +3,7 @@ package javax.shim;
 import javassist.ClassPool;
 
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
@@ -47,6 +48,26 @@ public final class ShimSupport {
                 exception
             );
         }
+    }
+
+    public static <T> T throwUnknownType(String label, Object object) {
+        final String packageName = STACK_WALKER.getCallerClass().getPackageName();
+        final Class<?> type;
+        if (object instanceof Annotation) {
+            label = "annotation";
+            type = ((Annotation) object).annotationType();
+        } else if (object instanceof Enum<?>) {
+            label = "enumeration";
+            type = ((Enum<?>) object).getDeclaringClass();
+        } else {
+            label = object instanceof Exception ? "exception" : label;
+            type = object.getClass();
+        }
+
+        throw new UnsupportedOperationException(String.format(
+            "Cannot shim unknown %s %stype: %s",
+            packageName, label != null ? label + " " : "", type.getName()
+        ));
     }
 
     //==================================================================================================================

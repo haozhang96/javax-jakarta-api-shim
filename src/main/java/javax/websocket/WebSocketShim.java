@@ -1,6 +1,7 @@
 package javax.websocket;
 
 import javax.shim.Shim;
+import javax.shim.ShimSupport;
 import java.lang.annotation.Annotation;
 import java.util.stream.Stream;
 
@@ -125,7 +126,7 @@ public interface WebSocketShim extends Shim {
 
         }
 
-        throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
+        return ShimSupport.throwUnknownType(null, object);
     }
 
     static <S extends Exception & WebSocketShim> S of(Exception exception) {
@@ -141,7 +142,7 @@ public interface WebSocketShim extends Shim {
             return S(new Facades.SessionException(S(exception)));
         }
 
-        throw new UnsupportedOperationException("Unknown exception type: " + exception.getClass().getName());
+        return ShimSupport.throwUnknownType(null, exception);
     }
 
     static <S extends WebSocketShim> Stream<S> of(Object[] objects) {
@@ -193,7 +194,7 @@ public interface WebSocketShim extends Shim {
             return S(new Facades.ServerEndpoint(S(annotation)));
         }
 
-        throw new UnsupportedOperationException("Unknown annotation type: " + annotation.annotationType().getName());
+        return ShimSupport.throwUnknownType(null, annotation);
     }
 
     @SuppressWarnings("unchecked")

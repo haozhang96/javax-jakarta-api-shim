@@ -1,6 +1,7 @@
 package javax.transaction;
 
 import javax.shim.Shim;
+import javax.shim.ShimSupport;
 import java.lang.annotation.Annotation;
 import java.util.stream.Stream;
 
@@ -40,7 +41,7 @@ public interface TransactionShim extends Shim {
             return S(new Facades.UserTransaction(S(object)));
         }
 
-        throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
+        return ShimSupport.throwUnknownType(null, object);
     }
 
     static <S extends Exception & TransactionShim> S of(Exception exception) {
@@ -68,7 +69,7 @@ public interface TransactionShim extends Shim {
             return S(new Facades.TransactionRolledbackException(S(exception)));
         }
 
-        throw new UnsupportedOperationException("Unknown exception type: " + exception.getClass().getName());
+        return ShimSupport.throwUnknownType(null, exception);
     }
 
     static <S extends TransactionShim> Stream<S> of(Object[] objects) {

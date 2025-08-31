@@ -1,6 +1,7 @@
 package javax.interceptor;
 
 import javax.shim.Shim;
+import javax.shim.ShimSupport;
 import java.lang.annotation.Annotation;
 import java.util.stream.Stream;
 
@@ -32,7 +33,7 @@ public interface InterceptorShim extends Shim {
             return S(new Facades.InvocationContext(S(object)));
         }
 
-        throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
+        return ShimSupport.throwUnknownType(null, object);
     }
 
     static <S extends InterceptorShim> Stream<S> of(Object[] objects) {
@@ -76,7 +77,7 @@ public interface InterceptorShim extends Shim {
             return S(new Facades.Interceptors(S(annotation)));
         }
 
-        throw new UnsupportedOperationException("Unknown annotation type: " + annotation.annotationType().getName());
+        return ShimSupport.throwUnknownType(null, annotation);
     }
 
     @SuppressWarnings("unchecked")

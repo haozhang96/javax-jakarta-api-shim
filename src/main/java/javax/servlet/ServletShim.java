@@ -3,6 +3,7 @@ package javax.servlet;
 import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.http.MappingMatch;
 import javax.shim.Shim;
+import javax.shim.ShimSupport;
 import java.lang.annotation.Annotation;
 import java.util.EventListener;
 import java.util.EventObject;
@@ -151,7 +152,7 @@ public interface ServletShim extends Shim {
             return S(new Facades.MultipartConfigElement(S(object)));
         }
 
-        throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
+        return ShimSupport.throwUnknownType(null, object);
     }
 
     static <S extends ServletException> S of(jakarta.servlet.ServletException exception) {
@@ -209,7 +210,7 @@ public interface ServletShim extends Shim {
             return S(ServletSecurity.TransportGuarantee.valueOf(enumeration.name()));
         }
 
-        throw new UnsupportedOperationException("Unknown enumeration type: " + enumeration.getClass().getName());
+        return ShimSupport.throwUnknownType(null, enumeration);
     }
 
     private static <S extends Annotation> S of(Annotation annotation) {
@@ -235,7 +236,7 @@ public interface ServletShim extends Shim {
             return S(new Facades.WebServlet(S(annotation)));
         }
 
-        throw new UnsupportedOperationException("Unknown annotation type: " + annotation.annotationType().getName());
+        return ShimSupport.throwUnknownType(null, annotation);
     }
 
     private static <S extends EventListener> S of(EventListener listener) {
@@ -267,7 +268,7 @@ public interface ServletShim extends Shim {
             return S(new Facades.WriteListener(S(listener)));
         }
 
-        throw new UnsupportedOperationException("Unknown event listener type: " + listener.getClass().getName());
+        return ShimSupport.throwUnknownType("event listener", listener);
     }
 
     private static <S extends EventObject> S of(EventObject event) {
@@ -287,7 +288,7 @@ public interface ServletShim extends Shim {
             return S(new Facades.ServletRequestEvent(S(event)));
         }
 
-        throw new UnsupportedOperationException("Unknown event type: " + event.getClass().getName());
+        return ShimSupport.throwUnknownType("event", event);
     }
 
     @SuppressWarnings("unchecked")

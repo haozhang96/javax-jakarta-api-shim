@@ -2,6 +2,7 @@ package javax.servlet.jsp;
 
 import javax.servlet.ServletShim;
 import javax.shim.Shim;
+import javax.shim.ShimSupport;
 import java.lang.annotation.Annotation;
 import java.util.stream.Stream;
 
@@ -31,7 +32,7 @@ public interface JSPShim extends ServletShim {
             return S(new Facades.ErrorData(S(object)));
         }
 
-        throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
+        return ShimSupport.throwUnknownType(null, object);
     }
 
     static <S extends JspException> S of(jakarta.servlet.jsp.JspException exception) {

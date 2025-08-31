@@ -1,6 +1,7 @@
 package javax.inject;
 
 import javax.shim.Shim;
+import javax.shim.ShimSupport;
 import java.lang.annotation.Annotation;
 import java.util.stream.Stream;
 
@@ -30,7 +31,7 @@ public interface InjectShim extends Shim {
             return S(new Facades.Provider<>(S(object)));
         }
 
-        throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
+        return ShimSupport.throwUnknownType(null, object);
     }
 
     static <S extends InjectShim> Stream<S> of(Object[] objects) {
@@ -68,7 +69,7 @@ public interface InjectShim extends Shim {
             return S(new Facades.Singleton(S(annotation)));
         }
 
-        throw new UnsupportedOperationException("Unknown annotation type: " + annotation.annotationType().getName());
+        return ShimSupport.throwUnknownType(null, annotation);
     }
 
     @SuppressWarnings("unchecked")

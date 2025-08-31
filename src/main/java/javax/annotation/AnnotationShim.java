@@ -1,6 +1,7 @@
 package javax.annotation;
 
 import javax.shim.Shim;
+import javax.shim.ShimSupport;
 import java.lang.annotation.Annotation;
 import java.util.stream.Stream;
 
@@ -31,7 +32,7 @@ public interface AnnotationShim extends Shim {
             return S(of((Annotation) object));
         }
 
-        throw new UnsupportedOperationException("Unknown type: " + object.getClass().getName());
+        return ShimSupport.throwUnknownType(null, object);
     }
 
     static <S extends AnnotationShim> Stream<S> of(Object[] objects) {
@@ -71,7 +72,7 @@ public interface AnnotationShim extends Shim {
             return S(Resource.AuthenticationType.valueOf(enumeration.toString()));
         }
 
-        throw new UnsupportedOperationException("Unknown enumeration type: " + enumeration.getClass().getName());
+        return ShimSupport.throwUnknownType(null, enumeration);
     }
 
     private static <S extends Annotation> S of(Annotation annotation) {
@@ -101,7 +102,7 @@ public interface AnnotationShim extends Shim {
             return S(new Facades.Resources(S(annotation)));
         }
 
-        throw new UnsupportedOperationException("Unknown annotation type: " + annotation.annotationType().getName());
+        return ShimSupport.throwUnknownType(null, annotation);
     }
 
     @SuppressWarnings("unchecked")
