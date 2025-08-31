@@ -8,7 +8,7 @@ public abstract class ValueExpression extends Expression {
     private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
-    // Static Initialization
+    // ValueExpression Implementation Methods
     //==================================================================================================================
 
     /**

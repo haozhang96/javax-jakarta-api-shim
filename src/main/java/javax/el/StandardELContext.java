@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * @apiNote This class cannot extend {@link jakarta.el.StandardELContext} due to class hierarchy divergence.
  */
 @Deprecated(since = "jakarta.el.StandardELContext")
-public abstract class StandardELContext extends ELContext {
+public class StandardELContext extends ELContext {
     private final jakarta.el.StandardELContext target;
 
     //==================================================================================================================
@@ -160,29 +160,5 @@ public abstract class StandardELContext extends ELContext {
     @Override
     public <T> T convertToType(Object object, Class<T> targetType) {
         return target.convertToType(object, targetType);
-    }
-
-    @Override
-    public int hashCode() {
-        return target.hashCode();
-    }
-
-    @Override
-    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-    public boolean equals(Object other) {
-        return target.equals(other);
-    }
-
-    @Override
-    public String toString() {
-        return target.toString();
-    }
-
-    //==================================================================================================================
-    // Static Initialization
-    //==================================================================================================================
-
-    static {
-        ELShim.initialize();
     }
 }

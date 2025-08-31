@@ -30,7 +30,11 @@ public class LambdaExpression extends jakarta.el.LambdaExpression implements ELS
      * @see jakarta.el.LambdaExpression#invoke(jakarta.el.ELContext, Object...)
      */
     public Object invoke(ELContext context, Object... arguments) throws ELException {
-        return super.invoke(context, arguments);
+        try {
+            return super.invoke(context, arguments);
+        } catch (jakarta.el.ELException exception) {
+            throw ELShim.of(exception);
+        }
     }
 
     //==================================================================================================================
@@ -45,6 +49,15 @@ public class LambdaExpression extends jakarta.el.LambdaExpression implements ELS
     @Override
     public Object invoke(jakarta.el.ELContext context, Object... arguments) throws ELException {
         return invoke(ELShim.of(context), arguments);
+    }
+
+    @Override
+    public Object invoke(Object... arguments) throws ELException {
+        try {
+            return super.invoke(arguments);
+        } catch (jakarta.el.ELException exception) {
+            throw ELShim.of(exception);
+        }
     }
 
     //==================================================================================================================

@@ -36,22 +36,22 @@ interface Retrofits {
 
         @Override
         public jakarta.el.MethodInfo getMethodInfo(jakarta.el.ELContext context) {
-            return null;
+            return target.getMethodInfo(ELShim.of(context));
         }
 
         @Override
         public Object invoke(jakarta.el.ELContext context, Object[] parameters) {
-            return null;
+            return target.invoke(ELShim.of(context), parameters);
         }
 
         @Override
         public boolean isParametersProvided() {
-            return super.isParametersProvided();
+            return target.isParametersProvided();
         }
 
         @Override
         public jakarta.el.MethodReference getMethodReference(jakarta.el.ELContext context) {
-            return super.getMethodReference(context);
+            return target.getMethodReference(ELShim.of(context));
         }
 
         @Override
@@ -83,7 +83,7 @@ interface Retrofits {
         //==============================================================================================================
 
         StandardELContext(javax.el.StandardELContext target) {
-            super(target);
+            super(ELManager.getExpressionFactory());
             this.target = target;
         }
 
