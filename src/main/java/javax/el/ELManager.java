@@ -12,12 +12,10 @@ public class ELManager extends jakarta.el.ELManager implements ELShim {
     //==================================================================================================================
 
     public ELManager() {
-        super.setELContext(new StandardELContext(getExpressionFactory()));
-
         try {
             final var lookup = MethodHandles.privateLookupIn(jakarta.el.ELManager.class, MethodHandles.lookup());
             final var context = lookup.findVarHandle(getClass(), "elContext", jakarta.el.StandardELContext.class);
-            context.set(this, new Retrofits.StandardELContext(ELShim.of(context.get(this))));
+            context.set(this, new Retrofits.StandardELContext(new StandardELContext(getExpressionFactory())));
         } catch (Exception exception) {
             throw new IllegalStateException("Failed to shim private members", exception);
         }

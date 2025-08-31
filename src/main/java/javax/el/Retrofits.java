@@ -1,5 +1,9 @@
 package javax.el;
 
+import java.beans.FeatureDescriptor;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -16,6 +20,322 @@ interface Retrofits {
     //==================================================================================================================
     // Classes
     //==================================================================================================================
+
+    final class ArrayELResolver extends jakarta.el.ArrayELResolver implements ELShim.Retrofit {
+        private final javax.el.ArrayELResolver target;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        ArrayELResolver(javax.el.ArrayELResolver target) {
+            this.target = target;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public Object getValue(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getValue(context, bean, property);
+        }
+
+        @Override
+        public void setValue(jakarta.el.ELContext context, Object bean, Object property, Object value) {
+            target.setValue(context, bean, property, value);
+        }
+
+        @Override
+        public boolean isReadOnly(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.isReadOnly(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getType(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getType(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getCommonPropertyType(jakarta.el.ELContext context, Object bean) {
+            return target.getCommonPropertyType(context, bean);
+        }
+
+        @Override
+        public <T> T convertToType(jakarta.el.ELContext context, Object object, Class<T> targetType) {
+            return target.convertToType(context, object, targetType);
+        }
+
+        @Override
+        public Object invoke(
+            jakarta.el.ELContext context,
+            Object bean,
+            Object method,
+            Class<?>[] parameterTypes,
+            Object[] parameters
+        ) {
+            return target.invoke(context, bean, method, parameterTypes, parameters);
+        }
+
+        @Override
+        public Iterator<FeatureDescriptor> getFeatureDescriptors(jakarta.el.ELContext context, Object bean) {
+            return target.getFeatureDescriptors(context, bean);
+        }
+    }
+
+    final class BeanNameELResolver extends jakarta.el.BeanNameELResolver implements ELShim.Retrofit {
+        private final javax.el.BeanNameELResolver target;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        BeanNameELResolver(javax.el.BeanNameELResolver target) {
+            super(null);
+            this.target = target;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public Object getValue(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getValue(context, bean, property);
+        }
+
+        @Override
+        public void setValue(jakarta.el.ELContext context, Object bean, Object property, Object value) {
+            target.setValue(context, bean, property, value);
+        }
+
+        @Override
+        public boolean isReadOnly(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.isReadOnly(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getType(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getType(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getCommonPropertyType(jakarta.el.ELContext context, Object bean) {
+            return target.getCommonPropertyType(context, bean);
+        }
+
+        @Override
+        public <T> T convertToType(jakarta.el.ELContext context, Object object, Class<T> targetType) {
+            return target.convertToType(context, object, targetType);
+        }
+
+        @Override
+        public Object invoke(
+            jakarta.el.ELContext context,
+            Object bean,
+            Object method,
+            Class<?>[] parameterTypes,
+            Object[] parameters
+        ) {
+            return target.invoke(context, bean, method, parameterTypes, parameters);
+        }
+
+        @Override
+        public Iterator<FeatureDescriptor> getFeatureDescriptors(jakarta.el.ELContext context, Object bean) {
+            return target.getFeatureDescriptors(context, bean);
+        }
+    }
+
+    final class CompositeELResolver extends jakarta.el.CompositeELResolver implements ELShim.Retrofit {
+        private final javax.el.CompositeELResolver target;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        CompositeELResolver(javax.el.CompositeELResolver target) {
+            this.target = target;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public void add(jakarta.el.ELResolver resolver) {
+            target.add(resolver);
+        }
+
+        @Override
+        public Object getValue(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getValue(context, bean, property);
+        }
+
+        @Override
+        public void setValue(jakarta.el.ELContext context, Object bean, Object property, Object value) {
+            target.setValue(context, bean, property, value);
+        }
+
+        @Override
+        public boolean isReadOnly(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.isReadOnly(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getType(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getType(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getCommonPropertyType(jakarta.el.ELContext context, Object bean) {
+            return target.getCommonPropertyType(context, bean);
+        }
+
+        @Override
+        public <T> T convertToType(jakarta.el.ELContext context, Object object, Class<T> targetType) {
+            return target.convertToType(context, object, targetType);
+        }
+
+        @Override
+        public Object invoke(
+            jakarta.el.ELContext context,
+            Object bean,
+            Object method,
+            Class<?>[] parameterTypes,
+            Object[] parameters
+        ) {
+            return target.invoke(context, bean, method, parameterTypes, parameters);
+        }
+
+        @Override
+        public Iterator<FeatureDescriptor> getFeatureDescriptors(jakarta.el.ELContext context, Object bean) {
+            return target.getFeatureDescriptors(context, bean);
+        }
+    }
+
+    final class ListELResolver extends jakarta.el.ListELResolver implements ELShim.Retrofit {
+        private final javax.el.ListELResolver target;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        ListELResolver(javax.el.ListELResolver target) {
+            this.target = target;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public Object getValue(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getValue(context, bean, property);
+        }
+
+        @Override
+        public void setValue(jakarta.el.ELContext context, Object bean, Object property, Object value) {
+            target.setValue(context, bean, property, value);
+        }
+
+        @Override
+        public boolean isReadOnly(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.isReadOnly(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getType(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getType(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getCommonPropertyType(jakarta.el.ELContext context, Object bean) {
+            return target.getCommonPropertyType(context, bean);
+        }
+
+        @Override
+        public <T> T convertToType(jakarta.el.ELContext context, Object object, Class<T> targetType) {
+            return target.convertToType(context, object, targetType);
+        }
+
+        @Override
+        public Object invoke(
+            jakarta.el.ELContext context,
+            Object bean,
+            Object method,
+            Class<?>[] parameterTypes,
+            Object[] parameters
+        ) {
+            return target.invoke(context, bean, method, parameterTypes, parameters);
+        }
+
+        @Override
+        public Iterator<FeatureDescriptor> getFeatureDescriptors(jakarta.el.ELContext context, Object bean) {
+            return target.getFeatureDescriptors(context, bean);
+        }
+    }
+
+    final class MapELResolver extends jakarta.el.MapELResolver implements ELShim.Retrofit {
+        private final javax.el.MapELResolver target;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        MapELResolver(javax.el.MapELResolver target) {
+            this.target = target;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public Object getValue(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getValue(context, bean, property);
+        }
+
+        @Override
+        public void setValue(jakarta.el.ELContext context, Object bean, Object property, Object value) {
+            target.setValue(context, bean, property, value);
+        }
+
+        @Override
+        public boolean isReadOnly(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.isReadOnly(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getType(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getType(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getCommonPropertyType(jakarta.el.ELContext context, Object bean) {
+            return target.getCommonPropertyType(context, bean);
+        }
+
+        @Override
+        public <T> T convertToType(jakarta.el.ELContext context, Object object, Class<T> targetType) {
+            return target.convertToType(context, object, targetType);
+        }
+
+        @Override
+        public Object invoke(
+            jakarta.el.ELContext context,
+            Object bean,
+            Object method,
+            Class<?>[] parameterTypes,
+            Object[] parameters
+        ) {
+            return target.invoke(context, bean, method, parameterTypes, parameters);
+        }
+
+        @Override
+        public Iterator<FeatureDescriptor> getFeatureDescriptors(jakarta.el.ELContext context, Object bean) {
+            return target.getFeatureDescriptors(context, bean);
+        }
+    }
 
     final class MethodExpression extends jakarta.el.MethodExpression implements ELShim.Retrofit {
         private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
@@ -72,6 +392,302 @@ interface Retrofits {
         @Override
         public boolean isLiteralText() {
             return target.isLiteralText();
+        }
+    }
+
+    final class MethodNotFoundException extends jakarta.el.MethodNotFoundException implements ELShim.Retrofit {
+        private final javax.el.MethodNotFoundException target;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        MethodNotFoundException(javax.el.MethodNotFoundException target) {
+            super(target.getMessage(), target.getCause());
+            this.target = target;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public String getMessage() {
+            return target.getMessage();
+        }
+
+        @Override
+        public String getLocalizedMessage() {
+            return target.getLocalizedMessage();
+        }
+
+        @Override
+        public Throwable getCause() {
+            return target.getCause();
+        }
+
+        @Override
+        public Throwable initCause(Throwable cause) {
+            return target.initCause(cause);
+        }
+
+        @Override
+        public String toString() {
+            return target.toString();
+        }
+
+        @Override
+        public void printStackTrace() {
+            target.printStackTrace();
+        }
+
+        @Override
+        public void printStackTrace(PrintStream s) {
+            target.printStackTrace(s);
+        }
+
+        @Override
+        public void printStackTrace(PrintWriter s) {
+            target.printStackTrace(s);
+        }
+
+        @Override
+        public Throwable fillInStackTrace() {
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public StackTraceElement[] getStackTrace() {
+            return target.getStackTrace();
+        }
+
+        @Override
+        public void setStackTrace(StackTraceElement[] stackTrace) {
+            target.setStackTrace(stackTrace);
+        }
+    }
+
+    final class PropertyNotFoundException extends jakarta.el.PropertyNotFoundException implements ELShim.Retrofit {
+        private final javax.el.PropertyNotFoundException target;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        PropertyNotFoundException(javax.el.PropertyNotFoundException target) {
+            super(target.getMessage(), target.getCause());
+            this.target = target;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public String getMessage() {
+            return target.getMessage();
+        }
+
+        @Override
+        public String getLocalizedMessage() {
+            return target.getLocalizedMessage();
+        }
+
+        @Override
+        public Throwable getCause() {
+            return target.getCause();
+        }
+
+        @Override
+        public Throwable initCause(Throwable cause) {
+            return target.initCause(cause);
+        }
+
+        @Override
+        public String toString() {
+            return target.toString();
+        }
+
+        @Override
+        public void printStackTrace() {
+            target.printStackTrace();
+        }
+
+        @Override
+        public void printStackTrace(PrintStream s) {
+            target.printStackTrace(s);
+        }
+
+        @Override
+        public void printStackTrace(PrintWriter s) {
+            target.printStackTrace(s);
+        }
+
+        @Override
+        public Throwable fillInStackTrace() {
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public StackTraceElement[] getStackTrace() {
+            return target.getStackTrace();
+        }
+
+        @Override
+        public void setStackTrace(StackTraceElement[] stackTrace) {
+            target.setStackTrace(stackTrace);
+        }
+    }
+
+    final class PropertyNotWritableException extends jakarta.el.PropertyNotWritableException implements ELShim.Retrofit {
+        private final javax.el.PropertyNotWritableException target;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        PropertyNotWritableException(javax.el.PropertyNotWritableException target) {
+            super(target.getMessage(), target.getCause());
+            this.target = target;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public String getMessage() {
+            return target.getMessage();
+        }
+
+        @Override
+        public String getLocalizedMessage() {
+            return target.getLocalizedMessage();
+        }
+
+        @Override
+        public Throwable getCause() {
+            return target.getCause();
+        }
+
+        @Override
+        public Throwable initCause(Throwable cause) {
+            return target.initCause(cause);
+        }
+
+        @Override
+        public String toString() {
+            return target.toString();
+        }
+
+        @Override
+        public void printStackTrace() {
+            target.printStackTrace();
+        }
+
+        @Override
+        public void printStackTrace(PrintStream s) {
+            target.printStackTrace(s);
+        }
+
+        @Override
+        public void printStackTrace(PrintWriter s) {
+            target.printStackTrace(s);
+        }
+
+        @Override
+        public Throwable fillInStackTrace() {
+            try {
+                return super.fillInStackTrace();
+            } finally {
+                if (target != null) {
+                    target.fillInStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public StackTraceElement[] getStackTrace() {
+            return target.getStackTrace();
+        }
+
+        @Override
+        public void setStackTrace(StackTraceElement[] stackTrace) {
+            target.setStackTrace(stackTrace);
+        }
+    }
+
+    final class ResourceBundleELResolver extends jakarta.el.ResourceBundleELResolver implements ELShim.Retrofit {
+        private final javax.el.ResourceBundleELResolver target;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        ResourceBundleELResolver(javax.el.ResourceBundleELResolver target) {
+            this.target = target;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public Object getValue(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getValue(context, bean, property);
+        }
+
+        @Override
+        public void setValue(jakarta.el.ELContext context, Object bean, Object property, Object value) {
+            target.setValue(context, bean, property, value);
+        }
+
+        @Override
+        public boolean isReadOnly(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.isReadOnly(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getType(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getType(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getCommonPropertyType(jakarta.el.ELContext context, Object bean) {
+            return target.getCommonPropertyType(context, bean);
+        }
+
+        @Override
+        public <T> T convertToType(jakarta.el.ELContext context, Object object, Class<T> targetType) {
+            return target.convertToType(context, object, targetType);
+        }
+
+        @Override
+        public Object invoke(
+            jakarta.el.ELContext context,
+            Object bean,
+            Object method,
+            Class<?>[] parameterTypes,
+            Object[] parameters
+        ) {
+            return target.invoke(context, bean, method, parameterTypes, parameters);
+        }
+
+        @Override
+        public Iterator<FeatureDescriptor> getFeatureDescriptors(jakarta.el.ELContext context, Object bean) {
+            return target.getFeatureDescriptors(context, bean);
         }
     }
 
@@ -214,6 +830,130 @@ interface Retrofits {
         @Override
         public String toString() {
             return target.toString();
+        }
+    }
+
+    final class StaticFieldELResolver extends jakarta.el.StaticFieldELResolver implements ELShim.Retrofit {
+        private final javax.el.StaticFieldELResolver target;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        StaticFieldELResolver(javax.el.StaticFieldELResolver target) {
+            this.target = target;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public Object getValue(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getValue(context, bean, property);
+        }
+
+        @Override
+        public void setValue(jakarta.el.ELContext context, Object bean, Object property, Object value) {
+            target.setValue(context, bean, property, value);
+        }
+
+        @Override
+        public boolean isReadOnly(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.isReadOnly(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getType(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getType(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getCommonPropertyType(jakarta.el.ELContext context, Object bean) {
+            return target.getCommonPropertyType(context, bean);
+        }
+
+        @Override
+        public <T> T convertToType(jakarta.el.ELContext context, Object object, Class<T> targetType) {
+            return target.convertToType(context, object, targetType);
+        }
+
+        @Override
+        public Object invoke(
+            jakarta.el.ELContext context,
+            Object bean,
+            Object method,
+            Class<?>[] parameterTypes,
+            Object[] parameters
+        ) {
+            return target.invoke(context, bean, method, parameterTypes, parameters);
+        }
+
+        @Override
+        public Iterator<FeatureDescriptor> getFeatureDescriptors(jakarta.el.ELContext context, Object bean) {
+            return target.getFeatureDescriptors(context, bean);
+        }
+    }
+
+    final class TypeConverter extends jakarta.el.TypeConverter implements ELShim.Retrofit {
+        private final javax.el.TypeConverter target;
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        TypeConverter(javax.el.TypeConverter target) {
+            this.target = target;
+        }
+
+        //==============================================================================================================
+        // Delegated Methods
+        //==============================================================================================================
+
+        @Override
+        public Object getValue(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getValue(context, bean, property);
+        }
+
+        @Override
+        public void setValue(jakarta.el.ELContext context, Object bean, Object property, Object value) {
+            target.setValue(context, bean, property, value);
+        }
+
+        @Override
+        public boolean isReadOnly(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.isReadOnly(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getType(jakarta.el.ELContext context, Object bean, Object property) {
+            return target.getType(context, bean, property);
+        }
+
+        @Override
+        public Class<?> getCommonPropertyType(jakarta.el.ELContext context, Object bean) {
+            return target.getCommonPropertyType(context, bean);
+        }
+
+        @Override
+        public <T> T convertToType(jakarta.el.ELContext context, Object object, Class<T> targetType) {
+            return target.convertToType(context, object, targetType);
+        }
+
+        @Override
+        public Object invoke(
+            jakarta.el.ELContext context,
+            Object bean,
+            Object method,
+            Class<?>[] parameterTypes,
+            Object[] parameters
+        ) {
+            return target.invoke(context, bean, method, parameterTypes, parameters);
+        }
+
+        @Override
+        public Iterator<FeatureDescriptor> getFeatureDescriptors(jakarta.el.ELContext context, Object bean) {
+            return target.getFeatureDescriptors(context, bean);
         }
     }
 

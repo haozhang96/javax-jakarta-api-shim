@@ -2,6 +2,7 @@ package javax.el;
 
 /**
  * @deprecated Use {@link jakarta.el.ValueExpression} instead.
+ * @apiNote This class cannot extend {@link jakarta.el.ValueExpression} due to class hierarchy divergence.
  */
 @Deprecated(since = "jakarta.el.ValueExpression")
 public abstract class ValueExpression extends Expression {
