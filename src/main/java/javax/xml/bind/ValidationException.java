@@ -1,12 +1,14 @@
 package javax.xml.bind;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.xml.bind.ValidationException} instead.
  * @apiNote This class cannot extend {@link jakarta.xml.bind.ValidationException} due to class hierarchy divergence.
  */
 @Deprecated(since = "jakarta.xml.bind.ValidationException")
 public class ValidationException extends JAXBException {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

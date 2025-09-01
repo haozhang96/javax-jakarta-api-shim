@@ -1,5 +1,6 @@
 package javax.xml.bind;
 
+import javax.shim.ShimSupport;
 import java.security.BasicPermission;
 import java.security.Permission;
 import java.security.PermissionCollection;
@@ -10,7 +11,7 @@ import java.security.PermissionCollection;
  */
 @Deprecated(since = "jakarta.xml.bind.JAXBPermission")
 public class JAXBPermission extends BasicPermission implements JAXBShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     private final jakarta.xml.bind.JAXBPermission target;
 

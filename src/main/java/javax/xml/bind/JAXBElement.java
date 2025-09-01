@@ -1,12 +1,13 @@
 package javax.xml.bind;
 
 import javax.shim.ShimSupport;
+import javax.xml.namespace.QName;
 
 /**
- * @deprecated Use {@link jakarta.xml.bind.DataBindingException} instead.
+ * @deprecated Use {@link jakarta.xml.bind.JAXBElement} instead.
  */
-@Deprecated(since = "jakarta.xml.bind.DataBindingException")
-public class DataBindingException extends jakarta.xml.bind.DataBindingException implements JAXBShim {
+@Deprecated(since = "jakarta.xml.bind.JAXBElement")
+public class JAXBElement<T> extends jakarta.xml.bind.JAXBElement<T> implements JAXBShim {
     private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
@@ -14,17 +15,17 @@ public class DataBindingException extends jakarta.xml.bind.DataBindingException 
     //==================================================================================================================
 
     /**
-     * @see jakarta.xml.bind.DataBindingException#DataBindingException(String, Throwable)
+     * @see jakarta.xml.bind.JAXBElement#JAXBElement(QName, Class, Class, T)
      */
-    public DataBindingException(String message, Throwable cause) {
-        super(message, cause);
+    public JAXBElement(QName name, Class<T> declaredType, Class<?> scope, T value) {
+        super(name, declaredType, scope, value);
     }
 
     /**
-     * @see jakarta.xml.bind.DataBindingException#DataBindingException(Throwable)
+     * @see jakarta.xml.bind.JAXBElement#JAXBElement(QName, Class, T)
      */
-    public DataBindingException(Throwable cause) {
-        super(cause);
+    public JAXBElement(QName name, Class<T> declaredType, T value) {
+        super(name, declaredType, value);
     }
 
     //==================================================================================================================

@@ -1,11 +1,13 @@
 package javax.xml.bind;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.xml.bind.JAXBException} instead.
  */
 @Deprecated(since = "jakarta.xml.bind.JAXBException")
 public class JAXBException extends jakarta.xml.bind.JAXBException implements JAXBShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

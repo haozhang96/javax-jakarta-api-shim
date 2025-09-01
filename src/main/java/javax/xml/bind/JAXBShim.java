@@ -25,11 +25,29 @@ public interface JAXBShim extends Shim {
     static <S extends JAXBShim> S of(Object object) {
         if (object == null || object instanceof JAXBShim) {
             return S(object);
+        } else if (object instanceof jakarta.xml.bind.JAXBException) {
+            return S(of((jakarta.xml.bind.JAXBException) object));
         } else if (object instanceof Annotation) {
             return S(of((Annotation) object));
+        } else if (object instanceof jakarta.xml.bind.DatatypeConverterInterface) {
+            return S(new Facades.DatatypeConverterInterface(S(object)));
         }
 
         return ShimSupport.throwUnknownType(null, object);
+    }
+
+    static <S extends JAXBException> S of(jakarta.xml.bind.JAXBException exception) {
+        if (exception == null || exception instanceof JAXBShim) {
+            return S(exception);
+//        } else if (exception instanceof jakarta.xml.bind.MarshalException) {
+//            return S(new Facades.MarshalException(S(exception)));
+//        } else if (exception instanceof jakarta.xml.bind.UnmarshalException) {
+//            return S(new Facades.UnmarshalException(S(exception)));
+//        } else if (exception instanceof jakarta.xml.bind.PropertyException) {
+//            return S(new Facades.PropertyException(S(exception)));
+        }
+
+        return S(new Facades.JAXBException(S(exception)));
     }
 
     static <S extends JAXBShim> Stream<S> of(Object[] objects) {

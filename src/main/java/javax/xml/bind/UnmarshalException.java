@@ -1,12 +1,14 @@
 package javax.xml.bind;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.xml.bind.UnmarshalException} instead.
  * @apiNote This class cannot extend {@link jakarta.xml.bind.UnmarshalException} due to class hierarchy divergence.
  */
 @Deprecated(since = "jakarta.xml.bind.UnmarshalException")
 public class UnmarshalException extends JAXBException {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors
