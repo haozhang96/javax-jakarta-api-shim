@@ -79,35 +79,52 @@ public final class ShimSupport {
     // Package-private Support Methods
     //==================================================================================================================
 
-    @SuppressWarnings("unchecked")
     static <T> T proxy(Shim.Facade<T> facade, T target) {
-        final var proxyType =
-            (Class<?>) ((ParameterizedType) facade.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        if (!proxyType.isInterface()) {
+        @SuppressWarnings("unchecked")
+        final Class<T> clazz =
+            (Class<T>) ((ParameterizedType) facade.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        if (!clazz.isInterface()) {
             return target;
         }
 
-        return (T) Proxy.newProxyInstance(
+        return clazz.cast(Proxy.newProxyInstance(
             target.getClass().getClassLoader(),
-            new Class<?>[] {proxyType, Serializable.class, Cloneable.class},
+            new Class<?>[] {clazz, Serializable.class, Cloneable.class},
             (proxy, method, arguments) -> {
                 try {
                     return method.invoke(target, arguments);
                 } catch (InvocationTargetException exception) {
-                    final var cause = exception.getCause();
-                    if (!(cause instanceof LinkageError) && !(cause.getCause() instanceof LinkageError)) {
-                        throw cause;
-                    }
+                    Throwable cause = exception;
+                    do {
+                        cause = cause.getCause();
+                    } while (cause != null && !(cause instanceof LinkageError));
 
-                    PATCHER.patch(method.getDeclaringClass());
+                    if (cause == null) {
+                        throw exception.getCause();
+                    } else {
+                        PATCHER.patch(cause.getStackTrace()[0].getClassName());
+                        PATCHER.patch(method.getDeclaringClass());
+//                        STACK_WALKER.walk(stackFrames ->
+//                            stackFrames
+//                                .skip(1L)
+//                                .map(StackWalker.StackFrame::getDeclaringClass)
+//                                .dropWhile(clazz$ -> Proxy.isProxyClass(clazz$) || Shim.class.isAssignableFrom(clazz$))
+//                                .findFirst()
+//                        ).ifPresent(PATCHER::patch);
+                    }
+                }
+
+                try {
                     return method.invoke(target, arguments);
+                } catch (InvocationTargetException exception) {
+                    throw exception.getCause();
                 }
             }
-        );
+        ));
     }
 
-    static void logEntryPoint(Class<? extends Shim> shimClass, Object shimTarget) {
-        if (!LOGGED_ENTRY_POINT_CLASSES.add(shimTarget.getClass())) {
+    static void logEntryPoint(Class<? extends Shim> clazz, Object target) {
+        if (!LOGGED_ENTRY_POINT_CLASSES.add(target.getClass())) {
             return;
         }
 
@@ -116,24 +133,26 @@ public final class ShimSupport {
                 stackFrames
                     .skip(1L)
                     .dropWhile(stackFrame -> Shim.class.isAssignableFrom(stackFrame.getDeclaringClass()))
-                    .limit(1L)
+                    .limit(2L)
                     .map(StackWalker.StackFrame::toString)
-                    .collect(Collectors.joining(System.lineSeparator() + "\t", System.lineSeparator() + "\t", ""))
+                    .collect(Collectors.joining(System.lineSeparator() + "\t at ", System.lineSeparator() + "\t at ", ""))
             );
-        System.err.format("Shimming: %s -> %s%s%n", shimTarget.getClass().getName(), shimClass.getName(), stackTrace);
+        System.out.format("[*] Shimming: %s -> %s%s%n", target.getClass().getName(), clazz.getName(), stackTrace);
     }
 
     static String toJakarta(String name) {
         return name.startsWith("javax") ? "jakarta" + name.substring("javax".length()) : name;
     }
 
-    @SuppressWarnings("unchecked")
-    static <T> Class<T> toJakarta(Class<?> clazz) {
-        final var className = toJakarta(clazz.getName());
+    static Class<?> toJakarta(Class<?> clazz) {
+        final var className =
+            Shim.Facade.class.isAssignableFrom(clazz)
+                ? ((Class<?>) ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments()[0]).getName()
+                : toJakarta(clazz.getName());
         try {
-            return (Class<T>) Class.forName(className);
+            return Class.forName(className);
         } catch (ClassNotFoundException exception) {
-            throw new LinkageError("Unknown jakarta type: " + className, exception);
+            throw new NoClassDefFoundError("Unknown jakarta type: " + className);
         }
     }
 
@@ -150,19 +169,18 @@ public final class ShimSupport {
     static {
         // Spring Framework
         PATCHER.patch("org.springframework.web.filter.OncePerRequestFilter");
-//        PATCHER.patch(
-//            "org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory",
-//            "io.undertow.servlet.core.DeploymentManagerImpl"
-//        );
-        PATCHER.patch(
-            "org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory",
-            "org.springframework.boot.autoconfigure.websocket.servlet.TomcatWebSocketServletWebServerCustomizer",
-            "org.springframework.web.util.ServletRequestPathUtils$Servlet4Delegate"
-        );
         PATCHER.patch(
             clazz -> clazz.getDeclaredMethod("skipServletPathDetermination").setBody("return false;"),
             "org.springframework.web.util.UrlPathHelper"
         );
+        PATCHER.patch(
+            "org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory",
+            "org.springframework.boot.autoconfigure.websocket.servlet.TomcatWebSocketServletWebServerCustomizer"
+        );
+//        PATCHER.patch(
+//            "org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory",
+//            "io.undertow.servlet.core.DeploymentManagerImpl"
+//        );
 
         // Apache Tomcat/Catalina/Coyote
         PATCHER.patch("org.apache.catalina.core.ApplicationFilterRegistration");

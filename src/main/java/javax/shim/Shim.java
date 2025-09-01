@@ -207,8 +207,9 @@ public interface Shim {
         // Implementation Methods
         //==============================================================================================================
 
+        @SuppressWarnings("unchecked")
         default E toJakarta() {
-            return java.lang.Enum.valueOf(ShimSupport.<E>toJakarta(getDeclaringClass()), name());
+            return java.lang.Enum.valueOf((Class<E>) ShimSupport.toJakarta(getDeclaringClass()), name());
         }
 
         //==============================================================================================================
