@@ -10,7 +10,11 @@ import javassist.util.HotSwapAgent;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -21,6 +25,7 @@ import java.util.stream.Stream;
 final class ShimPatcher extends ExprEditor {
     private final ClassPool classPool;
     private final Patch patch = clazz -> clazz.instrument(this);
+    private final Set<Integer> patched = ConcurrentHashMap.newKeySet();
     private final boolean ignoreFailures;
 
     //==================================================================================================================
@@ -28,7 +33,7 @@ final class ShimPatcher extends ExprEditor {
     //==================================================================================================================
 
     ShimPatcher(ClassPool classPool) {
-        this(classPool, true);
+        this(classPool, false);
     }
 
     ShimPatcher(ClassPool classPool, boolean ignoreFailures) {
@@ -75,12 +80,18 @@ final class ShimPatcher extends ExprEditor {
 
     void patch(Patch patch, CtClass... classes) {
         for (final var clazz : classes) {
+            if (isUnpatchable(clazz, patch)) {
+                continue;
+            }
+
+            final var className = clazz.getName();
             try {
+                System.out.println("[*] Patching: " + className);
                 patch.patch(clazz);
-                HotSwapAgent.redefine(Class.forName(clazz.getName()), clazz);
+                HotSwapAgent.redefine(Class.forName(className), clazz);
             } catch (CannotCompileException | NotFoundException | IOException | ReflectiveOperationException exception) {
                 if (!ignoreFailures) {
-                    throw new LinkageError("Failed to patch class: " + clazz.getName(), exception);
+                    throw new LinkageError("Failed to patch class: " + className, exception);
                 }
             }
         }
@@ -131,7 +142,10 @@ final class ShimPatcher extends ExprEditor {
         try {
             expression.getField();
         } catch (NotFoundException exception) {
-            expression.replace(String.format("$_ = %s.%s;", toJakarta(expression.getClassName()), expression.getFieldName()), this);
+            expression.replace(
+                String.format("$_ = %s.%s;", toJakarta(expression.getClassName()), expression.getFieldName()),
+                this
+            );
         }
     }
 
@@ -177,15 +191,19 @@ final class ShimPatcher extends ExprEditor {
             final var parameters =
                 IntStream
                     .range(0, parameterTypes.length)
-                    .mapToObj(index -> Map.entry(index, parameterTypes[index]))
-                    .map(parameterType ->
-                        String.format("(%s) $%d", toJakarta(parameterType.getValue().getName()), parameterType.getKey() + 1)
-                    )
+                    .mapToObj(index -> String.format("(%s) $%d", toJakarta(parameterTypes[index].getName()), index + 1))
                     .collect(Collectors.joining(", "));
             expression.replace(String.format("$_ = $proceed(%s);", parameters), this);
         } catch (NotFoundException exception) {
             throw new CannotCompileException(exception);
         }
+    }
+
+    private boolean isUnpatchable(CtClass clazz, Patch patch) {
+        return clazz.getName().startsWith("javax")
+            || clazz.getName().startsWith("jakarta")
+            || clazz.getName().startsWith("sun")
+            || !patched.add(Objects.hash(clazz, patch));
     }
 
     /**
