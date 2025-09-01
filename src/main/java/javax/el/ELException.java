@@ -28,15 +28,15 @@ public class ELException extends jakarta.el.ELException implements ELShim {
     /**
      * @see jakarta.el.ELException#ELException(String, Throwable)
      */
-    public ELException(String message, Throwable rootCause) {
-        super(message, rootCause);
+    public ELException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**
      * @see jakarta.el.ELException#ELException(Throwable)
      */
-    public ELException(Throwable rootCause) {
-        super(rootCause);
+    public ELException(Throwable cause) {
+        super(cause);
     }
 
     //==================================================================================================================

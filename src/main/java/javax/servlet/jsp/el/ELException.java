@@ -30,15 +30,15 @@ public class ELException extends jakarta.servlet.jsp.el.ELException implements J
     /**
      * @see jakarta.servlet.jsp.el.ELException#ELException(String, Throwable)
      */
-    public ELException(String message, Throwable rootCause) {
-        super(message, rootCause);
+    public ELException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**
      * @see jakarta.servlet.jsp.el.ELException#ELException(Throwable)
      */
-    public ELException(Throwable rootCause) {
-        super(rootCause);
+    public ELException(Throwable cause) {
+        super(cause);
     }
 
     //==================================================================================================================

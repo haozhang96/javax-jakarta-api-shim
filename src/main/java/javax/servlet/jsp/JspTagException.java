@@ -28,14 +28,14 @@ public class JspTagException extends JspException {
     /**
      * @see jakarta.servlet.jsp.JspTagException#JspTagException(String, Throwable)
      */
-    public JspTagException(String message, Throwable rootCause) {
-        super(message, rootCause);
+    public JspTagException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**
      * @see jakarta.servlet.jsp.JspTagException#JspTagException(Throwable)
      */
-    public JspTagException(Throwable rootCause) {
-        super(rootCause);
+    public JspTagException(Throwable cause) {
+        super(cause);
     }
 }

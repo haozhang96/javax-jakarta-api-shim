@@ -28,15 +28,15 @@ public class ServletException extends jakarta.servlet.ServletException implement
     /**
      * @see jakarta.servlet.ServletException#ServletException(String, Throwable)
      */
-    public ServletException(String message, Throwable rootCause) {
-        super(message, rootCause);
+    public ServletException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**
      * @see jakarta.servlet.ServletException#ServletException(Throwable)
      */
-    public ServletException(Throwable rootCause) {
-        super(rootCause);
+    public ServletException(Throwable cause) {
+        super(cause);
     }
 
     //==================================================================================================================

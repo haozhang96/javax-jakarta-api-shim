@@ -28,14 +28,14 @@ public class SkipPageException extends JspException {
     /**
      * @see jakarta.servlet.jsp.SkipPageException#SkipPageException(String, Throwable)
      */
-    public SkipPageException(String message, Throwable rootCause) {
-        super(message, rootCause);
+    public SkipPageException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**
      * @see jakarta.servlet.jsp.SkipPageException#SkipPageException(Throwable)
      */
-    public SkipPageException(Throwable rootCause) {
-        super(rootCause);
+    public SkipPageException(Throwable cause) {
+        super(cause);
     }
 }

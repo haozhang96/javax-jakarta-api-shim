@@ -6,8 +6,7 @@ package javax.el;
  */
 @Deprecated(since = "jakarta.el.MethodNotFoundException")
 public class MethodNotFoundException extends ELException implements ELShim {
-    private static final long serialVersionUID =
-        javax.shim.ShimSupport.getSerialVersionUID(jakarta.el.MethodNotFoundException.class);
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors
@@ -30,14 +29,14 @@ public class MethodNotFoundException extends ELException implements ELShim {
     /**
      * @see jakarta.el.MethodNotFoundException#MethodNotFoundException(String, Throwable)
      */
-    public MethodNotFoundException(String message, Throwable rootCause) {
-        super(message, rootCause);
+    public MethodNotFoundException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**
      * @see jakarta.el.MethodNotFoundException#MethodNotFoundException(Throwable)
      */
-    public MethodNotFoundException(Throwable rootCause) {
-        super(rootCause);
+    public MethodNotFoundException(Throwable cause) {
+        super(cause);
     }
 }

@@ -3,12 +3,10 @@ package javax.el;
 /**
  * @deprecated Use {@link jakarta.el.PropertyNotWritableException} instead.
  * @apiNote This class cannot extend {@link jakarta.el.PropertyNotWritableException} due to class hierarchy divergence.
- *
  */
 @Deprecated(since = "jakarta.el.PropertyNotWritableException")
 public class PropertyNotWritableException extends ELException {
-    private static final long serialVersionUID =
-        javax.shim.ShimSupport.getSerialVersionUID(jakarta.el.PropertyNotWritableException.class);
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors
@@ -31,14 +29,14 @@ public class PropertyNotWritableException extends ELException {
     /**
      * @see jakarta.el.PropertyNotWritableException#PropertyNotWritableException(String, Throwable)
      */
-    public PropertyNotWritableException(String message, Throwable rootCause) {
-        super(message, rootCause);
+    public PropertyNotWritableException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**
      * @see jakarta.el.PropertyNotWritableException#PropertyNotWritableException(Throwable)
      */
-    public PropertyNotWritableException(Throwable rootCause) {
-        super(rootCause);
+    public PropertyNotWritableException(Throwable cause) {
+        super(cause);
     }
 }

@@ -35,12 +35,17 @@ public final class ShimSupport {
     //==================================================================================================================
 
     public static long getSerialVersionUID() {
-        return getSerialVersionUID(STACK_WALKER.getCallerClass().getSuperclass());
-    }
+        final var clazz = STACK_WALKER.getCallerClass();
+        if (!Serializable.class.isAssignableFrom(clazz)) {
+            throw new UnsupportedOperationException(
+                "Cannot determine serialVersionUID for non-serializable class: " + clazz.getName()
+            );
+        }
 
-    public static long getSerialVersionUID(Class<?> clazz) {
+        final var superClass = clazz.getSuperclass();
+        final var jakartaClass = superClass.getPackageName().startsWith("jakarta") ? superClass : toJakarta(clazz);
         try {
-            final var serialVersionUID = clazz.getDeclaredField("serialVersionUID");
+            final var serialVersionUID = jakartaClass.getDeclaredField("serialVersionUID");
             return serialVersionUID.trySetAccessible() ? serialVersionUID.getLong(null) : 1L; // Default to 1L.
         } catch (ReflectiveOperationException exception) {
             throw new UnsupportedOperationException(

@@ -28,15 +28,15 @@ public class JspException extends jakarta.servlet.jsp.JspException implements JS
     /**
      * @see jakarta.servlet.jsp.JspException#JspException(String, Throwable)
      */
-    public JspException(String message, Throwable rootCause) {
-        super(message, rootCause);
+    public JspException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**
      * @see jakarta.servlet.jsp.JspException#JspException(Throwable)
      */
-    public JspException(Throwable rootCause) {
-        super(rootCause);
+    public JspException(Throwable cause) {
+        super(cause);
     }
 
     //==================================================================================================================

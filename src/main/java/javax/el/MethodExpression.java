@@ -6,8 +6,7 @@ package javax.el;
  */
 @Deprecated(since = "jakarta.el.MethodExpression")
 public abstract class MethodExpression extends Expression {
-    private static final long serialVersionUID =
-        javax.shim.ShimSupport.getSerialVersionUID(jakarta.el.MethodExpression.class);
+    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // MethodExpression Implementation Methods
