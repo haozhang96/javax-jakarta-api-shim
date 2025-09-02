@@ -1,6 +1,6 @@
 package javax.xml.bind;
 
-import java.lang.invoke.MethodHandles;
+import javax.shim.ShimSupport;
 
 /**
  * @deprecated Use {@link jakarta.xml.bind.DatatypeConverter} instead.
@@ -49,16 +49,12 @@ public final class DatatypeConverter implements JAXBShim {
         try {
             printString(null); // Initialize the default implementation.
 
-            final var clazz = jakarta.xml.bind.DatatypeConverter.class;
-            final var converter =
-                (jakarta.xml.bind.DatatypeConverterInterface)
-                    MethodHandles
-                        .privateLookupIn(clazz, MethodHandles.lookup())
-                        .findStaticVarHandle(clazz, "theConverter", jakarta.xml.bind.DatatypeConverterInterface.class)
-                        .get();
-            setDatatypeConverter(JAXBShim.of(converter));
-        } catch (NoSuchFieldException | IllegalAccessException exception) {
-            // Ignore.
+            ShimSupport.reflect(jakarta.xml.bind.DatatypeConverter.class, (lookup, clazz) -> {
+                final var converter =
+                    lookup.findStaticVarHandle(clazz, "theConverter", jakarta.xml.bind.DatatypeConverterInterface.class);
+                setDatatypeConverter(JAXBShim.of(converter.get()));
+                return null;
+            });
         } finally {
             JAXBShim.initialize();
         }

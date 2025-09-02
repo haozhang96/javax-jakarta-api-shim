@@ -1,7 +1,10 @@
 package javax.servlet.http;
 
 import javax.servlet.*;
+import javax.shim.ShimSupport;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -24,7 +27,7 @@ public abstract class HttpServlet extends GenericServlet {
     @SuppressWarnings("removal")
     public static final String LEGACY_DO_HEAD = jakarta.servlet.http.HttpServlet.LEGACY_DO_HEAD;
 
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
     private static final String PACKAGE_NAME = jakarta.servlet.http.HttpServlet.class.getPackageName();
     private static final ResourceBundle MESSAGES  = ResourceBundle.getBundle(PACKAGE_NAME + ".LocalStrings");
     private static final Collection<String> BAD_REQUEST_PROTOCOLS = Set.of("HTTP/0.9", "HTTP/1.0");
@@ -86,20 +89,20 @@ public abstract class HttpServlet extends GenericServlet {
     ) throws ServletException, IOException {
         if (isLegacyDoHead()) {
             try {
-                final var wrapperClass = Class.forName(PACKAGE_NAME + ".NoBodyResponse");
-                final var wrapperConstructor =
-                    wrapperClass.getDeclaredConstructor(jakarta.servlet.http.HttpServletResponse.class);
-                if (wrapperConstructor.trySetAccessible()) {
-                    final var wrapper = wrapperConstructor.newInstance(response);
+                ShimSupport.reflect(MethodHandles.lookup(), PACKAGE_NAME + ".NoBodyResponse", (lookup, clazz) -> {
+                    final var wrapper =
+                        lookup
+                            .findConstructor(clazz, MethodType.methodType(void.class, jakarta.servlet.http.HttpServletResponse.class))
+                            .invoke(response);
                     doGet(request, ServletShim.of(wrapper));
 
-                    final var method = wrapperClass.getDeclaredMethod("setContentLength");
-                    if (method.trySetAccessible()) {
-                        method.invoke(wrapper);
-                        return;
-                    }
-                }
-            } catch (ReflectiveOperationException exception) {
+                    lookup
+                        .bind(wrapper, "setContentLength", MethodType.methodType(void.class))
+                        .invoke();
+                    return null;
+                });
+                return;
+            } catch (IllegalStateException exception) {
                 // Fall through to non-legacy behavior.
             }
         }

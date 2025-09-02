@@ -4,8 +4,8 @@ import javassist.ClassPool;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.Collections;
@@ -34,28 +34,74 @@ public final class ShimSupport {
     // Support Methods
     //==================================================================================================================
 
-    public static long getSerialVersionUID() {
-        final var clazz = STACK_WALKER.getCallerClass();
-        if (!Serializable.class.isAssignableFrom(clazz)) {
-            throw new UnsupportedOperationException(
-                "Cannot determine serialVersionUID for non-serializable class: " + clazz.getName()
-            );
-        }
+    public static MethodHandles.Lookup reflect(String className) {
+        return reflect(MethodHandles.lookup(), className);
+    }
 
-        final var superClass = clazz.getSuperclass();
-        final var jakartaClass = superClass.getPackageName().startsWith("jakarta") ? superClass : toJakarta(clazz);
+    public static MethodHandles.Lookup reflect(Class<?> clazz) {
+        return reflect(MethodHandles.lookup(), clazz);
+    }
+
+    public static <T> T reflect(String className, ReflectiveAction action) {
+        return reflect(MethodHandles.lookup(), className, action);
+    }
+
+    public static <T> T reflect(Class<?> clazz, ReflectiveAction action) {
+        return reflect(MethodHandles.lookup(), clazz, action);
+    }
+
+    public static MethodHandles.Lookup reflect(MethodHandles.Lookup lookup, String className) {
+        return reflect(lookup, className, (lookup$, clazz$) -> lookup$);
+    }
+
+    public static MethodHandles.Lookup reflect(MethodHandles.Lookup lookup, Class<?> clazz) {
+        return reflect(lookup, clazz, (lookup$, clazz$) -> lookup$);
+    }
+
+    public static <T> T reflect(MethodHandles.Lookup lookup, String className, ReflectiveAction action) {
         try {
-            final var serialVersionUID = jakartaClass.getDeclaredField("serialVersionUID");
-            return serialVersionUID.trySetAccessible() ? serialVersionUID.getLong(null) : 1L; // Default to 1L.
-        } catch (ReflectiveOperationException exception) {
-            throw new UnsupportedOperationException(
-                "Failed to determine serialVersionUID for class: " + clazz.getName(),
-                exception
-            );
+            return reflect(lookup, Class.forName(className), action);
+        } catch (ClassNotFoundException exception) {
+            throw new IllegalStateException("Cannot find class to perform reflective action: " + className, exception);
         }
     }
 
-    public static <T> T throwUnknownType(String label, Object object) {
+    @SuppressWarnings("unchecked")
+    public static <T> T reflect(MethodHandles.Lookup lookup, Class<?> clazz, ReflectiveAction action) {
+        try {
+            return (T) action.apply(MethodHandles.privateLookupIn(clazz, lookup), clazz);
+        } catch (Throwable cause) {
+            throw new IllegalStateException("Failed to perform reflective action on class: " + clazz.getName(), cause);
+        }
+    }
+
+    public static long getSerialVersionUID() {
+        final var clazz = STACK_WALKER.getCallerClass();
+        if (!Serializable.class.isAssignableFrom(clazz)) {
+            throw new UnsupportedOperationException("Not a serializable class: " + clazz.getName());
+        }
+
+        try {
+            return getSerialVersionUID(toJakarta(clazz));
+        } catch (IllegalStateException | NoClassDefFoundError exception) {
+            var superClass = clazz;
+            do {
+                superClass = superClass.getSuperclass();
+            } while (superClass != null && !superClass.getPackageName().startsWith("jakarta"));
+
+            if (superClass != null) {
+                try {
+                    return getSerialVersionUID(superClass);
+                } catch (IllegalStateException innerException) {
+                    // Ignore.
+                }
+            }
+        }
+
+        throw new UnsupportedOperationException("Failed to determine serialVersionUID for class: " + clazz.getName());
+    }
+
+    public static <T> T throwUnknownType(String label, Object object) throws UnsupportedOperationException {
         final String packageName = STACK_WALKER.getCallerClass().getPackageName();
         final Class<?> type;
         if (object instanceof Annotation) {
@@ -75,14 +121,27 @@ public final class ShimSupport {
         ));
     }
 
+    public static <T> Stream<T> stream(Iterable<T> iterable) {
+        return iterable instanceof Collection<?>
+            ? ((Collection<T>) iterable).stream()
+            : StreamSupport.stream(iterable.spliterator(), false);
+    }
+
+    //==================================================================================================================
+    // Helpers
+    //==================================================================================================================
+
+    @FunctionalInterface
+    public interface ReflectiveAction {
+        Object apply(MethodHandles.Lookup lookup, Class<?> clazz) throws Throwable;
+    }
+
     //==================================================================================================================
     // Package-private Support Methods
     //==================================================================================================================
 
     static <T> T proxy(Shim.Facade<T> facade, T target) {
-        @SuppressWarnings("unchecked")
-        final Class<T> clazz =
-            (Class<T>) ((ParameterizedType) facade.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        final Class<T> clazz = facade.getTargetClass();
         if (!clazz.isInterface()) {
             return target;
         }
@@ -123,8 +182,8 @@ public final class ShimSupport {
         ));
     }
 
-    static void logEntryPoint(Class<? extends Shim> clazz, Object target) {
-        if (!LOGGED_ENTRY_POINT_CLASSES.add(target.getClass())) {
+    static void logEntryPoint(Class<? extends Shim> shimClass, Class<?> targetClass) {
+        if (!LOGGED_ENTRY_POINT_CLASSES.add(targetClass)) {
             return;
         }
 
@@ -132,12 +191,15 @@ public final class ShimSupport {
             STACK_WALKER.walk(stackFrames ->
                 stackFrames
                     .skip(1L)
-                    .dropWhile(stackFrame -> Shim.class.isAssignableFrom(stackFrame.getDeclaringClass()))
+                    .dropWhile(stackFrame ->
+                        stackFrame.getDeclaringClass().getPackageName().startsWith("javax")
+                            || Shim.class.isAssignableFrom(stackFrame.getDeclaringClass())
+                    )
                     .limit(2L)
                     .map(StackWalker.StackFrame::toString)
                     .collect(Collectors.joining(System.lineSeparator() + "\t at ", System.lineSeparator() + "\t at ", ""))
             );
-        System.out.format("[*] Shimming: %s -> %s%s%n", target.getClass().getName(), clazz.getName(), stackTrace);
+        System.out.format("[*] Shimming: %s -> %s%s%n", targetClass.getName(), shimClass.getName(), stackTrace);
     }
 
     static String toJakarta(String name) {
@@ -147,7 +209,7 @@ public final class ShimSupport {
     static Class<?> toJakarta(Class<?> clazz) {
         final var className =
             Shim.Facade.class.isAssignableFrom(clazz)
-                ? ((Class<?>) ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments()[0]).getName()
+                ? Shim.Facade.getTargetClass(clazz.asSubclass(Shim.Facade.class)).getName()
                 : toJakarta(clazz.getName());
         try {
             return Class.forName(className);
@@ -156,10 +218,16 @@ public final class ShimSupport {
         }
     }
 
-    static <T> Stream<T> stream(Iterable<T> iterable) {
-        return iterable instanceof Collection<?>
-            ? ((Collection<T>) iterable).stream()
-            : StreamSupport.stream(iterable.spliterator(), false);
+    //==================================================================================================================
+    // Private Helper Methods
+    //==================================================================================================================
+
+    private static long getSerialVersionUID(Class<?> clazz) {
+        return reflect(clazz, (lookup, ignored) ->
+            lookup
+                .findStaticVarHandle(clazz, "serialVersionUID", long.class)
+                .get()
+        );
     }
 
     //==================================================================================================================

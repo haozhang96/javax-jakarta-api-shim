@@ -5,6 +5,7 @@ import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.ref.Reference;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.util.EnumSet;
 import java.util.Objects;
@@ -79,7 +80,15 @@ public interface Shim {
 
         protected Facade(T target) {
             this.target = ShimSupport.proxy(this, Objects.requireNonNull(target));
-            ShimSupport.logEntryPoint(getClass(), target);
+            ShimSupport.logEntryPoint(getClass(), target.getClass());
+        }
+
+        //==============================================================================================================
+        // Implementation Methods
+        //==============================================================================================================
+
+        protected final Class<T> getTargetClass() {
+            return getTargetClass(getClass());
         }
 
         //==============================================================================================================
@@ -117,13 +126,23 @@ public interface Shim {
         @SuppressWarnings("deprecation")
         protected final void finalize() throws Throwable {
             try {
-                MethodHandles
-                    .privateLookupIn(target.getClass(), MethodHandles.lookup())
-                    .findVirtual(Object.class, "finalize", MethodType.methodType(void.class))
-                    .invoke(target);
+                ShimSupport.reflect(MethodHandles.lookup(), target.getClass(), (lookup, clazz) ->
+                    lookup
+                        .bind(target, "finalize", MethodType.methodType(void.class))
+                        .invoke()
+                );
             } finally {
                 super.finalize();
             }
+        }
+
+        //==============================================================================================================
+        // Package-private Helper Methods
+        //==============================================================================================================
+
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        static <T> Class<T> getTargetClass(Class<? extends Shim.Facade> shimClass) {
+            return (Class<T>) ((ParameterizedType) shimClass.getGenericSuperclass()).getActualTypeArguments()[0];
         }
 
         //==============================================================================================================

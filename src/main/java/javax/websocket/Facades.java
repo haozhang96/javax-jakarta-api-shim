@@ -357,12 +357,13 @@ interface Facades {
 
         @Override
         protected javax.websocket.WebSocketContainer getContainer() {
-            try {
-                // We must use reflection as we cannot access the protected method directly.
-                return WebSocketShim.of(JAKARTA.getDeclaredMethod("getContainer").invoke(target));
-            } catch (ReflectiveOperationException exception) {
-                throw new IllegalStateException("Failed to invoke target method", exception);
-            }
+            final jakarta.websocket.WebSocketContainer container =
+                ShimSupport.reflect(MethodHandles.lookup(), JAKARTA, (lookup, clazz) ->
+                    lookup
+                        .bind(target, "getContainer", MethodType.methodType(jakarta.websocket.WebSocketContainer.class))
+                        .invoke()
+                );
+            return WebSocketShim.of(container);
         }
     }
 

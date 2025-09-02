@@ -1,5 +1,6 @@
 package javax.el;
 
+import javax.shim.ShimSupport;
 import java.lang.invoke.MethodHandles;
 
 /**
@@ -12,13 +13,12 @@ public class ELManager extends jakarta.el.ELManager implements ELShim {
     //==================================================================================================================
 
     public ELManager() {
-        try {
-            final var lookup = MethodHandles.privateLookupIn(jakarta.el.ELManager.class, MethodHandles.lookup());
-            final var context = lookup.findVarHandle(getClass(), "elContext", jakarta.el.StandardELContext.class);
-            context.set(this, new Retrofits.StandardELContext(new StandardELContext(getExpressionFactory())));
-        } catch (Exception exception) {
-            throw new IllegalStateException("Failed to shim private members", exception);
-        }
+        ShimSupport.reflect(MethodHandles.lookup(), jakarta.el.ELManager.class, (lookup, clazz) -> {
+            lookup
+                .findVarHandle(getClass(), "elContext", jakarta.el.StandardELContext.class)
+                .set(this, new Retrofits.StandardELContext(new StandardELContext(getExpressionFactory())));
+            return null;
+        });
     }
 
     //==================================================================================================================
