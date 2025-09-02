@@ -29,6 +29,21 @@ public class JAXBElement<T> extends jakarta.xml.bind.JAXBElement<T> implements J
     }
 
     //==================================================================================================================
+    // Helper Methods
+    //==================================================================================================================
+
+    @SuppressWarnings("unchecked")
+    public static <T> T wrap(T object) {
+        if (object instanceof JAXBElement<?>) {
+            return object;
+        } else if (object instanceof jakarta.xml.bind.JAXBElement<?>) {
+            return (T) new Facades.JAXBElement<>((jakarta.xml.bind.JAXBElement<?>) object);
+        } else {
+            return object;
+        }
+    }
+
+    //==================================================================================================================
     // Static Initialization
     //==================================================================================================================
 

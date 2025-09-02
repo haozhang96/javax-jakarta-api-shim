@@ -37,6 +37,11 @@ public interface Marshaller extends jakarta.xml.bind.Marshaller, JAXBShim {
     <A extends XmlAdapter<?, ?>> void setAdapter(Class<A> type, A adapter);
 
     /**
+     * @see jakarta.xml.bind.Marshaller#setAttachmentMarshaller(jakarta.xml.bind.attachment.AttachmentMarshaller)
+     */
+    void setAttachmentMarshaller(AttachmentMarshaller attachmentMarshaller);
+
+    /**
      * @see jakarta.xml.bind.Marshaller#setListener(jakarta.xml.bind.Marshaller.Listener)
      */
     void setListener(Listener listener);
@@ -49,19 +54,19 @@ public interface Marshaller extends jakarta.xml.bind.Marshaller, JAXBShim {
     void marshal(Object jaxbElement, Result result) throws JAXBException;
 
     @Override
-    void marshal(Object jaxbElement, OutputStream outputStream) throws JAXBException;
-
-    @Override
-    void marshal(Object jaxbElement, File file) throws JAXBException;
-
-    @Override
-    void marshal(Object jaxbElement, Writer writer) throws JAXBException;
+    void marshal(Object jaxbElement, Node node) throws JAXBException;
 
     @Override
     void marshal(Object jaxbElement, ContentHandler handler) throws JAXBException;
 
     @Override
-    void marshal(Object jaxbElement, Node node) throws JAXBException;
+    void marshal(Object jaxbElement, File file) throws JAXBException;
+
+    @Override
+    void marshal(Object jaxbElement, OutputStream outputStream) throws JAXBException;
+
+    @Override
+    void marshal(Object jaxbElement, Writer writer) throws JAXBException;
 
     @Override
     void marshal(Object jaxbElement, XMLStreamWriter writer) throws JAXBException;
@@ -73,18 +78,12 @@ public interface Marshaller extends jakarta.xml.bind.Marshaller, JAXBShim {
     Node getNode(Object contentTree) throws JAXBException;
 
     @Override
-    Object getProperty(String name) throws jakarta.xml.bind.PropertyException;
-
-    @Override
-    void setProperty(String name, Object value) throws jakarta.xml.bind.PropertyException;
+    ValidationEventHandler getEventHandler() throws JAXBException;
 
     @Override
     default void setEventHandler(jakarta.xml.bind.ValidationEventHandler handler) throws JAXBException {
         setEventHandler(JAXBShim.of(handler));
     }
-
-    @Override
-    ValidationEventHandler getEventHandler() throws JAXBException;
 
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -105,7 +104,9 @@ public interface Marshaller extends jakarta.xml.bind.Marshaller, JAXBShim {
     AttachmentMarshaller getAttachmentMarshaller();
 
     @Override
-    void setAttachmentMarshaller(jakarta.xml.bind.attachment.AttachmentMarshaller attachmentMarshaller);
+    default void setAttachmentMarshaller(jakarta.xml.bind.attachment.AttachmentMarshaller attachmentMarshaller) {
+        setAttachmentMarshaller(JAXBShim.of(attachmentMarshaller));
+    }
 
     @Override
     Listener getListener();

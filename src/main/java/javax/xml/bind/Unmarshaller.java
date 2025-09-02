@@ -8,6 +8,7 @@ import javax.xml.bind.attachment.AttachmentUnmarshaller;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.Source;
+import javax.xml.validation.Schema;
 import java.io.File;
 import java.io.InputStream;
 import java.io.Reader;
@@ -47,12 +48,42 @@ public interface Unmarshaller extends jakarta.xml.bind.Unmarshaller, JAXBShim {
      */
     void setListener(Listener listener);
 
+    /**
+     * @deprecated This method has been deprecated and/or removed since XML Binding 2.0.
+     * @see #getSchema()
+     */
+    @Deprecated(since = "XML Binding 2.0", forRemoval = true)
+    default boolean isValidating() {
+        return false;
+    }
+
+    /**
+     * @deprecated This method has been deprecated and/or removed since XML Binding 2.0.
+     * @see #setSchema(Schema)
+     */
+    @Deprecated(since = "XML Binding 2.0", forRemoval = true)
+    default void setValidating(boolean validating) {
+        // Do nothing.
+    }
+
     //==================================================================================================================
     // Unmarshaller Implementation Methods
     //==================================================================================================================
 
     @Override
+    Object unmarshal(Source source) throws JAXBException;
+
+    @Override
+    Object unmarshal(Node node) throws JAXBException;
+
+    @Override
+    Object unmarshal(URL url) throws JAXBException;
+
+    @Override
     Object unmarshal(File file) throws JAXBException;
+
+    @Override
+    Object unmarshal(InputSource source) throws JAXBException;
 
     @Override
     Object unmarshal(InputStream inputStream) throws JAXBException;
@@ -61,31 +92,19 @@ public interface Unmarshaller extends jakarta.xml.bind.Unmarshaller, JAXBShim {
     Object unmarshal(Reader reader) throws JAXBException;
 
     @Override
-    Object unmarshal(URL url) throws JAXBException;
+    Object unmarshal(XMLStreamReader reader) throws JAXBException;
 
     @Override
-    Object unmarshal(InputSource source) throws JAXBException;
-
-    @Override
-    Object unmarshal(Node node) throws JAXBException;
-
-    @Override
-    <T> JAXBElement<T> unmarshal(Node node, Class<T> declaredType) throws JAXBException;
-
-    @Override
-    Object unmarshal(Source source) throws JAXBException;
+    Object unmarshal(XMLEventReader reader) throws JAXBException;
 
     @Override
     <T> JAXBElement<T> unmarshal(Source source, Class<T> declaredType) throws JAXBException;
 
     @Override
-    Object unmarshal(XMLStreamReader reader) throws JAXBException;
+    <T> JAXBElement<T> unmarshal(Node node, Class<T> declaredType) throws JAXBException;
 
     @Override
     <T> JAXBElement<T> unmarshal(XMLStreamReader reader, Class<T> declaredType) throws JAXBException;
-
-    @Override
-    Object unmarshal(XMLEventReader reader) throws JAXBException;
 
     @Override
     <T> JAXBElement<T> unmarshal(XMLEventReader reader, Class<T> declaredType) throws JAXBException;
@@ -100,12 +119,6 @@ public interface Unmarshaller extends jakarta.xml.bind.Unmarshaller, JAXBShim {
     default void setEventHandler(jakarta.xml.bind.ValidationEventHandler handler) throws JAXBException {
         setEventHandler(JAXBShim.of(handler));
     }
-
-    @Override
-    Object getProperty(String name) throws jakarta.xml.bind.PropertyException;
-
-    @Override
-    void setProperty(String name, Object value) throws jakarta.xml.bind.PropertyException;
 
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
