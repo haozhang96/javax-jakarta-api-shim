@@ -1,11 +1,13 @@
 package javax.servlet.jsp.el;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.servlet.jsp.el.ELParseException} instead.
  */
 @Deprecated(since = "jakarta.servlet.jsp.el.ELParseException")
 public class ELParseException extends ELException {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

@@ -1,13 +1,14 @@
 package javax.servlet.http;
 
 import javax.servlet.ServletShim;
+import javax.shim.ShimSupport;
 
 /**
  * @deprecated Use {@link jakarta.servlet.http.HttpSessionEvent} instead.
  */
 @Deprecated(since = "jakarta.servlet.http.HttpSessionEvent")
 public class HttpSessionEvent extends jakarta.servlet.http.HttpSessionEvent implements ServletShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

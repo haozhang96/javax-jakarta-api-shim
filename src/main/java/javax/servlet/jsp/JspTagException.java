@@ -1,11 +1,13 @@
 package javax.servlet.jsp;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.servlet.jsp.JspTagException} instead.
  */
 @Deprecated(since = "jakarta.servlet.jsp.JspTagException")
 public class JspTagException extends JspException {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

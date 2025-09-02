@@ -5,7 +5,20 @@ package javax.servlet;
  */
 @Deprecated(since = "jakarta.servlet.SessionTrackingMode")
 public enum SessionTrackingMode implements ServletShim.Enum<jakarta.servlet.SessionTrackingMode> {
-    COOKIE, URL, SSL;
+    /**
+     * @see jakarta.servlet.SessionTrackingMode#COOKIE
+     */
+    COOKIE,
+
+    /**
+     * @see jakarta.servlet.SessionTrackingMode#URL
+     */
+    URL,
+
+    /**
+     * @see jakarta.servlet.SessionTrackingMode#SSL
+     */
+    SSL;
 
     //==================================================================================================================
     // Static Initialization

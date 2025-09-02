@@ -1,11 +1,13 @@
 package javax.servlet;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.servlet.UnavailableException} instead.
  */
 @Deprecated(since = "jakarta.servlet.UnavailableException")
 public class UnavailableException extends ServletException {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
     private static final int INDETERMINATE = -1;
 
     private final int seconds;

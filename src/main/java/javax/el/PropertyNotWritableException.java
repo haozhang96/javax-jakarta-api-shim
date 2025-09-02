@@ -1,12 +1,14 @@
 package javax.el;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.el.PropertyNotWritableException} instead.
  * @apiNote This class cannot extend {@link jakarta.el.PropertyNotWritableException} due to class hierarchy divergence.
  */
 @Deprecated(since = "jakarta.el.PropertyNotWritableException")
 public class PropertyNotWritableException extends ELException {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

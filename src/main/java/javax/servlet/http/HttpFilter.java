@@ -1,6 +1,7 @@
 package javax.servlet.http;
 
 import javax.servlet.*;
+import javax.shim.ShimSupport;
 import java.io.IOException;
 
 /**
@@ -9,7 +10,7 @@ import java.io.IOException;
  */
 @Deprecated(since = "jakarta.servlet.http.HttpFilter")
 public abstract class HttpFilter extends GenericFilter {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // HttpFilter Implementation Methods

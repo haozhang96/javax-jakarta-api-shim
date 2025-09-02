@@ -1,11 +1,13 @@
 package javax.transaction;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.transaction.SystemException} instead.
  */
 @Deprecated(since = "jakarta.transaction.SystemException")
 public class SystemException extends jakarta.transaction.SystemException implements TransactionShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

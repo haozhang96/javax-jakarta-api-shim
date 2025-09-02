@@ -1,11 +1,13 @@
 package javax.transaction;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.transaction.RollbackException} instead.
  */
 @Deprecated(since = "jakarta.transaction.RollbackException")
 public class RollbackException extends jakarta.transaction.RollbackException implements TransactionShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

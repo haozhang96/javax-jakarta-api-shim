@@ -1,11 +1,13 @@
 package javax.transaction;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.transaction.NotSupportedException} instead.
  */
 @Deprecated(since = "jakarta.transaction.NotSupportedException")
 public class NotSupportedException extends jakarta.transaction.NotSupportedException implements TransactionShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

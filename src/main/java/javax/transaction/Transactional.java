@@ -13,6 +13,25 @@ import java.lang.annotation.*;
 @Deprecated(since = "jakarta.transaction.Transactional")
 public @interface Transactional {
     /**
+     * @see jakarta.transaction.Transactional#value()
+     */
+    TxType value() default TxType.REQUIRED;
+
+    /**
+     * @see jakarta.transaction.Transactional#rollbackOn()
+     */
+    Class<?>[] rollbackOn() default {};
+
+    /**
+     * @see jakarta.transaction.Transactional#dontRollbackOn()
+     */
+    Class<?>[] dontRollbackOn() default {};
+
+    //==================================================================================================================
+    // Enumerations
+    //==================================================================================================================
+
+    /**
      * @deprecated Use {@link jakarta.transaction.Transactional.TxType} instead.
      */
     @Deprecated(since = "jakarta.transaction.Transactional.TxType")
@@ -45,21 +64,14 @@ public @interface Transactional {
         /**
          * @see jakarta.transaction.Transactional.TxType#NEVER
          */
-        NEVER
+        NEVER;
+
+        //==============================================================================================================
+        // Static Initialization
+        //==============================================================================================================
+
+        static {
+            TransactionShim.initialize();
+        }
     }
-
-    /**
-     * @see jakarta.transaction.Transactional#value()
-     */
-    TxType value() default TxType.REQUIRED;
-
-    /**
-     * @see jakarta.transaction.Transactional#rollbackOn()
-     */
-    Class<?>[] rollbackOn() default {};
-
-    /**
-     * @see jakarta.transaction.Transactional#dontRollbackOn()
-     */
-    Class<?>[] dontRollbackOn() default {};
 }

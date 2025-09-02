@@ -1,12 +1,14 @@
 package javax.el;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.el.MethodExpression} instead.
  * @apiNote This class cannot extend {@link jakarta.el.MethodExpression} due to class hierarchy divergence.
  */
 @Deprecated(since = "jakarta.el.MethodExpression")
 public abstract class MethodExpression extends Expression {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // MethodExpression Implementation Methods

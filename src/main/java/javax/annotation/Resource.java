@@ -26,14 +26,6 @@ public @interface Resource {
     Class<?> type() default Object.class;
 
     /**
-     * @deprecated Use {@link jakarta.annotation.Resource.AuthenticationType} instead.
-     */
-    @Deprecated(since = "jakarta.annotation.Resource.AuthenticationType")
-    enum AuthenticationType implements AnnotationShim.Enum<jakarta.annotation.Resource.AuthenticationType> {
-        CONTAINER, APPLICATION
-    }
-
-    /**
      * @see jakarta.annotation.Resource#authenticationType()
      */
     AuthenticationType authenticationType() default AuthenticationType.CONTAINER;
@@ -52,4 +44,32 @@ public @interface Resource {
      * @see jakarta.annotation.Resource#description()
      */
     String description() default "";
+
+    //==================================================================================================================
+    // Enumerations
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.annotation.Resource.AuthenticationType} instead.
+     */
+    @Deprecated(since = "jakarta.annotation.Resource.AuthenticationType")
+    enum AuthenticationType implements AnnotationShim.Enum<jakarta.annotation.Resource.AuthenticationType> {
+        /**
+         * @see jakarta.annotation.Resource.AuthenticationType#CONTAINER
+         */
+        CONTAINER,
+
+        /**
+         * @see jakarta.annotation.Resource.AuthenticationType#APPLICATION
+         */
+        APPLICATION;
+
+        //==============================================================================================================
+        // Static Initialization
+        //==============================================================================================================
+
+        static {
+            AnnotationShim.initialize();
+        }
+    }
 }

@@ -1,11 +1,13 @@
 package javax.el;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.el.ValueReference} instead.
  */
 @Deprecated(since = "jakarta.el.ValueReference")
 public class ValueReference extends jakarta.el.ValueReference implements ELShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

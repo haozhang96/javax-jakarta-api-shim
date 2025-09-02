@@ -1,11 +1,13 @@
 package javax.el;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.el.ELContextEvent} instead.
  */
 @Deprecated(since = "jakarta.el.ELContextEvent")
 public class ELContextEvent extends jakarta.el.ELContextEvent implements ELShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

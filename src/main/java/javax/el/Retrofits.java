@@ -1,5 +1,6 @@
 package javax.el;
 
+import javax.shim.ShimSupport;
 import java.beans.FeatureDescriptor;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -338,7 +339,7 @@ interface Retrofits {
     }
 
     final class MethodExpression extends jakarta.el.MethodExpression implements ELShim.Retrofit {
-        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final javax.el.MethodExpression target;
 
@@ -396,6 +397,8 @@ interface Retrofits {
     }
 
     final class MethodNotFoundException extends jakarta.el.MethodNotFoundException implements ELShim.Retrofit {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final javax.el.MethodNotFoundException target;
 
         //==============================================================================================================
@@ -474,6 +477,8 @@ interface Retrofits {
     }
 
     final class PropertyNotFoundException extends jakarta.el.PropertyNotFoundException implements ELShim.Retrofit {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final javax.el.PropertyNotFoundException target;
 
         //==============================================================================================================
@@ -552,6 +557,8 @@ interface Retrofits {
     }
 
     final class PropertyNotWritableException extends jakarta.el.PropertyNotWritableException implements ELShim.Retrofit {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final javax.el.PropertyNotWritableException target;
 
         //==============================================================================================================
@@ -958,7 +965,7 @@ interface Retrofits {
     }
 
     final class ValueExpression extends jakarta.el.ValueExpression implements ELShim.Retrofit {
-        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final javax.el.ValueExpression target;
 

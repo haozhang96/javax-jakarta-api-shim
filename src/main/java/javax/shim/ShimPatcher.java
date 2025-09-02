@@ -200,9 +200,9 @@ final class ShimPatcher extends ExprEditor {
     }
 
     private boolean isUnpatchable(CtClass clazz, Patch patch) {
-        return clazz.getName().startsWith("javax")
-            || clazz.getName().startsWith("jakarta")
-            || clazz.getName().startsWith("sun")
+        return clazz.getPackageName().startsWith("java") // java, javax, javassist
+            || clazz.getPackageName().startsWith("jakarta")
+            || clazz.getPackageName().startsWith("sun")
             || !patched.add(Objects.hash(clazz, patch));
     }
 

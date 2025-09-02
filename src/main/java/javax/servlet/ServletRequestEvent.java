@@ -1,11 +1,13 @@
 package javax.servlet;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.servlet.ServletRequestEvent} instead.
  */
 @Deprecated(since = "jakarta.servlet.ServletRequestEvent")
 public class ServletRequestEvent extends jakarta.servlet.ServletRequestEvent implements ServletShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

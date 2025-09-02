@@ -65,7 +65,7 @@ public interface AnnotationShim extends Shim {
         if (enumeration == null || enumeration instanceof AnnotationShim) {
             return S(enumeration);
         } else if (enumeration instanceof jakarta.annotation.Resource.AuthenticationType) {
-            return S(Resource.AuthenticationType.valueOf(enumeration.toString()));
+            return S(Resource.AuthenticationType.valueOf(enumeration.name()));
         }
 
         return ShimSupport.throwUnknownType(null, enumeration);

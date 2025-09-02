@@ -66,13 +66,13 @@ public interface JWSShim extends Shim {
         if (enumeration == null || enumeration instanceof JWSShim) {
             return S(enumeration);
         } else if (enumeration instanceof jakarta.jws.soap.SOAPBinding.ParameterStyle) {
-            return S(SOAPBinding.ParameterStyle.valueOf(enumeration.toString()));
+            return S(SOAPBinding.ParameterStyle.valueOf(enumeration.name()));
         } else if (enumeration instanceof jakarta.jws.soap.SOAPBinding.Style) {
-            return S(SOAPBinding.Style.valueOf(enumeration.toString()));
+            return S(SOAPBinding.Style.valueOf(enumeration.name()));
         } else if (enumeration instanceof jakarta.jws.soap.SOAPBinding.Use) {
-            return S(SOAPBinding.Use.valueOf(enumeration.toString()));
+            return S(SOAPBinding.Use.valueOf(enumeration.name()));
         } else if (enumeration instanceof jakarta.jws.WebParam.Mode) {
-            return S(WebParam.Mode.valueOf(enumeration.toString()));
+            return S(WebParam.Mode.valueOf(enumeration.name()));
         }
 
         return ShimSupport.throwUnknownType(null, enumeration);

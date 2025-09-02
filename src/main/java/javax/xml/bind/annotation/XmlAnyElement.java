@@ -15,7 +15,7 @@ public @interface XmlAnyElement {
     /**
      * @see jakarta.xml.bind.annotation.XmlAnyElement#value()
      */
-    Class<? extends DomHandler<?, ?>> value() default W3CDomHandler.class;
+    Class<? extends DomHandler> value() default W3CDomHandler.class;
 
     /**
      * @see jakarta.xml.bind.annotation.XmlAnyElement#lax()

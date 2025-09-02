@@ -1,11 +1,13 @@
 package javax.transaction;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.transaction.InvalidTransactionException} instead.
  */
 @Deprecated(since = "jakarta.transaction.InvalidTransactionException")
 public class InvalidTransactionException extends jakarta.transaction.InvalidTransactionException implements TransactionShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

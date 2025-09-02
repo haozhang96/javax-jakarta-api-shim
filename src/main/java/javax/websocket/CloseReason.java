@@ -45,31 +45,80 @@ public class CloseReason extends jakarta.websocket.CloseReason implements WebSoc
      */
     @Deprecated(since = "jakarta.websocket.CloseReason.CloseCodes")
     public enum CloseCodes implements CloseCode, WebSocketShim.Enum<jakarta.websocket.CloseReason.CloseCodes> {
-        NORMAL_CLOSURE(jakarta.websocket.CloseReason.CloseCodes.NORMAL_CLOSURE),
-        GOING_AWAY(jakarta.websocket.CloseReason.CloseCodes.GOING_AWAY),
-        PROTOCOL_ERROR(jakarta.websocket.CloseReason.CloseCodes.PROTOCOL_ERROR),
-        CANNOT_ACCEPT(jakarta.websocket.CloseReason.CloseCodes.CANNOT_ACCEPT),
-        RESERVED(jakarta.websocket.CloseReason.CloseCodes.RESERVED),
-        NO_STATUS_CODE(jakarta.websocket.CloseReason.CloseCodes.NO_STATUS_CODE),
-        CLOSED_ABNORMALLY(jakarta.websocket.CloseReason.CloseCodes.CLOSED_ABNORMALLY),
-        NOT_CONSISTENT(jakarta.websocket.CloseReason.CloseCodes.NOT_CONSISTENT),
-        VIOLATED_POLICY(jakarta.websocket.CloseReason.CloseCodes.VIOLATED_POLICY),
-        TOO_BIG(jakarta.websocket.CloseReason.CloseCodes.TOO_BIG),
-        NO_EXTENSION(jakarta.websocket.CloseReason.CloseCodes.NO_EXTENSION),
-        UNEXPECTED_CONDITION(jakarta.websocket.CloseReason.CloseCodes.UNEXPECTED_CONDITION),
-        SERVICE_RESTART(jakarta.websocket.CloseReason.CloseCodes.SERVICE_RESTART),
-        TRY_AGAIN_LATER(jakarta.websocket.CloseReason.CloseCodes.TRY_AGAIN_LATER),
-        TLS_HANDSHAKE_FAILURE(jakarta.websocket.CloseReason.CloseCodes.TLS_HANDSHAKE_FAILURE);
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#NORMAL_CLOSURE
+         */
+        NORMAL_CLOSURE,
 
-        //==============================================================================================================
-        // Enumeration Set-up
-        //==============================================================================================================
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#GOING_AWAY
+         */
+        GOING_AWAY,
 
-        private final jakarta.websocket.CloseReason.CloseCodes target;
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#PROTOCOL_ERROR
+         */
+        PROTOCOL_ERROR,
 
-        CloseCodes(jakarta.websocket.CloseReason.CloseCodes target) {
-            this.target = target;
-        }
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#CANNOT_ACCEPT
+         */
+        CANNOT_ACCEPT,
+
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#RESERVED
+         */
+        RESERVED,
+
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#NO_STATUS_CODE
+         */
+        NO_STATUS_CODE,
+
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#CLOSED_ABNORMALLY
+         */
+        CLOSED_ABNORMALLY,
+
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#NOT_CONSISTENT
+         */
+        NOT_CONSISTENT,
+
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#VIOLATED_POLICY
+         */
+        VIOLATED_POLICY,
+
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#TOO_BIG
+         */
+        TOO_BIG,
+
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#NO_EXTENSION
+         */
+        NO_EXTENSION,
+
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#UNEXPECTED_CONDITION
+         */
+        UNEXPECTED_CONDITION,
+
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#SERVICE_RESTART
+         */
+        SERVICE_RESTART,
+
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#TRY_AGAIN_LATER
+         */
+        TRY_AGAIN_LATER,
+
+        /**
+         * @see jakarta.websocket.CloseReason.CloseCodes#TLS_HANDSHAKE_FAILURE
+         */
+        TLS_HANDSHAKE_FAILURE;
 
         //==============================================================================================================
         // CloseCode Implementation Methods
@@ -77,7 +126,7 @@ public class CloseReason extends jakarta.websocket.CloseReason implements WebSoc
 
         @Override
         public int getCode() {
-            return target.getCode();
+            return toJakarta().getCode();
         }
 
         //==============================================================================================================

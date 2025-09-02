@@ -1,11 +1,13 @@
 package javax.servlet;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.servlet.ServletContextAttributeEvent} instead.
  */
 @Deprecated(since = "jakarta.servlet.ServletContextAttributeEvent")
 public class ServletContextAttributeEvent extends ServletContextEvent {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     private final String name;
     private final Object value;

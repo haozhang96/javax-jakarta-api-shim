@@ -22,12 +22,32 @@ public @interface ServletSecurity {
      */
     HttpMethodConstraint[] httpMethodConstraints() default {};
 
+    //==================================================================================================================
+    // Enumerations
+    //==================================================================================================================
+
     /**
      * @deprecated Use {@link jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic} instead.
      */
     @Deprecated(since = "jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic")
     enum EmptyRoleSemantic implements ServletShim.Enum<jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic> {
-        PERMIT, DENY
+        /**
+         * @see jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic#PERMIT
+         */
+        PERMIT,
+
+        /**
+         * @see jakarta.servlet.annotation.ServletSecurity.EmptyRoleSemantic#DENY
+         */
+        DENY;
+
+        //==============================================================================================================
+        // Static Initialization
+        //==============================================================================================================
+
+        static {
+            ServletShim.initialize();
+        }
     }
 
     /**
@@ -35,6 +55,22 @@ public @interface ServletSecurity {
      */
     @Deprecated(since = "jakarta.servlet.annotation.ServletSecurity.TransportGuarantee")
     enum TransportGuarantee implements ServletShim.Enum<jakarta.servlet.annotation.ServletSecurity.TransportGuarantee> {
-        NONE, CONFIDENTIAL
+        /**
+         * @see jakarta.servlet.annotation.ServletSecurity.TransportGuarantee#NONE
+         */
+        NONE,
+
+        /**
+         * @see jakarta.servlet.annotation.ServletSecurity.TransportGuarantee#CONFIDENTIAL
+         */
+        CONFIDENTIAL;
+
+        //==============================================================================================================
+        // Static Initialization
+        //==============================================================================================================
+
+        static {
+            ServletShim.initialize();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package javax.el;
 
+import javax.shim.ShimSupport;
 import java.beans.FeatureDescriptor;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -601,6 +602,8 @@ interface Facades {
     }
 
     final class ELException extends javax.el.ELException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+        
         private final jakarta.el.ELException target;
 
         //==============================================================================================================
@@ -1454,7 +1457,7 @@ interface Facades {
     }
 
     final class MethodExpression extends javax.el.MethodExpression {
-        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final jakarta.el.MethodExpression target;
 
@@ -1554,6 +1557,8 @@ interface Facades {
     }
 
     final class MethodNotFoundException extends javax.el.MethodNotFoundException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final jakarta.el.MethodNotFoundException target;
 
         //==============================================================================================================
@@ -1684,6 +1689,8 @@ interface Facades {
     }
 
     final class PropertyNotFoundException extends javax.el.PropertyNotFoundException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final jakarta.el.PropertyNotFoundException target;
 
         //==============================================================================================================
@@ -1762,6 +1769,8 @@ interface Facades {
     }
 
     final class PropertyNotWritableException extends javax.el.PropertyNotWritableException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final jakarta.el.PropertyNotWritableException target;
 
         //==============================================================================================================

@@ -28,12 +28,6 @@ public @interface WebParam {
     String targetNamespace() default "";
 
     /**
-     * @deprecated Use {@link jakarta.jws.WebParam.Mode} instead.
-     */
-    @Deprecated(since = "jakarta.jws.WebParam.Mode")
-    enum Mode implements JWSShim.Enum<jakarta.jws.WebParam.Mode> { IN, OUT, INOUT }
-
-    /**
      * @see jakarta.jws.WebParam#mode()
      */
     Mode mode() default Mode.IN;
@@ -42,4 +36,37 @@ public @interface WebParam {
      * @see jakarta.jws.WebParam#header()
      */
     boolean header() default false;
+
+    //==================================================================================================================
+    // Enumerations
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.jws.WebParam.Mode} instead.
+     */
+    @Deprecated(since = "jakarta.jws.WebParam.Mode")
+    enum Mode implements JWSShim.Enum<jakarta.jws.WebParam.Mode> {
+        /**
+         * @see jakarta.jws.WebParam.Mode#IN
+         */
+        IN,
+
+        /**
+         * @see jakarta.jws.WebParam.Mode#OUT
+         */
+        OUT,
+
+        /**
+         * @see jakarta.jws.WebParam.Mode#INOUT
+         */
+        INOUT;
+
+        //==============================================================================================================
+        // Static Initialization
+        //==============================================================================================================
+
+        static {
+            JWSShim.initialize();
+        }
+    }
 }

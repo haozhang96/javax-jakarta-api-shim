@@ -1,5 +1,6 @@
 package javax.websocket;
 
+import javax.shim.ShimSupport;
 import java.nio.ByteBuffer;
 
 /**
@@ -7,7 +8,7 @@ import java.nio.ByteBuffer;
  */
 @Deprecated(since = "jakarta.websocket.DecodeException")
 public class DecodeException extends jakarta.websocket.DecodeException implements WebSocketShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

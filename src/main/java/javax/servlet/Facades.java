@@ -1,6 +1,7 @@
 package javax.servlet;
 
 import javax.shim.Shim;
+import javax.shim.ShimSupport;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,12 +57,12 @@ interface Facades {
         //==============================================================================================================
 
         @Override
-        public ServletSecurity.EmptyRoleSemantic value() {
+        public javax.servlet.annotation.ServletSecurity.EmptyRoleSemantic value() {
             return ServletShim.of(target.value());
         }
 
         @Override
-        public ServletSecurity.TransportGuarantee transportGuarantee() {
+        public javax.servlet.annotation.ServletSecurity.TransportGuarantee transportGuarantee() {
             return ServletShim.of(target.transportGuarantee());
         }
 
@@ -90,12 +91,12 @@ interface Facades {
         }
 
         @Override
-        public ServletSecurity.EmptyRoleSemantic emptyRoleSemantic() {
+        public javax.servlet.annotation.ServletSecurity.EmptyRoleSemantic emptyRoleSemantic() {
             return ServletShim.of(target.value());
         }
 
         @Override
-        public ServletSecurity.TransportGuarantee transportGuarantee() {
+        public javax.servlet.annotation.ServletSecurity.TransportGuarantee transportGuarantee() {
             return ServletShim.of(target.transportGuarantee());
         }
 
@@ -1017,7 +1018,7 @@ interface Facades {
     }
 
     final class GenericFilter extends javax.servlet.GenericFilter {
-        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.GenericFilter target;
 
@@ -1244,7 +1245,7 @@ interface Facades {
     }
 
     final class HttpFilter extends javax.servlet.http.HttpFilter {
-        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.http.HttpFilter target;
 
@@ -1382,7 +1383,7 @@ interface Facades {
     }
 
     final class HttpServlet extends javax.servlet.http.HttpServlet {
-        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.http.HttpServlet target;
 
@@ -2351,7 +2352,7 @@ interface Facades {
     }
 
     final class HttpSessionBindingEvent extends javax.servlet.http.HttpSessionBindingEvent {
-        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.http.HttpSessionBindingEvent target;
 
@@ -2437,7 +2438,7 @@ interface Facades {
     }
 
     final class HttpSessionEvent extends javax.servlet.http.HttpSessionEvent {
-        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.http.HttpSessionEvent target;
 
@@ -3438,7 +3439,7 @@ interface Facades {
     }
 
     final class ServletContextAttributeEvent extends javax.servlet.ServletContextAttributeEvent {
-        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.ServletContextAttributeEvent target;
 
@@ -3538,7 +3539,7 @@ interface Facades {
     }
 
     final class ServletContextEvent extends javax.servlet.ServletContextEvent {
-        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.ServletContextEvent target;
 
@@ -3606,7 +3607,7 @@ interface Facades {
     }
 
     final class ServletRequestAttributeEvent extends javax.servlet.ServletRequestAttributeEvent {
-        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.ServletRequestAttributeEvent target;
 
@@ -3714,7 +3715,7 @@ interface Facades {
     }
 
     final class ServletRequestEvent extends javax.servlet.ServletRequestEvent {
-        private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final jakarta.servlet.ServletRequestEvent target;
 
@@ -3787,6 +3788,8 @@ interface Facades {
     }
 
     final class ServletException extends javax.servlet.ServletException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final jakarta.servlet.ServletException target;
 
         //==============================================================================================================
@@ -4788,6 +4791,8 @@ interface Facades {
     }
 
     final class UnavailableException extends javax.servlet.UnavailableException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final jakarta.servlet.UnavailableException target;
 
         //==============================================================================================================

@@ -10,4 +10,14 @@ import java.lang.annotation.Target;
 @Target({})
 @Retention(RetentionPolicy.RUNTIME)
 @Deprecated(since = "jakarta.xml.bind.annotation.XmlNs")
-public @interface XmlNs { }
+public @interface XmlNs {
+    /**
+     * @see jakarta.xml.bind.annotation.XmlNs#prefix()
+     */
+    String prefix();
+
+    /**
+     * @see jakarta.xml.bind.annotation.XmlNs#namespaceURI()
+     */
+    String namespaceURI();
+}

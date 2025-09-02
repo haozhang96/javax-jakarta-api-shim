@@ -1,11 +1,13 @@
 package javax.el;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.el.ELException} instead.
  */
 @Deprecated(since = "jakarta.el.ELException")
 public class ELException extends jakarta.el.ELException implements ELShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

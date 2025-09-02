@@ -1,5 +1,6 @@
 package javax.servlet;
 
+import javax.shim.ShimSupport;
 import java.io.IOException;
 
 /**
@@ -7,7 +8,7 @@ import java.io.IOException;
  */
 @Deprecated(since = "jakarta.servlet.GenericServlet")
 public abstract class GenericServlet extends jakarta.servlet.GenericServlet implements Servlet, ServletConfig {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // GenericServlet Implementation Methods

@@ -1,11 +1,13 @@
 package javax.servlet.jsp;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.servlet.jsp.JspException} instead.
  */
 @Deprecated(since = "jakarta.servlet.jsp.JspException")
 public class JspException extends jakarta.servlet.jsp.JspException implements JSPShim {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // Constructors

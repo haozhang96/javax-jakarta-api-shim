@@ -7,7 +7,30 @@ import javax.servlet.ServletShim;
  */
 @Deprecated(since = "jakarta.servlet.http.MappingMatch")
 public enum MappingMatch implements ServletShim.Enum<jakarta.servlet.http.MappingMatch> {
-    CONTEXT_ROOT, DEFAULT, EXACT, EXTENSION, PATH;
+    /**
+     * @see jakarta.servlet.http.MappingMatch#CONTEXT_ROOT
+     */
+    CONTEXT_ROOT,
+
+    /**
+     * @see jakarta.servlet.http.MappingMatch#DEFAULT
+     */
+    DEFAULT,
+
+    /**
+     * @see jakarta.servlet.http.MappingMatch#EXACT
+     */
+    EXACT,
+
+    /**
+     * @see jakarta.servlet.http.MappingMatch#EXTENSION
+     */
+    EXTENSION,
+
+    /**
+     * @see jakarta.servlet.http.MappingMatch#PATH
+     */
+    PATH;
 
     //==================================================================================================================
     // Static Initialization

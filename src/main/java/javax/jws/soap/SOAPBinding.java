@@ -14,21 +14,9 @@ import java.lang.annotation.Target;
 @Deprecated(since = "jakarta.jws.soap.SOAPBinding")
 public @interface SOAPBinding {
     /**
-     * @deprecated Use {@link jakarta.jws.soap.SOAPBinding.Style} instead.
-     */
-    @Deprecated(since = "jakarta.jws.soap.SOAPBinding.Style")
-    enum Style implements JWSShim.Enum<jakarta.jws.soap.SOAPBinding.Style> { DOCUMENT, RPC }
-
-    /**
      * @see jakarta.jws.soap.SOAPBinding#style()
      */
     Style style() default Style.DOCUMENT;
-
-    /**
-     * @deprecated Use {@link jakarta.jws.soap.SOAPBinding.Use} instead.
-     */
-    @Deprecated(since = "jakarta.jws.soap.SOAPBinding.Use")
-    enum Use implements JWSShim.Enum<jakarta.jws.soap.SOAPBinding.Use> { LITERAL, ENCODED }
 
     /**
      * @see jakarta.jws.soap.SOAPBinding#use()
@@ -36,13 +24,83 @@ public @interface SOAPBinding {
     Use use() default Use.LITERAL;
 
     /**
-     * @deprecated Use {@link jakarta.jws.soap.SOAPBinding.ParameterStyle} instead.
-     */
-    @Deprecated(since = "jakarta.jws.soap.SOAPBinding.ParameterStyle")
-    enum ParameterStyle implements JWSShim.Enum<jakarta.jws.soap.SOAPBinding.ParameterStyle> { BARE, WRAPPED }
-
-    /**
      * @see jakarta.jws.soap.SOAPBinding#parameterStyle()
      */
     ParameterStyle parameterStyle() default ParameterStyle.WRAPPED;
+
+    //==================================================================================================================
+    // Enumerations
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.jws.soap.SOAPBinding.Style} instead.
+     */
+    @Deprecated(since = "jakarta.jws.soap.SOAPBinding.Style")
+    enum Style implements JWSShim.Enum<jakarta.jws.soap.SOAPBinding.Style> {
+        /**
+         * @see jakarta.jws.soap.SOAPBinding.Style#DOCUMENT
+         */
+        DOCUMENT,
+
+        /**
+         * @see jakarta.jws.soap.SOAPBinding.Style#RPC
+         */
+        RPC;
+
+        //==============================================================================================================
+        // Static Initialization
+        //==============================================================================================================
+
+        static {
+            JWSShim.initialize();
+        }
+    }
+
+    /**
+     * @deprecated Use {@link jakarta.jws.soap.SOAPBinding.Use} instead.
+     */
+    @Deprecated(since = "jakarta.jws.soap.SOAPBinding.Use")
+    enum Use implements JWSShim.Enum<jakarta.jws.soap.SOAPBinding.Use> {
+        /**
+         * @see jakarta.jws.soap.SOAPBinding.Use#LITERAL
+         */
+        LITERAL,
+
+        /**
+         * @see jakarta.jws.soap.SOAPBinding.Use#ENCODED
+         */
+        ENCODED;
+
+        //==============================================================================================================
+        // Static Initialization
+        //==============================================================================================================
+
+        static {
+            JWSShim.initialize();
+        }
+    }
+
+    /**
+     * @deprecated Use {@link jakarta.jws.soap.SOAPBinding.ParameterStyle} instead.
+     */
+    @Deprecated(since = "jakarta.jws.soap.SOAPBinding.ParameterStyle")
+    enum ParameterStyle implements JWSShim.Enum<jakarta.jws.soap.SOAPBinding.ParameterStyle> {
+        /**
+         * @see jakarta.jws.soap.SOAPBinding.ParameterStyle#BARE
+         */
+        BARE,
+
+        /**
+         * @see jakarta.jws.soap.SOAPBinding.ParameterStyle#WRAPPED
+         */
+        WRAPPED;
+
+        //==============================================================================================================
+        // Static Initialization
+        //==============================================================================================================
+
+        static {
+            JWSShim.initialize();
+        }
+    }
 }

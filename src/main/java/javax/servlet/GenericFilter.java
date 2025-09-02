@@ -1,11 +1,13 @@
 package javax.servlet;
 
+import javax.shim.ShimSupport;
+
 /**
  * @deprecated Use {@link jakarta.servlet.GenericFilter} instead.
  */
 @Deprecated(since = "jakarta.servlet.GenericFilter")
 public abstract class GenericFilter extends jakarta.servlet.GenericFilter implements Filter, FilterConfig {
-    private static final long serialVersionUID = javax.shim.ShimSupport.getSerialVersionUID();
+    private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
     //==================================================================================================================
     // GenericFilter Implementation Methods

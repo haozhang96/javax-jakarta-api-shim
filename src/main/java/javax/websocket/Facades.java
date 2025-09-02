@@ -1,8 +1,10 @@
 package javax.websocket;
 
 import javax.net.ssl.SSLContext;
+import javax.shim.ShimSupport;
 import java.io.*;
 import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.security.Principal;
@@ -365,6 +367,8 @@ interface Facades {
     }
 
     final class DecodeException extends javax.websocket.DecodeException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final jakarta.websocket.DecodeException target;
 
         //==============================================================================================================
@@ -642,6 +646,8 @@ interface Facades {
     }
 
     final class DeploymentException extends javax.websocket.DeploymentException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final jakarta.websocket.DeploymentException target;
 
         //==============================================================================================================
@@ -720,6 +726,8 @@ interface Facades {
     }
 
     final class EncodeException extends javax.websocket.EncodeException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final jakarta.websocket.EncodeException target;
 
         //==============================================================================================================
@@ -2040,6 +2048,8 @@ interface Facades {
     }
 
     final class SessionException extends javax.websocket.SessionException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final jakarta.websocket.SessionException target;
 
         //==============================================================================================================

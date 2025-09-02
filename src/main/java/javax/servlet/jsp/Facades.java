@@ -1,5 +1,6 @@
 package javax.servlet.jsp;
 
+import javax.shim.ShimSupport;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 
@@ -27,6 +28,8 @@ interface Facades {
     }
 
     final class JspException extends javax.servlet.jsp.JspException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
         private final jakarta.servlet.jsp.JspException target;
 
         //==============================================================================================================
