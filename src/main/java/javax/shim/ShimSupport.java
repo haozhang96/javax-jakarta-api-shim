@@ -1,26 +1,32 @@
 package javax.shim;
 
-import javassist.ClassPool;
-
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-@Deprecated
+@Deprecated(since = "javax.shim")
 public final class ShimSupport {
-    static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
+    public static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
+    public static final ShimPatcher PATCHER = ShimPatcher.INSTANCE;
 
-    private static final ShimPatcher PATCHER = new ShimPatcher(ClassPool.getDefault());
     private static final Set<Class<?>> LOGGED_ENTRY_POINT_CLASSES = Collections.newSetFromMap(new WeakHashMap<>());
+    private static final Set<String> JAVAX_PACKAGES =
+        new HashSet<>(Set.of(
+            "javax.activation", "javax.annotation", "javax.el", "javax.inject", "javax.interceptor", "javax.jms",
+            "javax.jws", "javax.servlet", "javax.transaction", "javax.validation", "javax.websocket", "javax.ws.rs",
+            "javax.xml.bind", "javax.xml.soap", "javax.xml.ws"
+        ));
+    private static final Set<String> JAKARTA_PACKAGES =
+        JAVAX_PACKAGES
+            .stream()
+            .map(packageName -> "jakarta" + packageName.substring("javax".length()))
+            .collect(Collectors.toSet());
 
     //==================================================================================================================
     // Constructors
@@ -33,6 +39,38 @@ public final class ShimSupport {
     //==================================================================================================================
     // Support Methods
     //==================================================================================================================
+
+    public static Class<?> toJakarta() {
+        return toJakarta(STACK_WALKER.getCallerClass());
+    }
+
+    public static Class<?> toJakarta(Class<?> clazz) {
+        final var className =
+            Shim.Facade.class.isAssignableFrom(clazz)
+                ? Shim.Facade.getTargetClass(clazz.asSubclass(Shim.Facade.class)).getName()
+                : toJakarta(clazz.getName());
+        try {
+            return Class.forName(className);
+        } catch (ClassNotFoundException exception) {
+            throw new NoClassDefFoundError("Unknown jakarta type: " + className);
+        }
+    }
+
+    public static String toJakarta(String className) {
+        return isJavax(className) ? "jakarta" + className.substring("javax".length()) : className;
+    }
+
+    public static String toJavax(String className) {
+        return isJakarta(className) ? "javax" + className.substring("jakarta".length()) : className;
+    }
+
+    public static boolean isJakarta(String className) {
+        return isInPackage(JAKARTA_PACKAGES, className);
+    }
+
+    public static boolean isJavax(String className) {
+        return isInPackage(JAVAX_PACKAGES, className);
+    }
 
     public static MethodHandles.Lookup reflect(String className) {
         return reflect(MethodHandles.lookup(), className);
@@ -60,7 +98,7 @@ public final class ShimSupport {
 
     public static <T> T reflect(MethodHandles.Lookup lookup, String className, ReflectiveAction action) {
         try {
-            return reflect(lookup, Class.forName(className), action);
+            return reflect(lookup, Class.forName(className, true, lookup.lookupClass().getClassLoader()), action);
         } catch (ClassNotFoundException exception) {
             throw new IllegalStateException("Cannot find class to perform reflective action: " + className, exception);
         }
@@ -73,6 +111,22 @@ public final class ShimSupport {
         } catch (Throwable cause) {
             throw new IllegalStateException("Failed to perform reflective action on class: " + clazz.getName(), cause);
         }
+    }
+
+    public static void ensureInitialized(Class<?>... classes) {
+        for (final var clazz : classes) {
+            try {
+                Class.forName(clazz.getName(), true, clazz.getClassLoader());
+            } catch (ClassNotFoundException exception) {
+                throw new InternalError(exception);
+            }
+        }
+    }
+
+    public static <T> Stream<T> stream(Iterable<T> iterable) {
+        return iterable instanceof Collection<?>
+            ? ((Collection<T>) iterable).stream()
+            : StreamSupport.stream(iterable.spliterator(), false);
     }
 
     public static long getSerialVersionUID() {
@@ -102,7 +156,7 @@ public final class ShimSupport {
     }
 
     public static <T> T throwUnknownType(String label, Object object) throws UnsupportedOperationException {
-        final String packageName = STACK_WALKER.getCallerClass().getPackageName();
+        final var packageName = STACK_WALKER.getCallerClass().getPackageName();
         final Class<?> type;
         if (object instanceof Annotation) {
             label = "annotation";
@@ -121,12 +175,6 @@ public final class ShimSupport {
         ));
     }
 
-    public static <T> Stream<T> stream(Iterable<T> iterable) {
-        return iterable instanceof Collection<?>
-            ? ((Collection<T>) iterable).stream()
-            : StreamSupport.stream(iterable.spliterator(), false);
-    }
-
     //==================================================================================================================
     // Helpers
     //==================================================================================================================
@@ -141,7 +189,7 @@ public final class ShimSupport {
     //==================================================================================================================
 
     static <T> T proxy(Shim.Facade<T> facade, T target) {
-        final Class<T> clazz = facade.getTargetClass();
+        final var clazz = facade.getTargetClass();
         if (!clazz.isInterface()) {
             return target;
         }
@@ -202,22 +250,6 @@ public final class ShimSupport {
         System.out.format("[*] Shimming: %s -> %s%s%n", targetClass.getName(), shimClass.getName(), stackTrace);
     }
 
-    static String toJakarta(String name) {
-        return name.startsWith("javax") ? "jakarta" + name.substring("javax".length()) : name;
-    }
-
-    static Class<?> toJakarta(Class<?> clazz) {
-        final var className =
-            Shim.Facade.class.isAssignableFrom(clazz)
-                ? Shim.Facade.getTargetClass(clazz.asSubclass(Shim.Facade.class)).getName()
-                : toJakarta(clazz.getName());
-        try {
-            return Class.forName(className);
-        } catch (ClassNotFoundException exception) {
-            throw new NoClassDefFoundError("Unknown jakarta type: " + className);
-        }
-    }
-
     //==================================================================================================================
     // Private Helper Methods
     //==================================================================================================================
@@ -228,6 +260,22 @@ public final class ShimSupport {
                 .findStaticVarHandle(clazz, "serialVersionUID", long.class)
                 .get()
         );
+    }
+
+    private static boolean isInPackage(Collection<String> packageNames, String className) {
+        final var packageName =
+            className.indexOf('.') != -1 ? className.substring(0, className.lastIndexOf('.')) : className;
+        if (packageNames.contains(packageName)) {
+            return true;
+        }
+
+        for (final var packageName$ : packageNames) {
+            if (packageName.startsWith(packageName$)) {
+                return packageNames.add(packageName);
+            }
+        }
+
+        return false;
     }
 
     //==================================================================================================================

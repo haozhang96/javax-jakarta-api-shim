@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import java.lang.ref.Reference;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.util.EnumSet;
@@ -38,7 +37,7 @@ public interface Shim {
     static void initialize() {
         // This method helps ensure the earliest initialization possible for our classes before any bundled classes in
         //   other dependencies.
-        Reference.reachabilityFence(ShimSupport.STACK_WALKER);
+        ShimSupport.ensureInitialized();
     }
 
     static <S extends Shim> Stream<S> of(Function<Object, ? extends S> shim, Object[] objects) {
