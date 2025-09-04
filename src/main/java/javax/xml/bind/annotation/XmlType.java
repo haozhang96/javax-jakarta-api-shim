@@ -30,10 +30,17 @@ public @interface XmlType {
     /**
      * @see jakarta.xml.bind.annotation.XmlType#factoryClass()
      */
-    Class<?> factoryClass() default jakarta.xml.bind.annotation.XmlType.DEFAULT.class;
+    Class<?> factoryClass() default DEFAULT.class;
 
     /**
      * @see jakarta.xml.bind.annotation.XmlType#factoryMethod()
      */
     String factoryMethod() default "";
+
+    /**
+     * @see jakarta.xml.bind.annotation.XmlType.DEFAULT
+     */
+    final class DEFAULT {
+        private DEFAULT() { }
+    }
 }

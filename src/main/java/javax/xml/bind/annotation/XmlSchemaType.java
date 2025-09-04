@@ -25,5 +25,12 @@ public @interface XmlSchemaType {
     /**
      * @see jakarta.xml.bind.annotation.XmlSchemaType#type()
      */
-    Class<?> type() default jakarta.xml.bind.annotation.XmlSchemaType.DEFAULT.class;
+    Class<?> type() default DEFAULT.class;
+
+    /**
+     * @see jakarta.xml.bind.annotation.XmlSchemaType.DEFAULT
+     */
+    final class DEFAULT {
+        private DEFAULT() { }
+    }
 }

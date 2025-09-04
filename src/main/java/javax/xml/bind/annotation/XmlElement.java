@@ -60,5 +60,12 @@ public @interface XmlElement {
     /**
      * @see jakarta.xml.bind.annotation.XmlElement#type()
      */
-    Class<?> type() default jakarta.xml.bind.annotation.XmlElement.DEFAULT.class;
+    Class<?> type() default DEFAULT.class;
+
+    /**
+     * @see jakarta.xml.bind.annotation.XmlElement.DEFAULT
+     */
+    final class DEFAULT {
+        private DEFAULT() { }
+    }
 }

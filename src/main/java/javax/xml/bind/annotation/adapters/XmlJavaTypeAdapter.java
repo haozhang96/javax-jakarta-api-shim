@@ -21,5 +21,12 @@ public @interface XmlJavaTypeAdapter {
     /**
      * @see jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter#type()
      */
-    Class<?> type() default jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT.class;
+    Class<?> type() default DEFAULT.class;
+
+    /**
+     * @see jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT
+     */
+    final class DEFAULT {
+        private DEFAULT() { }
+    }
 }

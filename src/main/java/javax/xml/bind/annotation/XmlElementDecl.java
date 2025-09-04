@@ -40,5 +40,12 @@ public @interface XmlElementDecl {
     /**
      * @see jakarta.xml.bind.annotation.XmlElementDecl#scope()
      */
-    Class<?> scope() default jakarta.xml.bind.annotation.XmlElementDecl.GLOBAL.class;
+    Class<?> scope() default GLOBAL.class;
+
+    /**
+     * @see jakarta.xml.bind.annotation.XmlElementDecl.GLOBAL
+     */
+    final class GLOBAL {
+        private GLOBAL() { }
+    }
 }

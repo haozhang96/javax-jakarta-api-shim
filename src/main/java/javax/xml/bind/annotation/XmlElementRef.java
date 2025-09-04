@@ -30,5 +30,12 @@ public @interface XmlElementRef {
     /**
      * @see jakarta.xml.bind.annotation.XmlElementRef#type()
      */
-    Class<?> type() default jakarta.xml.bind.annotation.XmlElementRef.DEFAULT.class;
+    Class<?> type() default DEFAULT.class;
+
+    /**
+     * @see jakarta.xml.bind.annotation.XmlElementRef.DEFAULT
+     */
+    final class DEFAULT {
+        private DEFAULT() { }
+    }
 }
