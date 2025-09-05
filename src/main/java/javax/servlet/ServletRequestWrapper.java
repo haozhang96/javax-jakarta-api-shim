@@ -18,6 +18,10 @@ public class ServletRequestWrapper extends jakarta.servlet.ServletRequestWrapper
         super(request);
     }
 
+    protected ServletRequestWrapper(jakarta.servlet.ServletRequest request) {
+        super(shim(request));
+    }
+
     //==================================================================================================================
     // ServletRequestWrapper Implementation Methods
     //==================================================================================================================
@@ -77,6 +81,24 @@ public class ServletRequestWrapper extends jakarta.servlet.ServletRequestWrapper
     @Override
     public ServletConnection getServletConnection() {
         return ServletShim.of(super.getServletContext());
+    }
+
+    //==================================================================================================================
+    // Private Helper Methods
+    //==================================================================================================================
+
+    /**
+     * @implNote This method exists to avoid circular dependency between {@link ServletShim#of(Object)} and
+     *           {@link ServletRequestWrapper}.
+     */
+    private static ServletRequest shim(jakarta.servlet.ServletRequest request) {
+        if (request instanceof ServletRequest) {
+            return (ServletRequest) request;
+        } else if (request instanceof jakarta.servlet.http.HttpServletRequest) {
+            return new Facades.HttpServletRequest((jakarta.servlet.http.HttpServletRequest) request);
+        } else {
+            return new Facades.ServletRequest(request);
+        }
     }
 
     //==================================================================================================================

@@ -1,7 +1,7 @@
 package javax.servlet;
 
-import javax.servlet.annotation.ServletSecurity;
-import javax.servlet.http.MappingMatch;
+import javax.servlet.annotation.*;
+import javax.servlet.http.*;
 import javax.shim.Shim;
 import javax.shim.ShimSupport;
 import java.lang.annotation.Annotation;
@@ -19,7 +19,16 @@ public interface ServletShim extends Shim {
     //==================================================================================================================
 
     static void initialize() {
-        Shim.initialize();
+        try {
+            ShimSupport.ensureInitialized(
+                ServletContext.class, ServletRegistration.class, ServletContainerInitializer.class, FilterChain.class,
+                HttpServlet.class, HttpFilter.class, HttpServletRequestWrapper.class, HttpServletResponseWrapper.class,
+                RequestDispatcher.class, DispatcherType.class, SessionTrackingMode.class, MappingMatch.class,
+                ServletSecurity.class, WebServlet.class, WebFilter.class, WebListener.class, HandlesTypes.class
+            );
+        } finally {
+            Shim.initialize();
+        }
     }
 
     //==================================================================================================================
@@ -68,13 +77,13 @@ public interface ServletShim extends Shim {
         // Wrappers
         //==============================================================================================================
 
-        } else if (object instanceof jakarta.servlet.http.HttpServletRequestWrapper) {
+        } else if (object instanceof jakarta.servlet.http.HttpServletRequest) {
             return S(new Facades.HttpServletRequestWrapper(S(object)));
-        } else if (object instanceof jakarta.servlet.http.HttpServletResponseWrapper) {
+        } else if (object instanceof jakarta.servlet.http.HttpServletResponse) {
             return S(new Facades.HttpServletResponseWrapper(S(object)));
-        } else if (object instanceof jakarta.servlet.ServletRequestWrapper) {
+        } else if (object instanceof jakarta.servlet.ServletRequest) {
             return S(new Facades.ServletRequestWrapper(S(object)));
-        } else if (object instanceof jakarta.servlet.ServletResponseWrapper) {
+        } else if (object instanceof jakarta.servlet.ServletResponse) {
             return S(new Facades.ServletResponseWrapper(S(object)));
 
         //==============================================================================================================
@@ -97,10 +106,10 @@ public interface ServletShim extends Shim {
             return S(new Facades.FilterRegistration(S(object)));
         } else if (object instanceof jakarta.servlet.http.HttpServletMapping) {
             return S(new Facades.HttpServletMapping(S(object)));
-        } else if (object instanceof jakarta.servlet.http.HttpServletRequest) {
-            return S(new Facades.HttpServletRequest(S(object)));
-        } else if (object instanceof jakarta.servlet.http.HttpServletResponse) {
-            return S(new Facades.HttpServletResponse(S(object)));
+//        } else if (object instanceof jakarta.servlet.http.HttpServletRequest) {
+//            return S(new Facades.HttpServletRequest(S(object)));
+//        } else if (object instanceof jakarta.servlet.http.HttpServletResponse) {
+//            return S(new Facades.HttpServletResponse(S(object)));
         } else if (object instanceof jakarta.servlet.http.HttpSession) {
             return S(new Facades.HttpSession(S(object)));
         } else if (object instanceof jakarta.servlet.http.HttpUpgradeHandler) {
@@ -125,10 +134,10 @@ public interface ServletShim extends Shim {
             return S(new Facades.ServletRegistration$Dynamic(S(object)));
         } else if (object instanceof jakarta.servlet.ServletRegistration) {
             return S(new Facades.ServletRegistration(S(object)));
-        } else if (object instanceof jakarta.servlet.ServletRequest) {
-            return S(new Facades.ServletRequest(S(object)));
-        } else if (object instanceof jakarta.servlet.ServletResponse) {
-            return S(new Facades.ServletResponse(S(object)));
+//        } else if (object instanceof jakarta.servlet.ServletRequest) {
+//            return S(new Facades.ServletRequest(S(object)));
+//        } else if (object instanceof jakarta.servlet.ServletResponse) {
+//            return S(new Facades.ServletResponse(S(object)));
         } else if (object instanceof jakarta.servlet.SessionCookieConfig) {
             return S(new Facades.SessionCookieConfig(S(object)));
         } else if (object instanceof jakarta.servlet.http.WebConnection) {

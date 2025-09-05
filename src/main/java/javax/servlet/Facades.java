@@ -1973,8 +1973,8 @@ interface Facades {
         // Constructors
         //==============================================================================================================
 
-        HttpServletRequestWrapper(jakarta.servlet.http.HttpServletRequestWrapper target) {
-            super(new HttpServletRequest(target));
+        HttpServletRequestWrapper(jakarta.servlet.http.HttpServletRequest target) {
+            super(target);
         }
     }
 
@@ -2182,8 +2182,8 @@ interface Facades {
         // Constructors
         //==============================================================================================================
 
-        HttpServletResponseWrapper(jakarta.servlet.http.HttpServletResponseWrapper target) {
-            super(new HttpServletResponse(target));
+        HttpServletResponseWrapper(jakarta.servlet.http.HttpServletResponse target) {
+            super(target);
         }
     }
 
@@ -4493,39 +4493,12 @@ interface Facades {
     }
 
     final class ServletRequestWrapper extends javax.servlet.ServletRequestWrapper {
-        private final jakarta.servlet.ServletRequestWrapper target;
-
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
-        ServletRequestWrapper(jakarta.servlet.ServletRequestWrapper target) {
-            super(new ServletRequest(target));
-            this.target = target;
-        }
-
-        //==============================================================================================================
-        // Delegated Methods
-        //==============================================================================================================
-
-        @Override
-        public javax.servlet.ServletRequest getRequest() {
-            return ServletShim.of(target.getRequest());
-        }
-
-        @Override
-        public void setRequest(jakarta.servlet.ServletRequest request) {
-            target.setRequest(request);
-        }
-
-        @Override
-        public boolean isWrapperFor(jakarta.servlet.ServletRequest wrapped) {
-            return target.isWrapperFor(wrapped);
-        }
-
-        @Override
-        public boolean isWrapperFor(Class<?> wrappedType) {
-            return target.isWrapperFor(wrappedType);
+        ServletRequestWrapper(jakarta.servlet.ServletRequest target) {
+            super(target);
         }
     }
 
@@ -4624,24 +4597,12 @@ interface Facades {
     }
 
     final class ServletResponseWrapper extends javax.servlet.ServletResponseWrapper {
-        private final jakarta.servlet.ServletResponseWrapper target;
-
         //==============================================================================================================
         // Constructors
         //==============================================================================================================
 
         ServletResponseWrapper(jakarta.servlet.ServletResponseWrapper target) {
-            super(new ServletResponse(target));
-            this.target = target;
-        }
-
-        //==============================================================================================================
-        // Delegated Methods
-        //==============================================================================================================
-
-        @Override
-        public javax.servlet.ServletResponse getResponse() {
-            return ServletShim.of(target.getResponse());
+            super(target);
         }
     }
 

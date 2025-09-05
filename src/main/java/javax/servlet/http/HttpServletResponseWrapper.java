@@ -1,6 +1,7 @@
 package javax.servlet.http;
 
 import javax.servlet.ServletResponseWrapper;
+import javax.servlet.ServletShim;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
@@ -22,13 +23,17 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
         super(response);
     }
 
+    protected HttpServletResponseWrapper(jakarta.servlet.http.HttpServletResponse response) {
+        super(response);
+    }
+
     //==================================================================================================================
     // HttpServletResponseWrapper Implementation Methods
     //==================================================================================================================
 
     @Override
     public HttpServletResponse getResponse() {
-        return (HttpServletResponse) super.getResponse();
+        return ServletShim.of(super.getResponse());
     }
 
     //==================================================================================================================

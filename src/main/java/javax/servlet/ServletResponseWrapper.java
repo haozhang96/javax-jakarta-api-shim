@@ -14,8 +14,12 @@ public class ServletResponseWrapper extends jakarta.servlet.ServletResponseWrapp
     /**
      * @see jakarta.servlet.ServletResponseWrapper#ServletResponseWrapper(jakarta.servlet.ServletResponse)
      */
-    public ServletResponseWrapper(ServletResponse request) {
-        super(request);
+    public ServletResponseWrapper(ServletResponse response) {
+        super(response);
+    }
+
+    protected ServletResponseWrapper(jakarta.servlet.ServletResponse response) {
+        super(shim(response));
     }
 
     //==================================================================================================================
@@ -34,6 +38,24 @@ public class ServletResponseWrapper extends jakarta.servlet.ServletResponseWrapp
     @Override
     public ServletOutputStream getOutputStream() throws IOException {
         return ServletShim.of(super.getOutputStream());
+    }
+
+    //==================================================================================================================
+    // Private Helper Methods
+    //==================================================================================================================
+
+    /**
+     * @implNote This method exists to avoid circular dependency between {@link ServletShim#of(Object)} and
+     *           {@link ServletResponseWrapper}.
+     */
+    private static ServletResponse shim(jakarta.servlet.ServletResponse response) {
+        if (response instanceof ServletResponse) {
+            return (ServletResponse) response;
+        } else if (response instanceof jakarta.servlet.http.HttpServletResponse) {
+            return new Facades.HttpServletResponse((jakarta.servlet.http.HttpServletResponse) response);
+        } else {
+            return new Facades.ServletResponse(response);
+        }
     }
 
     //==================================================================================================================

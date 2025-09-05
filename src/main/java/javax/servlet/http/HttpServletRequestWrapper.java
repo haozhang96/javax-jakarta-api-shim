@@ -2,6 +2,7 @@ package javax.servlet.http;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequestWrapper;
+import javax.servlet.ServletShim;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
@@ -24,13 +25,17 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
         super(request);
     }
 
+    protected HttpServletRequestWrapper(jakarta.servlet.http.HttpServletRequest request) {
+        super(request);
+    }
+
     //==================================================================================================================
     // HttpServletRequestWrapper Implementation Methods
     //==================================================================================================================
 
     @Override
     public HttpServletRequest getRequest() {
-        return (HttpServletRequest) super.getRequest();
+        return ServletShim.of(super.getRequest());
     }
 
     //==================================================================================================================
