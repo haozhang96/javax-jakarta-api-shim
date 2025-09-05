@@ -6,6 +6,7 @@ import java.lang.invoke.MethodHandles;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -13,8 +14,9 @@ import java.util.stream.StreamSupport;
 @Deprecated(since = "javax.shim")
 public final class ShimSupport {
     public static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
-    public static final ShimPatcher PATCHER = ShimPatcher.INSTANCE;
 
+    private static final Map<String, Boolean> CLASS_EXISTENCE = new ConcurrentHashMap<>();
+    private static final Set<Class<?>> INITIALIZED_CLASSES = Collections.newSetFromMap(new WeakHashMap<>());
     private static final Set<Class<?>> LOGGED_ENTRY_POINT_CLASSES = Collections.newSetFromMap(new WeakHashMap<>());
     private static final Set<String> JAVAX_PACKAGES =
         new HashSet<>(Set.of(
@@ -50,7 +52,7 @@ public final class ShimSupport {
                 ? Shim.Facade.getTargetClass(clazz.asSubclass(Shim.Facade.class)).getName()
                 : toJakarta(clazz.getName());
         try {
-            return Class.forName(className);
+            return Class.forName(className, true, clazz.getClassLoader());
         } catch (ClassNotFoundException exception) {
             throw new NoClassDefFoundError("Unknown jakarta type: " + className);
         }
@@ -80,11 +82,11 @@ public final class ShimSupport {
         return reflect(MethodHandles.lookup(), clazz);
     }
 
-    public static <T> T reflect(String className, ReflectiveAction action) {
+    public static <R> R reflect(String className, ReflectiveAction<?> action) {
         return reflect(MethodHandles.lookup(), className, action);
     }
 
-    public static <T> T reflect(Class<?> clazz, ReflectiveAction action) {
+    public static <T, R> R reflect(Class<T> clazz, ReflectiveAction<T> action) {
         return reflect(MethodHandles.lookup(), clazz, action);
     }
 
@@ -96,25 +98,48 @@ public final class ShimSupport {
         return reflect(lookup, clazz, (lookup$, clazz$) -> lookup$);
     }
 
-    public static <T> T reflect(MethodHandles.Lookup lookup, String className, ReflectiveAction action) {
+    @SuppressWarnings("unchecked")
+    public static <R> R reflect(MethodHandles.Lookup lookup, String className, ReflectiveAction<?> action) {
         try {
-            return reflect(lookup, Class.forName(className, true, lookup.lookupClass().getClassLoader()), action);
+            @SuppressWarnings("rawtypes")
+            final Class clazz = Class.forName(className, true, lookup.lookupClass().getClassLoader());
+            return (R) reflect(lookup, clazz, action);
         } catch (ClassNotFoundException exception) {
             throw new IllegalStateException("Cannot find class to perform reflective action: " + className, exception);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T reflect(MethodHandles.Lookup lookup, Class<?> clazz, ReflectiveAction action) {
+    public static <T, R> R reflect(MethodHandles.Lookup lookup, Class<T> clazz, ReflectiveAction<T> action) {
         try {
-            return (T) action.apply(MethodHandles.privateLookupIn(clazz, lookup), clazz);
+            return (R) action.apply(MethodHandles.privateLookupIn(clazz, lookup), clazz);
         } catch (Throwable cause) {
             throw new IllegalStateException("Failed to perform reflective action on class: " + clazz.getName(), cause);
         }
     }
 
+    public static boolean classExists(String className) {
+        return classExists(className, STACK_WALKER.getCallerClass().getClassLoader());
+    }
+
+    public static boolean classExists(String className, ClassLoader classLoader) {
+        return CLASS_EXISTENCE.computeIfAbsent(className, ignored -> {
+            try {
+                final var classLoader$ =
+                    Objects.requireNonNullElse(classLoader, Thread.currentThread().getContextClassLoader());
+                return Class.forName(className, false, classLoader$).getClassLoader() == classLoader$;
+            } catch (ClassNotFoundException exception) {
+                return false;
+            }
+        });
+    }
+
     public static void ensureInitialized(Class<?>... classes) {
         for (final var clazz : classes) {
+            if (!INITIALIZED_CLASSES.add(clazz)) {
+                continue;
+            }
+
             try {
                 Class.forName(clazz.getName(), true, clazz.getClassLoader());
             } catch (ClassNotFoundException exception) {
@@ -180,8 +205,8 @@ public final class ShimSupport {
     //==================================================================================================================
 
     @FunctionalInterface
-    public interface ReflectiveAction {
-        Object apply(MethodHandles.Lookup lookup, Class<?> clazz) throws Throwable;
+    public interface ReflectiveAction<T> {
+        Object apply(MethodHandles.Lookup lookup, Class<T> clazz) throws Throwable;
     }
 
     //==================================================================================================================
@@ -206,18 +231,17 @@ public final class ShimSupport {
                         cause = cause.getCause();
                     } while (cause != null && !(cause instanceof LinkageError));
 
-                    if (cause == null) {
+                    if (cause == null || !(cause.getMessage().contains("javax") || cause.getMessage().contains("jakarta"))) {
                         throw exception.getCause();
                     } else {
-                        PATCHER.patch(cause.getStackTrace()[0].getClassName());
-                        PATCHER.patch(method.getDeclaringClass());
+                        ShimPatcher.STRICT.patch(cause.getStackTrace()[0].getClassName());
 //                        STACK_WALKER.walk(stackFrames ->
 //                            stackFrames
 //                                .skip(1L)
 //                                .map(StackWalker.StackFrame::getDeclaringClass)
 //                                .dropWhile(clazz$ -> Proxy.isProxyClass(clazz$) || Shim.class.isAssignableFrom(clazz$))
 //                                .findFirst()
-//                        ).ifPresent(PATCHER::patch);
+//                        ).ifPresent(ShimPatcher.STRICT::patch);
                     }
                 }
 
@@ -243,9 +267,9 @@ public final class ShimSupport {
                         stackFrame.getDeclaringClass().getPackageName().startsWith("javax")
                             || Shim.class.isAssignableFrom(stackFrame.getDeclaringClass())
                     )
-                    .limit(2L)
+                    .limit(1L)
                     .map(StackWalker.StackFrame::toString)
-                    .collect(Collectors.joining(System.lineSeparator() + "\t at ", System.lineSeparator() + "\t at ", ""))
+                    .collect(Collectors.joining(System.lineSeparator() + "\tat ", System.lineSeparator() + "\tat ", ""))
             );
         System.out.format("[*] Shimming: %s -> %s%s%n", targetClass.getName(), shimClass.getName(), stackTrace);
     }
@@ -284,21 +308,16 @@ public final class ShimSupport {
 
     static {
         // Spring Framework
-        PATCHER.patch("org.springframework.web.filter.OncePerRequestFilter");
-        PATCHER.patch(
+        ShimPatcher.STRICT.patch("org.springframework.web.filter.OncePerRequestFilter");
+        ShimPatcher.STRICT.patch(
             clazz -> clazz.getDeclaredMethod("skipServletPathDetermination").setBody("return false;"),
             "org.springframework.web.util.UrlPathHelper"
         );
-        PATCHER.patch(
+
+        // Apache Tomcat/Catalina/Coyote
+        ShimPatcher.LENIENT.patch(
             "org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory",
             "org.springframework.boot.autoconfigure.websocket.servlet.TomcatWebSocketServletWebServerCustomizer"
         );
-//        PATCHER.patch(
-//            "org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory",
-//            "io.undertow.servlet.core.DeploymentManagerImpl"
-//        );
-
-        // Apache Tomcat/Catalina/Coyote
-        PATCHER.patch("org.apache.catalina.core.ApplicationFilterRegistration");
     }
 }

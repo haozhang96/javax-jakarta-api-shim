@@ -58,7 +58,7 @@ public interface Shim {
         }
 
         return Proxy
-            .getProxyClass(ShimSupport.STACK_WALKER.getCallerClass().getClassLoader(), shimType, interfaceType)
+            .getProxyClass(interfaceType.getClassLoader(), shimType, interfaceType)
             .asSubclass(shimType);
     }
 
