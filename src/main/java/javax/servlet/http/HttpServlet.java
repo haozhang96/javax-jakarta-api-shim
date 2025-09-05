@@ -246,7 +246,7 @@ public abstract class HttpServlet extends GenericServlet {
 
     private boolean isLegacyDoHead() {
         return Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD))
-            || Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD.replace("jakarta", "javax")));
+            || Boolean.parseBoolean(getServletConfig().getInitParameter(ShimSupport.toJavax(LEGACY_DO_HEAD)));
     }
 
     private Stream<Method> getDeclaredMethods(Class<?> clazz) {

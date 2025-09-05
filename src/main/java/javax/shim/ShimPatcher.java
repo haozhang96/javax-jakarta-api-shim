@@ -168,7 +168,7 @@ public class ShimPatcher extends ExprEditor {
                 try {
                     return expression.getComponentType() == null;
                 } catch (NotFoundException exception) {
-                    return exception.getMessage().contains("javax") || exception.getMessage().contains("jakarta");
+                    return ShimSupport.isShimmable(exception);
                 }
             }
         });
@@ -243,7 +243,7 @@ public class ShimPatcher extends ExprEditor {
                 try {
                     return expression.getType() == null;
                 } catch (NotFoundException exception) {
-                    return exception.getMessage().contains("javax") || exception.getMessage().contains("jakarta");
+                    return ShimSupport.isShimmable(exception);
                 }
             }
         });
@@ -262,7 +262,7 @@ public class ShimPatcher extends ExprEditor {
                 try {
                     return expression.getType() == null;
                 } catch (NotFoundException exception) {
-                    return exception.getMessage().contains("javax") || exception.getMessage().contains("jakarta");
+                    return ShimSupport.isShimmable(exception);
                 }
             }
         });

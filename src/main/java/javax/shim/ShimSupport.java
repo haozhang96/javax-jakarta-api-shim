@@ -18,16 +18,20 @@ public final class ShimSupport {
     private static final Map<String, Boolean> CLASS_EXISTENCE = new ConcurrentHashMap<>();
     private static final Set<Class<?>> INITIALIZED_CLASSES = Collections.newSetFromMap(new WeakHashMap<>());
     private static final Set<Class<?>> LOGGED_ENTRY_POINT_CLASSES = Collections.newSetFromMap(new WeakHashMap<>());
+    private static final String JAVAX = "javax.";
+    private static final String JAKARTA = "jakarta.";
     private static final Set<String> JAVAX_PACKAGES =
-        new HashSet<>(Set.of(
-            "javax.activation", "javax.annotation", "javax.el", "javax.inject", "javax.interceptor", "javax.jms",
-            "javax.jws", "javax.servlet", "javax.transaction", "javax.validation", "javax.websocket", "javax.ws.rs",
-            "javax.xml.bind", "javax.xml.soap", "javax.xml.ws"
-        ));
+        Stream
+            .of(
+                "activation", "annotation", "el", "inject", "interceptor", "jms", "jws", "servlet", "transaction",
+                "validation", "websocket", "ws.rs", "xml.bind", "xml.soap", "xml.ws"
+            )
+            .map(JAVAX::concat)
+            .collect(Collectors.toSet());
     private static final Set<String> JAKARTA_PACKAGES =
         JAVAX_PACKAGES
             .stream()
-            .map(packageName -> "jakarta" + packageName.substring("javax".length()))
+            .map(packageName -> JAKARTA + packageName.substring(JAVAX.length())) // We cannot use toJakarta() yet.
             .collect(Collectors.toSet());
 
     //==================================================================================================================
@@ -41,6 +45,22 @@ public final class ShimSupport {
     //==================================================================================================================
     // Support Methods
     //==================================================================================================================
+
+    public static boolean isJavax(String className) {
+        return isInPackage(JAVAX_PACKAGES, className);
+    }
+
+    public static boolean isJakarta(String className) {
+        return isInPackage(JAKARTA_PACKAGES, className);
+    }
+
+    public static boolean isShimmable(Throwable cause) {
+        return cause.getMessage().contains(JAVAX) || cause.getMessage().contains(JAKARTA);
+    }
+
+    public static String toJavax(String className) {
+        return isJakarta(className) ? JAVAX + className.substring(JAKARTA.length()) : className;
+    }
 
     public static Class<?> toJakarta() {
         return toJakarta(STACK_WALKER.getCallerClass());
@@ -59,19 +79,7 @@ public final class ShimSupport {
     }
 
     public static String toJakarta(String className) {
-        return isJavax(className) ? "jakarta" + className.substring("javax".length()) : className;
-    }
-
-    public static String toJavax(String className) {
-        return isJakarta(className) ? "javax" + className.substring("jakarta".length()) : className;
-    }
-
-    public static boolean isJakarta(String className) {
-        return isInPackage(JAKARTA_PACKAGES, className);
-    }
-
-    public static boolean isJavax(String className) {
-        return isInPackage(JAVAX_PACKAGES, className);
+        return isJavax(className) ? JAKARTA + className.substring(JAVAX.length()) : className;
     }
 
     public static MethodHandles.Lookup reflect(String className) {
@@ -166,7 +174,7 @@ public final class ShimSupport {
             var superClass = clazz;
             do {
                 superClass = superClass.getSuperclass();
-            } while (superClass != null && !superClass.getPackageName().startsWith("jakarta"));
+            } while (superClass != null && !isJakarta(superClass.getName()));
 
             if (superClass != null) {
                 try {
@@ -231,7 +239,7 @@ public final class ShimSupport {
                         cause = cause.getCause();
                     } while (cause != null && !(cause instanceof LinkageError));
 
-                    if (cause == null || !(cause.getMessage().contains("javax") || cause.getMessage().contains("jakarta"))) {
+                    if (cause == null || !isShimmable(cause)) {
                         throw exception.getCause();
                     } else {
                         ShimPatcher.STRICT.patch(cause.getStackTrace()[0].getClassName());
@@ -264,7 +272,7 @@ public final class ShimSupport {
                 stackFrames
                     .skip(1L)
                     .dropWhile(stackFrame ->
-                        stackFrame.getDeclaringClass().getPackageName().startsWith("javax")
+                        stackFrame.getDeclaringClass().getPackageName().startsWith(JAVAX)
                             || Shim.class.isAssignableFrom(stackFrame.getDeclaringClass())
                     )
                     .limit(1L)
@@ -287,8 +295,8 @@ public final class ShimSupport {
     }
 
     private static boolean isInPackage(Collection<String> packageNames, String className) {
-        final var packageName =
-            className.indexOf('.') != -1 ? className.substring(0, className.lastIndexOf('.')) : className;
+        final var lastDot = className.lastIndexOf('.');
+        final var packageName = lastDot != -1 ? className.substring(0, lastDot) : className;
         if (packageNames.contains(packageName)) {
             return true;
         }
