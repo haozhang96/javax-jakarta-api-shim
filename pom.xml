@@ -23,6 +23,8 @@
         <!-- Dependency versioning -->
         <version.jakarta.platform>10.0.0</version.jakarta.platform>
         <version.javassist>3.30.2-GA</version.javassist>
+        <version.jaxb-runtime.javax>2.3.9</version.jaxb-runtime.javax>
+        <version.jaxb-runtime.jakarta>4.0.5</version.jaxb-runtime.jakarta>
         <version.junit.jupiter>5.13.4</version.junit.jupiter>
         <version.slf4j>2.0.17</version.slf4j>
         <version.springframework.boot.v2>2.7.18</version.springframework.boot.v2><!-- Java 8+ -->
@@ -207,7 +209,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>[${version.junit.jupiter},)</version>
+            <version>${version.junit.jupiter}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -236,10 +238,14 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
             <version>${version.springframework.boot.v3}</version>
             <scope>test</scope>
             <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                </exclusion>
                 <exclusion>
                     <groupId>jakarta.servlet</groupId>
                     <artifactId>jakarta.servlet-api</artifactId>
@@ -247,15 +253,15 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>[${version.slf4j},)</version>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>${version.jaxb-runtime.javax}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <version>2.3.9</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>[${version.slf4j},)</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -18,6 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @SpringBootApplication(proxyBeanMethods = false)
 @RestController
+@SuppressWarnings("deprecation")
 public class ServletTest {
     @Autowired
     private ServletContext servletContext;
@@ -29,7 +30,6 @@ public class ServletTest {
     private HttpServletResponse response;
 
     public static void main(String... arguments) {
-        Thread.setDefaultUncaughtExceptionHandler((thread, cause) -> cause.printStackTrace(System.err));
         SpringApplication.run(MethodHandles.lookup().lookupClass(), arguments);
     }
 
@@ -44,12 +44,16 @@ public class ServletTest {
     }
 
     @RestControllerAdvice
-    static class Advice {
+    private static class Advice {
         @ExceptionHandler
         public ResponseEntity<?> error(Exception exception) {
-            return ResponseEntity
-                .internalServerError()
-                .body(exception);
+            try {
+                return ResponseEntity
+                    .internalServerError()
+                    .body(exception);
+            } finally {
+                exception.printStackTrace(System.err);
+            }
         }
     }
 }
