@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * @deprecated Use {@link jakarta.xml.bind.annotation.XmlType} instead.
  */
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Deprecated(since = "jakarta.xml.bind.annotation.XmlType")
 public @interface XmlType {

@@ -4,7 +4,6 @@ import javassist.CannotCompileException;
 import javassist.expr.NewExpr;
 
 import javax.shim.ShimPatcher;
-import javax.shim.ShimSupport;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import java.io.*;
@@ -167,12 +166,12 @@ public final class JAXB implements JAXBShim {
 
     static {
         try {
-            ShimSupport.PATCHER.patch(clazz -> clazz.instrument(new ShimPatcher() {
+            ShimPatcher.STRICT.patch(clazz -> clazz.instrument(new ShimPatcher() {
                 @Override
                 public void edit(NewExpr expression) throws CannotCompileException {
                     final var className = expression.getClassName();
                     if (className.equals(jakarta.xml.bind.JAXBElement.class.getName())) {
-                        expression.replace(String.format("$_ = new %s($$);", ShimSupport.toJavax(className)));
+                        expression.replace(String.format("$_ = new %s($$);", swapType(className)));
                     }
                 }
             }));

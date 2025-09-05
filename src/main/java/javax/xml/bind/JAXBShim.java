@@ -2,10 +2,11 @@ package javax.xml.bind;
 
 import javax.shim.Shim;
 import javax.shim.ShimSupport;
-import javax.xml.bind.annotation.XmlAccessOrder;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlNsForm;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.helpers.AbstractMarshallerImpl;
+import javax.xml.bind.helpers.AbstractUnmarshallerImpl;
 import java.lang.annotation.Annotation;
 import java.util.stream.Stream;
 
@@ -20,7 +21,12 @@ public interface JAXBShim extends Shim {
 
     static void initialize() {
         try {
-            ShimSupport.ensureInitialized(JAXB.class, JAXBContext.class, JAXBElement.class, DatatypeConverter.class);
+            ShimSupport.ensureInitialized(
+                JAXB.class, JAXBContext.class, JAXBContextFactory.class, JAXBElement.class, JAXBException.class,
+                Marshaller.class, Unmarshaller.class, AbstractMarshallerImpl.class, AbstractUnmarshallerImpl.class,
+                DatatypeConverter.class, DatatypeConverterInterface.class, Binder.class, XmlAdapter.class,
+                XmlElement.class, XmlRootElement.class, XmlType.class, XmlJavaTypeAdapter.class
+            );
         } finally {
             Shim.initialize();
         }
