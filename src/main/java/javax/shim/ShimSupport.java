@@ -27,12 +27,12 @@ public final class ShimSupport {
                 "validation", "websocket", "ws.rs", "xml.bind", "xml.soap", "xml.ws"
             )
             .map(JAVAX::concat)
-            .collect(Collectors.toSet());
+            .collect(Collectors.toCollection(ConcurrentHashMap::newKeySet));
     private static final Set<String> JAKARTA_PACKAGES =
         JAVAX_PACKAGES
             .stream()
             .map(packageName -> JAKARTA + packageName.substring(JAVAX.length())) // We cannot use toJakarta() yet.
-            .collect(Collectors.toSet());
+            .collect(Collectors.toCollection(ConcurrentHashMap::newKeySet));
 
     //==================================================================================================================
     // Constructors
