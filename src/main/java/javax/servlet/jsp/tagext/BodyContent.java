@@ -7,6 +7,7 @@ import java.io.Writer;
 
 /**
  * @deprecated Use {@link jakarta.servlet.jsp.tagext.BodyContent} instead.
+ * @apiNote This class cannot extend {@link jakarta.servlet.jsp.tagext.BodyContent} due to class hierarchy divergence.
  */
 @Deprecated(since = "jakarta.servlet.jsp.tagext.BodyContent")
 public abstract class BodyContent extends JspWriter {
