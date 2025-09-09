@@ -161,4 +161,22 @@ public class StandardELContext extends ELContext {
     public <T> T convertToType(Object object, Class<T> targetType) {
         return target.convertToType(object, targetType);
     }
+
+    //==================================================================================================================
+    // Retrofit
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.el.StandardELContext} instead.
+     */
+    @Deprecated(since = "jakarta.el.StandardELContext")
+    public static class Retrofit extends Retrofits.StandardELContext {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        public Retrofit(StandardELContext target) {
+            super(target);
+        }
+    }
 }

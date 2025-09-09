@@ -111,13 +111,33 @@ public class CompositeELResolver extends ELResolver {
         return target.invoke(context, bean, method, parameterTypes, parameters);
     }
 
+    @Deprecated(since = "Expression Language 5.0", forRemoval = true)
     @Override
     public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context, Object bean) {
         return target.getFeatureDescriptors(context, bean);
     }
 
+    @Deprecated(since = "Expression Language 5.0", forRemoval = true)
     @Override
     public Iterator<FeatureDescriptor> getFeatureDescriptors(jakarta.el.ELContext context, Object bean) {
         return target.getFeatureDescriptors(context, bean);
+    }
+
+    //==================================================================================================================
+    // Retrofit
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.el.CompositeELResolver} instead.
+     */
+    @Deprecated(since = "jakarta.el.CompositeELResolver")
+    public static class Retrofit extends Retrofits.CompositeELResolver {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        public Retrofit(CompositeELResolver target) {
+            super(target);
+        }
     }
 }

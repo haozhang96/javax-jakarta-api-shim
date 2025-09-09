@@ -22,7 +22,7 @@ interface Retrofits {
     // Classes
     //==================================================================================================================
 
-    final class ArrayELResolver extends jakarta.el.ArrayELResolver implements ELShim.Retrofit {
+    class ArrayELResolver extends jakarta.el.ArrayELResolver implements ELShim.Retrofit {
         private final javax.el.ArrayELResolver target;
 
         //==============================================================================================================
@@ -84,7 +84,7 @@ interface Retrofits {
         }
     }
 
-    final class BeanNameELResolver extends jakarta.el.BeanNameELResolver implements ELShim.Retrofit {
+    class BeanNameELResolver extends jakarta.el.BeanNameELResolver implements ELShim.Retrofit {
         private final javax.el.BeanNameELResolver target;
 
         //==============================================================================================================
@@ -147,7 +147,7 @@ interface Retrofits {
         }
     }
 
-    final class CompositeELResolver extends jakarta.el.CompositeELResolver implements ELShim.Retrofit {
+    class CompositeELResolver extends jakarta.el.CompositeELResolver implements ELShim.Retrofit {
         private final javax.el.CompositeELResolver target;
 
         //==============================================================================================================
@@ -214,7 +214,7 @@ interface Retrofits {
         }
     }
 
-    final class ListELResolver extends jakarta.el.ListELResolver implements ELShim.Retrofit {
+    class ListELResolver extends jakarta.el.ListELResolver implements ELShim.Retrofit {
         private final javax.el.ListELResolver target;
 
         //==============================================================================================================
@@ -276,7 +276,7 @@ interface Retrofits {
         }
     }
 
-    final class MapELResolver extends jakarta.el.MapELResolver implements ELShim.Retrofit {
+    class MapELResolver extends jakarta.el.MapELResolver implements ELShim.Retrofit {
         private final javax.el.MapELResolver target;
 
         //==============================================================================================================
@@ -338,7 +338,7 @@ interface Retrofits {
         }
     }
 
-    final class MethodExpression extends jakarta.el.MethodExpression implements ELShim.Retrofit {
+    class MethodExpression extends jakarta.el.MethodExpression implements ELShim.Retrofit {
         private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final javax.el.MethodExpression target;
@@ -396,7 +396,7 @@ interface Retrofits {
         }
     }
 
-    final class MethodNotFoundException extends jakarta.el.MethodNotFoundException implements ELShim.Retrofit {
+    class MethodNotFoundException extends jakarta.el.MethodNotFoundException implements ELShim.Retrofit {
         private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final javax.el.MethodNotFoundException target;
@@ -476,7 +476,7 @@ interface Retrofits {
         }
     }
 
-    final class PropertyNotFoundException extends jakarta.el.PropertyNotFoundException implements ELShim.Retrofit {
+    class PropertyNotFoundException extends jakarta.el.PropertyNotFoundException implements ELShim.Retrofit {
         private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final javax.el.PropertyNotFoundException target;
@@ -556,7 +556,7 @@ interface Retrofits {
         }
     }
 
-    final class PropertyNotWritableException extends jakarta.el.PropertyNotWritableException implements ELShim.Retrofit {
+    class PropertyNotWritableException extends jakarta.el.PropertyNotWritableException implements ELShim.Retrofit {
         private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final javax.el.PropertyNotWritableException target;
@@ -636,7 +636,7 @@ interface Retrofits {
         }
     }
 
-    final class ResourceBundleELResolver extends jakarta.el.ResourceBundleELResolver implements ELShim.Retrofit {
+    class ResourceBundleELResolver extends jakarta.el.ResourceBundleELResolver implements ELShim.Retrofit {
         private final javax.el.ResourceBundleELResolver target;
 
         //==============================================================================================================
@@ -698,7 +698,7 @@ interface Retrofits {
         }
     }
 
-    final class StandardELContext extends jakarta.el.StandardELContext implements ELShim.Retrofit {
+    class StandardELContext extends jakarta.el.StandardELContext implements ELShim.Retrofit {
         private final javax.el.StandardELContext target;
 
         //==============================================================================================================
@@ -840,7 +840,7 @@ interface Retrofits {
         }
     }
 
-    final class StaticFieldELResolver extends jakarta.el.StaticFieldELResolver implements ELShim.Retrofit {
+    class StaticFieldELResolver extends jakarta.el.StaticFieldELResolver implements ELShim.Retrofit {
         private final javax.el.StaticFieldELResolver target;
 
         //==============================================================================================================
@@ -902,7 +902,7 @@ interface Retrofits {
         }
     }
 
-    final class TypeConverter extends jakarta.el.TypeConverter implements ELShim.Retrofit {
+    class TypeConverter extends jakarta.el.TypeConverter implements ELShim.Retrofit {
         private final javax.el.TypeConverter target;
 
         //==============================================================================================================
@@ -964,7 +964,7 @@ interface Retrofits {
         }
     }
 
-    final class ValueExpression extends jakarta.el.ValueExpression implements ELShim.Retrofit {
+    class ValueExpression extends jakarta.el.ValueExpression implements ELShim.Retrofit {
         private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
 
         private final javax.el.ValueExpression target;

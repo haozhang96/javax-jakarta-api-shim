@@ -37,4 +37,22 @@ public abstract class TypeConverter extends ELResolver {
     public Class<?> getCommonPropertyType(ELContext context, Object bean) {
         return null;
     }
+
+    //==================================================================================================================
+    // Retrofit
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.el.TypeConverter} instead.
+     */
+    @Deprecated(since = "jakarta.el.TypeConverter")
+    public static class Retrofit extends Retrofits.TypeConverter {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        public Retrofit(TypeConverter target) {
+            super(target);
+        }
+    }
 }

@@ -115,13 +115,33 @@ public class ArrayELResolver extends ELResolver {
         return target.invoke(context, bean, method, parameterTypes, parameters);
     }
 
+    @Deprecated(since = "Expression Language 5.0", forRemoval = true)
     @Override
     public Iterator<FeatureDescriptor> getFeatureDescriptors(javax.el.ELContext context, Object bean) {
         return target.getFeatureDescriptors(context, bean);
     }
 
+    @Deprecated(since = "Expression Language 5.0", forRemoval = true)
     @Override
     public Iterator<FeatureDescriptor> getFeatureDescriptors(jakarta.el.ELContext context, Object bean) {
         return target.getFeatureDescriptors(context, bean);
+    }
+
+    //==================================================================================================================
+    // Retrofit
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.el.ArrayELResolver} instead.
+     */
+    @Deprecated(since = "jakarta.el.ArrayELResolver")
+    public static class Retrofit extends Retrofits.ArrayELResolver {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        public Retrofit(ArrayELResolver target) {
+            super(target);
+        }
     }
 }

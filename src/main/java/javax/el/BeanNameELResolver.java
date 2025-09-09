@@ -108,13 +108,33 @@ public class BeanNameELResolver extends ELResolver {
         return target.invoke(context, bean, method, parameterTypes, parameters);
     }
 
+    @Deprecated(since = "Expression Language 5.0", forRemoval = true)
     @Override
     public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context, Object bean) {
         return target.getFeatureDescriptors(context, bean);
     }
 
+    @Deprecated(since = "Expression Language 5.0", forRemoval = true)
     @Override
     public Iterator<FeatureDescriptor> getFeatureDescriptors(jakarta.el.ELContext context, Object bean) {
         return target.getFeatureDescriptors(context, bean);
+    }
+
+    //==================================================================================================================
+    // Retrofit
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.el.BeanNameELResolver} instead.
+     */
+    @Deprecated(since = "jakarta.el.BeanNameELResolver")
+    public static class Retrofit extends Retrofits.BeanNameELResolver {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        public Retrofit(BeanNameELResolver target) {
+            super(target);
+        }
     }
 }

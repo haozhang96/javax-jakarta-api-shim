@@ -41,4 +41,24 @@ public class PropertyNotFoundException extends ELException {
     public PropertyNotFoundException(Throwable cause) {
         super(cause);
     }
+
+    //==================================================================================================================
+    // Retrofit
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.el.PropertyNotFoundException} instead.
+     */
+    @Deprecated(since = "jakarta.el.PropertyNotFoundException")
+    public static class Retrofit extends Retrofits.PropertyNotFoundException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        public Retrofit(PropertyNotFoundException target) {
+            super(target);
+        }
+    }
 }

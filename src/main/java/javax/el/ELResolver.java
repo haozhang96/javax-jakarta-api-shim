@@ -60,7 +60,7 @@ public abstract class ELResolver extends jakarta.el.ELResolver implements ELShim
     /**
      * @see jakarta.el.ELResolver#getFeatureDescriptors(jakarta.el.ELContext, Object)
      */
-    @Deprecated(since = "5.0", forRemoval = true)
+    @Deprecated(since = "Expression Language 5.0", forRemoval = true)
     public Iterator<FeatureDescriptor> getFeatureDescriptors(ELContext context, Object bean) {
         return super.getFeatureDescriptors(context, bean);
     }
@@ -110,7 +110,7 @@ public abstract class ELResolver extends jakarta.el.ELResolver implements ELShim
         return invoke(ELShim.of(context), bean, method, parameterTypes, parameters);
     }
 
-    @Deprecated(since = "5.0", forRemoval = true)
+    @Deprecated(since = "Expression Language 5.0", forRemoval = true)
     @Override
     public Iterator<FeatureDescriptor> getFeatureDescriptors(jakarta.el.ELContext context, Object bean) {
         return getFeatureDescriptors(ELShim.of(context), bean);

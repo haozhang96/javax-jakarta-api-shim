@@ -41,4 +41,24 @@ public class MethodNotFoundException extends ELException implements ELShim {
     public MethodNotFoundException(Throwable cause) {
         super(cause);
     }
+
+    //==================================================================================================================
+    // Retrofit
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.el.MethodNotFoundException} instead.
+     */
+    @Deprecated(since = "jakarta.el.MethodNotFoundException")
+    public static class Retrofit extends Retrofits.MethodNotFoundException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        public Retrofit(MethodNotFoundException target) {
+            super(target);
+        }
+    }
 }

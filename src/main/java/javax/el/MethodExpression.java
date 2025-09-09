@@ -39,4 +39,24 @@ public abstract class MethodExpression extends Expression {
         context.notifyAfterEvaluation(getExpressionString());
         return null;
     }
+
+    //==================================================================================================================
+    // Retrofit
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.el.MethodExpression} instead.
+     */
+    @Deprecated(since = "jakarta.el.MethodExpression")
+    public static class Retrofit extends Retrofits.MethodExpression {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        public Retrofit(MethodExpression target) {
+            super(target);
+        }
+    }
 }

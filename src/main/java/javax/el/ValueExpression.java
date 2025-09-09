@@ -45,4 +45,24 @@ public abstract class ValueExpression extends Expression {
     public ValueReference getValueReference(ELContext context) {
         return null;
     }
+
+    //==================================================================================================================
+    // Retrofit
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.el.ValueExpression} instead.
+     */
+    @Deprecated(since = "jakarta.el.ValueExpression")
+    public static class Retrofit extends Retrofits.ValueExpression {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        public Retrofit(ValueExpression target) {
+            super(target);
+        }
+    }
 }

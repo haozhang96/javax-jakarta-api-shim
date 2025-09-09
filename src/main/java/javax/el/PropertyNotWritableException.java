@@ -41,4 +41,24 @@ public class PropertyNotWritableException extends ELException {
     public PropertyNotWritableException(Throwable cause) {
         super(cause);
     }
+
+    //==================================================================================================================
+    // Retrofit
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.el.PropertyNotWritableException} instead.
+     */
+    @Deprecated(since = "jakarta.el.PropertyNotWritableException")
+    public static class Retrofit extends Retrofits.PropertyNotWritableException {
+        private static final long serialVersionUID = ShimSupport.getSerialVersionUID();
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        public Retrofit(PropertyNotWritableException target) {
+            super(target);
+        }
+    }
 }
