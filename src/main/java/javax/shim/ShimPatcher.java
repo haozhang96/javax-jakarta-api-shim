@@ -9,16 +9,13 @@ import javassist.expr.*;
 import javassist.util.HotSwapAgent;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -26,7 +23,7 @@ import java.util.stream.Stream;
 
 @Deprecated(since = "javax.shim")
 public class ShimPatcher extends ExprEditor {
-    public static final ShimPatcher STRICT = new ShimPatcher(ClassPool.getDefault());
+    public static final ShimPatcher STRICT = new ShimPatcher(new ClassPool(true));
     public static final ShimPatcher LENIENT = new ShimPatcher(STRICT.classPool, true);
 
     private static final Set<String> UNPATCHABLE_CLASSES = Set.of();
@@ -55,13 +52,6 @@ public class ShimPatcher extends ExprEditor {
     protected ShimPatcher(ClassPool classPool, boolean ignoreFailures) {
         this.classPool = classPool;
         this.ignoreFailures = ignoreFailures;
-
-        classPool.importPackage(ShimSupport.STACK_WALKER.getCallerClass().getPackageName());
-        classPool.importPackage(InputStream.class.getPackageName());
-        classPool.importPackage(Map.class.getPackageName());
-        classPool.importPackage(ConcurrentMap.class.getPackageName());
-        classPool.importPackage(Stream.class.getPackageName());
-        classPool.importPackage(Function.class.getPackageName());
     }
 
     //==================================================================================================================
@@ -110,7 +100,7 @@ public class ShimPatcher extends ExprEditor {
     public void patch(Patch patch, CtClass... classes) {
         for (final var clazz : classes) {
             final var className = clazz.getName();
-            if (!ShimSupport.classExists(className, classPool.getClassLoader()) && shouldNotPatch(clazz, patch)) {
+            if (shouldNotPatch(clazz, patch)) {
                 continue;
             }
 
@@ -346,6 +336,7 @@ public class ShimPatcher extends ExprEditor {
 
     private boolean shouldNotPatch(CtClass clazz, Patch patch) {
         return UNPATCHABLE_CLASSES.contains(clazz.getName())
+            || !ShimSupport.classExists(clazz.getName(), classPool.getClassLoader())
             || clazz.getPackageName().startsWith("java") // java, javax, javassist
             || clazz.getPackageName().startsWith("sun")
             || !patched.add(Objects.hash(clazz, patch));
@@ -385,6 +376,33 @@ public class ShimPatcher extends ExprEditor {
         return replacement;
     }
 
+    private static boolean enableJVMSelfInstrumentation(MethodHandles.Lookup lookup, Class<?> clazz) throws Throwable {
+        // Set up the JVM for HotSwapAgent.
+        final var unsafe =
+            lookup
+                .findStaticVarHandle(clazz, "theUnsafe", clazz)
+                .get();
+        final var field =
+            Class
+                .forName("sun.tools.attach.HotSpotVirtualMachine")
+                .getDeclaredField("ALLOW_ATTACH_SELF");
+        final var fieldBase =
+            lookup
+                .findVirtual(clazz, "staticFieldBase", MethodType.methodType(Object.class, Field.class))
+                .bindTo(unsafe)
+                .invoke(field);
+        final var fieldOffset =
+            lookup
+                .findVirtual(clazz, "staticFieldOffset", MethodType.methodType(long.class, Field.class))
+                .bindTo(unsafe)
+                .invoke(field);
+        lookup
+            .findVirtual(clazz, "putBoolean", MethodType.methodType(void.class, Object.class, long.class, boolean.class))
+            .bindTo(unsafe)
+            .invoke(fieldBase, fieldOffset, true);
+        return true;
+    }
+
     //==================================================================================================================
     // Static Initialization
     //==================================================================================================================
@@ -392,33 +410,22 @@ public class ShimPatcher extends ExprEditor {
     static {
         try {
             // Set up the JVM for HotSwapAgent.
-            ShimSupport.reflect(Class.forName("sun.misc.Unsafe"), (lookup, clazz) -> {
-                final var unsafe =
-                    lookup
-                        .findStaticVarHandle(clazz, "theUnsafe", clazz)
-                        .get();
-                final var field =
-                    Class
-                        .forName("sun.tools.attach.HotSpotVirtualMachine")
-                        .getDeclaredField("ALLOW_ATTACH_SELF");
-                final var fieldBase =
-                    lookup
-                        .findVirtual(clazz, "staticFieldBase", MethodType.methodType(Object.class, Field.class))
-                        .bindTo(unsafe)
-                        .invoke(field);
-                final var fieldOffset =
-                    lookup
-                        .findVirtual(clazz, "staticFieldOffset", MethodType.methodType(long.class, Field.class))
-                        .bindTo(unsafe)
-                        .invoke(field);
-                lookup
-                    .findVirtual(clazz, "putBoolean", MethodType.methodType(void.class, Object.class, long.class, boolean.class))
-                    .bindTo(unsafe)
-                    .invoke(fieldBase, fieldOffset, true);
-                return null;
-            });
-        } catch (Throwable cause) {
-            System.err.println("Enable JVM agent self-attachment using the -Djdk.attach.allowAttachSelf JVM flag.");
+            ShimSupport.reflect("sun.misc.Unsafe", ShimPatcher::enableJVMSelfInstrumentation);
+
+            // Spring Framework
+            STRICT.patch("org.springframework.web.filter.OncePerRequestFilter");
+            STRICT.patch(
+                clazz -> clazz.getDeclaredMethod("skipServletPathDetermination").setBody("return false;"),
+                "org.springframework.web.util.UrlPathHelper"
+            );
+
+            // Apache Tomcat/Catalina/Coyote
+            LENIENT.patch(
+                "org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory",
+                "org.springframework.boot.autoconfigure.websocket.servlet.TomcatWebSocketServletWebServerCustomizer"
+            );
+        } catch (IllegalStateException exception) {
+            System.err.println("Enable JVM self-instrumentation using the -Djdk.attach.allowAttachSelf JVM flag.");
         }
     }
 }

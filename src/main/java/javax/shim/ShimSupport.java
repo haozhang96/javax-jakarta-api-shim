@@ -3,6 +3,7 @@ package javax.shim;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodHandles;
+import java.lang.ref.Reference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.util.*;
@@ -144,14 +145,14 @@ public final class ShimSupport {
 
     public static void ensureInitialized(Class<?>... classes) {
         for (final var clazz : classes) {
-            if (!INITIALIZED_CLASSES.add(clazz)) {
-                continue;
-            }
-
             try {
-                Class.forName(clazz.getName(), true, clazz.getClassLoader());
+                if (INITIALIZED_CLASSES.add(clazz)) {
+                    Class.forName(clazz.getName(), true, clazz.getClassLoader());
+                }
             } catch (ClassNotFoundException exception) {
                 throw new InternalError(exception);
+            } finally {
+                Reference.reachabilityFence(clazz);
             }
         }
     }
@@ -315,17 +316,6 @@ public final class ShimSupport {
     //==================================================================================================================
 
     static {
-        // Spring Framework
-        ShimPatcher.STRICT.patch("org.springframework.web.filter.OncePerRequestFilter");
-        ShimPatcher.STRICT.patch(
-            clazz -> clazz.getDeclaredMethod("skipServletPathDetermination").setBody("return false;"),
-            "org.springframework.web.util.UrlPathHelper"
-        );
-
-        // Apache Tomcat/Catalina/Coyote
-        ShimPatcher.LENIENT.patch(
-            "org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory",
-            "org.springframework.boot.autoconfigure.websocket.servlet.TomcatWebSocketServletWebServerCustomizer"
-        );
+        Reference.reachabilityFence(ShimPatcher.STRICT);
     }
 }
