@@ -7,6 +7,7 @@ import java.io.IOException;
 
 /**
  * @deprecated Use {@link jakarta.servlet.jsp.PageContext} instead.
+ * @apiNote This class cannot extend {@link jakarta.servlet.jsp.PageContext} due to class hierarchy divergence.
  */
 @Deprecated(since = "jakarta.servlet.jsp.PageContext")
 public abstract class PageContext extends JspContext {
@@ -174,5 +175,23 @@ public abstract class PageContext extends JspContext {
             (String) getRequest().getAttribute("javax.servlet.error.request_uri"),
             (String) getRequest().getAttribute("javax.servlet.error.servlet_name")
         );
+    }
+
+    //==================================================================================================================
+    // Retrofit
+    //==================================================================================================================
+
+    /**
+     * @deprecated Use {@link jakarta.servlet.jsp.PageContext} instead.
+     */
+    @Deprecated(since = "jakarta.servlet.jsp.PageContext")
+    public static class Retrofit extends Retrofits.PageContext {
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        public Retrofit(PageContext target) {
+            super(target);
+        }
     }
 }

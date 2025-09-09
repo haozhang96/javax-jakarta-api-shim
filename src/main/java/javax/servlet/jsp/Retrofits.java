@@ -2,6 +2,7 @@ package javax.servlet.jsp;
 
 import javax.servlet.ServletShim;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.Enumeration;
 
 /**
@@ -17,7 +18,7 @@ interface Retrofits {
     // Classes
     //==================================================================================================================
 
-    final class PageContext extends jakarta.servlet.jsp.PageContext implements JSPShim.Retrofit {
+    class PageContext extends jakarta.servlet.jsp.PageContext implements JSPShim.Retrofit {
         private final javax.servlet.jsp.PageContext target;
 
         //==============================================================================================================
@@ -181,6 +182,26 @@ interface Retrofits {
         @Override
         public jakarta.el.ELContext getELContext() {
             return target.getELContext();
+        }
+
+        @Override
+        public jakarta.servlet.jsp.tagext.BodyContent pushBody() {
+            return JSPShim.of(target.pushBody());
+        }
+
+        @Override
+        public jakarta.servlet.jsp.JspWriter pushBody(Writer writer) {
+            return target.pushBody(writer);
+        }
+
+        @Override
+        public jakarta.servlet.jsp.JspWriter popBody() {
+            return target.popBody();
+        }
+
+        @Override
+        public jakarta.servlet.jsp.ErrorData getErrorData() {
+            return JSPShim.of(target.getErrorData());
         }
     }
 }

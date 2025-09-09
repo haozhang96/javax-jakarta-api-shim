@@ -14,8 +14,14 @@ public interface JspApplicationContext extends jakarta.servlet.jsp.JspApplicatio
     // Shim Methods
     //==================================================================================================================
 
+    /**
+     * @see jakarta.servlet.jsp.JspApplicationContext#addELResolver(jakarta.el.ELResolver)
+     */
     void addELResolver(ELResolver resolver);
 
+    /**
+     * @see jakarta.servlet.jsp.JspApplicationContext#addELContextListener(jakarta.el.ELContextListener)
+     */
     void addELContextListener(ELContextListener listener);
 
     //==================================================================================================================

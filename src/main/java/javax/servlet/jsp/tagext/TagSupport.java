@@ -29,7 +29,7 @@ public class TagSupport extends jakarta.servlet.jsp.tagext.TagSupport implements
 
     @Override
     public void setPageContext(PageContext pageContext) {
-        super.setPageContext(new PageContext.Retrofit(pageContext) { });
+        super.setPageContext(new PageContext.Retrofit(pageContext));
     }
 
     @Override

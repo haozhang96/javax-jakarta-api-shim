@@ -11,6 +11,9 @@ public abstract class JspFactory extends jakarta.servlet.jsp.JspFactory implemen
     // Shim Methods
     //==================================================================================================================
 
+    /**
+     * @see jakarta.servlet.jsp.JspFactory#getPageContext(jakarta.servlet.Servlet, jakarta.servlet.ServletRequest, jakarta.servlet.ServletResponse, String, boolean, int, boolean)
+     */
     public abstract PageContext getPageContext(
         Servlet servlet,
         ServletRequest request,
@@ -21,8 +24,14 @@ public abstract class JspFactory extends jakarta.servlet.jsp.JspFactory implemen
         boolean autoFlush
     );
 
+    /**
+     * @see jakarta.servlet.jsp.JspFactory#releasePageContext(jakarta.servlet.jsp.PageContext)
+     */
     public abstract void releasePageContext(PageContext context);
 
+    /**
+     * @see jakarta.servlet.jsp.JspFactory#getJspApplicationContext(jakarta.servlet.ServletContext)
+     */
     public abstract JspApplicationContext getJspApplicationContext(ServletContext context);
 
     //==================================================================================================================
