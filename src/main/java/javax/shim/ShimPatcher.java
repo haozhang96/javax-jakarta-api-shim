@@ -408,24 +408,26 @@ public class ShimPatcher extends ExprEditor {
     //==================================================================================================================
 
     static {
+        // Set up the JVM for Javassist's HotSwapAgent.
         try {
-            // Set up the JVM for HotSwapAgent.
             ShimSupport.reflect("sun.misc.Unsafe", ShimPatcher::enableJVMSelfInstrumentation);
+        } catch (IllegalStateException exception) {
+            System.err.println("Enable JVM self-instrumentation using the -Djdk.attach.allowAttachSelf JVM flag.");
+        }
 
-            // Spring Framework
-            STRICT.patch("org.springframework.web.filter.OncePerRequestFilter");
+        // Spring Framework
+        STRICT.patch("org.springframework.web.filter.OncePerRequestFilter");
+        STRICT.patch(
+            clazz -> clazz.getDeclaredMethod("skipServletPathDetermination").setBody("return false;"),
+            "org.springframework.web.util.UrlPathHelper"
+        );
+
+        // Apache Tomcat/Catalina/Coyote
+        if (ShimSupport.classExists("org.apache.catalina.startup.Tomcat")) {
             STRICT.patch(
-                clazz -> clazz.getDeclaredMethod("skipServletPathDetermination").setBody("return false;"),
-                "org.springframework.web.util.UrlPathHelper"
-            );
-
-            // Apache Tomcat/Catalina/Coyote
-            LENIENT.patch(
                 "org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory",
                 "org.springframework.boot.autoconfigure.websocket.servlet.TomcatWebSocketServletWebServerCustomizer"
             );
-        } catch (IllegalStateException exception) {
-            System.err.println("Enable JVM self-instrumentation using the -Djdk.attach.allowAttachSelf JVM flag.");
         }
     }
 }
