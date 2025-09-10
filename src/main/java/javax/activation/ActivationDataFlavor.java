@@ -10,10 +10,10 @@ public class ActivationDataFlavor extends jakarta.activation.ActivationDataFlavo
     //==================================================================================================================
 
     /**
-     * @see jakarta.activation.ActivationDataFlavor#ActivationDataFlavor(Class, String, String)
+     * @see jakarta.activation.ActivationDataFlavor#ActivationDataFlavor(String, String)
      */
-    public ActivationDataFlavor(Class<?> representationClass, String mimeType, String humanPresentableName) {
-        super(representationClass, mimeType, humanPresentableName);
+    public ActivationDataFlavor(String mimeType, String humanPresentableName) {
+        super(mimeType, humanPresentableName);
     }
 
     /**
@@ -24,10 +24,10 @@ public class ActivationDataFlavor extends jakarta.activation.ActivationDataFlavo
     }
 
     /**
-     * @see jakarta.activation.ActivationDataFlavor#ActivationDataFlavor(String, String)
+     * @see jakarta.activation.ActivationDataFlavor#ActivationDataFlavor(Class, String, String)
      */
-    public ActivationDataFlavor(String mimeType, String humanPresentableName) {
-        super(mimeType, humanPresentableName);
+    public ActivationDataFlavor(Class<?> representationClass, String mimeType, String humanPresentableName) {
+        super(representationClass, mimeType, humanPresentableName);
     }
 
     //==================================================================================================================

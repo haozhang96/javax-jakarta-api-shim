@@ -32,6 +32,16 @@ public interface ActivationShim extends Shim {
         return ShimSupport.throwUnknownType(null, object);
     }
 
+    static <S extends Exception & ActivationShim> S of(Exception exception) {
+        if (exception == null || exception instanceof ActivationShim) {
+            return S(exception);
+//        } else if (exception instanceof jakarta.activation.MimeTypeParseException) {
+//            return S(new Facades.MimeTypeParseException(S(exception)));
+        }
+
+        return ShimSupport.throwUnknownType(null, exception);
+    }
+
     static <S extends ActivationShim> Stream<S> of(Object[] objects) {
         return Shim.of(ActivationShim::of, objects);
     }
