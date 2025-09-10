@@ -35,7 +35,7 @@ public final class JAXB implements JAXBShim {
         try {
             return jakarta.xml.bind.JAXB.unmarshal(source, type);
         } catch (jakarta.xml.bind.DataBindingException exception) {
-            throw JAXBShim.<javax.xml.bind.DataBindingException>of(exception);
+            throw JAXBShim.<DataBindingException>of(exception);
         }
     }
 
@@ -46,7 +46,7 @@ public final class JAXB implements JAXBShim {
         try {
             return jakarta.xml.bind.JAXB.unmarshal(uri, type);
         } catch (jakarta.xml.bind.DataBindingException exception) {
-            throw JAXBShim.<javax.xml.bind.DataBindingException>of(exception);
+            throw JAXBShim.<DataBindingException>of(exception);
         }
     }
 
@@ -57,7 +57,7 @@ public final class JAXB implements JAXBShim {
         try {
             return jakarta.xml.bind.JAXB.unmarshal(url, type);
         } catch (jakarta.xml.bind.DataBindingException exception) {
-            throw JAXBShim.<javax.xml.bind.DataBindingException>of(exception);
+            throw JAXBShim.<DataBindingException>of(exception);
         }
     }
 
@@ -68,7 +68,7 @@ public final class JAXB implements JAXBShim {
         try {
             return jakarta.xml.bind.JAXB.unmarshal(file, type);
         } catch (jakarta.xml.bind.DataBindingException exception) {
-            throw JAXBShim.<javax.xml.bind.DataBindingException>of(exception);
+            throw JAXBShim.<DataBindingException>of(exception);
         }
     }
 
@@ -79,7 +79,7 @@ public final class JAXB implements JAXBShim {
         try {
             return jakarta.xml.bind.JAXB.unmarshal(inputStream, type);
         } catch (jakarta.xml.bind.DataBindingException exception) {
-            throw JAXBShim.<javax.xml.bind.DataBindingException>of(exception);
+            throw JAXBShim.<DataBindingException>of(exception);
         }
     }
 
@@ -90,7 +90,7 @@ public final class JAXB implements JAXBShim {
         try {
             return jakarta.xml.bind.JAXB.unmarshal(reader, type);
         } catch (jakarta.xml.bind.DataBindingException exception) {
-            throw JAXBShim.<javax.xml.bind.DataBindingException>of(exception);
+            throw JAXBShim.<DataBindingException>of(exception);
         }
     }
 
@@ -101,7 +101,7 @@ public final class JAXB implements JAXBShim {
         try {
             jakarta.xml.bind.JAXB.marshal(JAXBElement.wrap(jaxbElement), result);
         } catch (jakarta.xml.bind.DataBindingException exception) {
-            throw JAXBShim.<javax.xml.bind.DataBindingException>of(exception);
+            throw JAXBShim.<DataBindingException>of(exception);
         }
     }
 
@@ -112,7 +112,7 @@ public final class JAXB implements JAXBShim {
         try {
             jakarta.xml.bind.JAXB.marshal(JAXBElement.wrap(jaxbElement), uri);
         } catch (jakarta.xml.bind.DataBindingException exception) {
-            throw JAXBShim.<javax.xml.bind.DataBindingException>of(exception);
+            throw JAXBShim.<DataBindingException>of(exception);
         }
     }
 
@@ -123,7 +123,7 @@ public final class JAXB implements JAXBShim {
         try {
             jakarta.xml.bind.JAXB.marshal(JAXBElement.wrap(jaxbElement), url);
         } catch (jakarta.xml.bind.DataBindingException exception) {
-            throw JAXBShim.<javax.xml.bind.DataBindingException>of(exception);
+            throw JAXBShim.<DataBindingException>of(exception);
         }
     }
 
@@ -134,7 +134,7 @@ public final class JAXB implements JAXBShim {
         try {
             jakarta.xml.bind.JAXB.marshal(JAXBElement.wrap(jaxbElement), file);
         } catch (jakarta.xml.bind.DataBindingException exception) {
-            throw JAXBShim.<javax.xml.bind.DataBindingException>of(exception);
+            throw JAXBShim.<DataBindingException>of(exception);
         }
     }
 
@@ -145,7 +145,7 @@ public final class JAXB implements JAXBShim {
         try {
             jakarta.xml.bind.JAXB.marshal(JAXBElement.wrap(jaxbElement), outputStream);
         } catch (jakarta.xml.bind.DataBindingException exception) {
-            throw JAXBShim.<javax.xml.bind.DataBindingException>of(exception);
+            throw JAXBShim.<DataBindingException>of(exception);
         }
     }
 
@@ -156,7 +156,7 @@ public final class JAXB implements JAXBShim {
         try {
             jakarta.xml.bind.JAXB.marshal(JAXBElement.wrap(jaxbElement), writer);
         } catch (jakarta.xml.bind.DataBindingException exception) {
-            throw JAXBShim.<javax.xml.bind.DataBindingException>of(exception);
+            throw JAXBShim.<DataBindingException>of(exception);
         }
     }
 

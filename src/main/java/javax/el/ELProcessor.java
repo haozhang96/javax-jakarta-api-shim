@@ -13,9 +13,9 @@ public class ELProcessor extends jakarta.el.ELProcessor implements ELShim {
     //==================================================================================================================
 
     public ELProcessor() {
-        ShimSupport.reflect(MethodHandles.lookup(), jakarta.el.ELProcessor.class, (lookup, clazz) -> {
-            final var manager = lookup.findVarHandle(getClass(), "elManager", jakarta.el.ELManager.class);
-            final var factory = lookup.findVarHandle(getClass(), "factory", jakarta.el.ExpressionFactory.class);
+        ShimSupport.reflect(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) -> {
+            final var manager = lookup.findVarHandle(clazz, "elManager", jakarta.el.ELManager.class);
+            final var factory = lookup.findVarHandle(clazz, "factory", jakarta.el.ExpressionFactory.class);
             manager.set(this, ELShim.<ELManager>of(manager.get(this)));
             factory.set(this, ELShim.<ExpressionFactory>of(factory.get(this)));
             return null;

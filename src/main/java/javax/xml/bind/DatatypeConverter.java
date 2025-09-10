@@ -41,6 +41,8 @@ public final class DatatypeConverter implements JAXBShim {
         return jakarta.xml.bind.DatatypeConverter.printString(value);
     }
 
+    // TODO
+
     //==================================================================================================================
     // Static Initialization
     //==================================================================================================================
@@ -49,7 +51,7 @@ public final class DatatypeConverter implements JAXBShim {
         try {
             printString(null); // Initialize the default implementation.
 
-            ShimSupport.reflect(jakarta.xml.bind.DatatypeConverter.class, (lookup, clazz) -> {
+            ShimSupport.reflect(ShimSupport.toJakarta(), (lookup, clazz) -> {
                 final var converter =
                     lookup.findStaticVarHandle(clazz, "theConverter", jakarta.xml.bind.DatatypeConverterInterface.class);
                 setDatatypeConverter(JAXBShim.of(converter.get()));

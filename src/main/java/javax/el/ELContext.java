@@ -37,7 +37,7 @@ public abstract class ELContext extends jakarta.el.ELContext implements ELShim {
     @SuppressWarnings({"unchecked", "rawtypes"})
     public List getEvaluationListeners() {
         return ELShim
-            .<javax.el.EvaluationListener>of(super.getEvaluationListeners())
+            .<EvaluationListener>of(super.getEvaluationListeners())
             .collect(Collectors.toList());
     }
 

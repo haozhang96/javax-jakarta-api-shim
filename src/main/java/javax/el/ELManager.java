@@ -13,9 +13,9 @@ public class ELManager extends jakarta.el.ELManager implements ELShim {
     //==================================================================================================================
 
     public ELManager() {
-        ShimSupport.reflect(MethodHandles.lookup(), jakarta.el.ELManager.class, (lookup, clazz) -> {
+        ShimSupport.reflect(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) -> {
             lookup
-                .findVarHandle(getClass(), "elContext", jakarta.el.StandardELContext.class)
+                .findVarHandle(clazz, "elContext", jakarta.el.StandardELContext.class)
                 .set(this, new Retrofits.StandardELContext(new StandardELContext(getExpressionFactory())));
             return null;
         });
@@ -92,7 +92,7 @@ public class ELManager extends jakarta.el.ELManager implements ELShim {
 
     @Override
     public void setVariable(String variable, jakarta.el.ValueExpression expression) {
-        setVariable(variable, ELShim.<javax.el.ValueExpression>of(expression));
+        setVariable(variable, ELShim.<ValueExpression>of(expression));
     }
 
     @Override

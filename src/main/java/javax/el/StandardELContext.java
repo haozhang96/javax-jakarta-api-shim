@@ -68,7 +68,7 @@ public class StandardELContext extends ELContext {
     @SuppressWarnings("rawtypes")
     public List getEvaluationListeners() {
         return ELShim
-            .<javax.el.EvaluationListener>of(target.getEvaluationListeners())
+            .<EvaluationListener>of(target.getEvaluationListeners())
             .collect(Collectors.toList());
     }
 

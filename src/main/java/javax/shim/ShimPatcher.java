@@ -376,11 +376,10 @@ public class ShimPatcher extends ExprEditor {
         return replacement;
     }
 
-    private static boolean enableJVMSelfInstrumentation(MethodHandles.Lookup lookup, Class<?> clazz) throws Throwable {
-        // Set up the JVM for HotSwapAgent.
+    private static Object enableJVMSelfAttachment(MethodHandles.Lookup lookup, Class<?> unsafeClass) throws Throwable {
         final var unsafe =
             lookup
-                .findStaticVarHandle(clazz, "theUnsafe", clazz)
+                .findStaticVarHandle(unsafeClass, "theUnsafe", unsafeClass)
                 .get();
         final var field =
             Class
@@ -388,19 +387,15 @@ public class ShimPatcher extends ExprEditor {
                 .getDeclaredField("ALLOW_ATTACH_SELF");
         final var fieldBase =
             lookup
-                .findVirtual(clazz, "staticFieldBase", MethodType.methodType(Object.class, Field.class))
-                .bindTo(unsafe)
+                .bind(unsafe, "staticFieldBase", MethodType.methodType(Object.class, Field.class))
                 .invoke(field);
         final var fieldOffset =
             lookup
-                .findVirtual(clazz, "staticFieldOffset", MethodType.methodType(long.class, Field.class))
-                .bindTo(unsafe)
+                .bind(unsafe, "staticFieldOffset", MethodType.methodType(long.class, Field.class))
                 .invoke(field);
-        lookup
-            .findVirtual(clazz, "putBoolean", MethodType.methodType(void.class, Object.class, long.class, boolean.class))
-            .bindTo(unsafe)
+        return lookup
+            .bind(unsafe, "putBoolean", MethodType.methodType(void.class, Object.class, long.class, boolean.class))
             .invoke(fieldBase, fieldOffset, true);
-        return true;
     }
 
     //==================================================================================================================
@@ -410,7 +405,7 @@ public class ShimPatcher extends ExprEditor {
     static {
         // Set up the JVM for Javassist's HotSwapAgent.
         try {
-            ShimSupport.reflect("sun.misc.Unsafe", ShimPatcher::enableJVMSelfInstrumentation);
+            ShimSupport.reflect("sun.misc.Unsafe", ShimPatcher::enableJVMSelfAttachment);
         } catch (IllegalStateException exception) {
             System.err.println("Enable JVM self-instrumentation using the -Djdk.attach.allowAttachSelf JVM flag.");
         }

@@ -339,8 +339,6 @@ interface Facades {
     }
 
     final class ContainerProvider extends javax.websocket.ContainerProvider {
-        private static final Class<?> JAKARTA = MethodHandles.lookup().lookupClass().getSuperclass().getSuperclass();
-
         private final jakarta.websocket.ContainerProvider target;
 
         //==============================================================================================================
@@ -358,7 +356,7 @@ interface Facades {
         @Override
         protected javax.websocket.WebSocketContainer getContainer() {
             final jakarta.websocket.WebSocketContainer container =
-                ShimSupport.reflect(MethodHandles.lookup(), JAKARTA, (lookup, clazz) ->
+                ShimSupport.reflect(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) ->
                     lookup
                         .bind(target, "getContainer", MethodType.methodType(jakarta.websocket.WebSocketContainer.class))
                         .invoke()
