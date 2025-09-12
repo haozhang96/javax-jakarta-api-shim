@@ -50,8 +50,8 @@ public interface JSPShim extends ServletShim {
         return Shim.of(JSPShim::of, objects);
     }
 
-    static <S extends JSPShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
-        return Shim.of(shimType, interfaceType);
+    static <S extends JSPShim> Class<? extends S> of(Class<?> baseType, Class<S> shimType) {
+        return Shim.of(baseType, shimType);
     }
 
     //==================================================================================================================

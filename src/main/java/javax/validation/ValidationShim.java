@@ -40,8 +40,8 @@ public interface ValidationShim extends Shim {
         return Shim.of(ValidationShim::of, objects);
     }
 
-    static <S extends ValidationShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
-        return Shim.of(shimType, interfaceType);
+    static <S extends ValidationShim> Class<? extends S> of(Class<?> baseType, Class<S> shimType) {
+        return Shim.of(baseType, shimType);
     }
 
     //==================================================================================================================

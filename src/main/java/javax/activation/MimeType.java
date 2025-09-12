@@ -1,5 +1,6 @@
 package javax.activation;
 
+import javax.shim.ShimReflector;
 import javax.shim.ShimSupport;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
@@ -27,11 +28,12 @@ public class MimeType extends jakarta.activation.MimeType implements ActivationS
      * @see jakarta.activation.MimeType#MimeType(String)
      */
     public MimeType(String mimeType) throws MimeTypeParseException {
-        parse((lookup, clazz) ->
+        parse((lookup, clazz) -> {
             lookup
                 .bind(this, "parse", MethodType.methodType(void.class, String.class))
-                .invoke(mimeType)
-        );
+                .invokeExact(mimeType);
+            return null;
+        });
     }
 
     /**
@@ -40,9 +42,9 @@ public class MimeType extends jakarta.activation.MimeType implements ActivationS
     public MimeType(String primaryType, String subType) throws MimeTypeParseException {
         parse((lookup, clazz) -> {
             final var validator = lookup.bind(this, "isValidToken", MethodType.methodType(boolean.class, String.class));
-            if (!((boolean) validator.invoke(primaryType))) {
+            if (!((boolean) validator.invokeExact(primaryType))) {
                 throw new MimeTypeParseException("Primary type is invalid.");
-            } else if (!((boolean) validator.invoke(subType))) {
+            } else if (!((boolean) validator.invokeExact(subType))) {
                 throw new MimeTypeParseException("Sub type is invalid.");
             }
 
@@ -65,9 +67,9 @@ public class MimeType extends jakarta.activation.MimeType implements ActivationS
     // Private Helper Methods
     //==================================================================================================================
 
-    private void parse(ShimSupport.ReflectiveAction parser) throws MimeTypeParseException {
+    private void parse(ShimReflector parser) throws MimeTypeParseException {
         try {
-            ShimSupport.<Void, jakarta.activation.MimeTypeParseException>reflect(
+            ShimReflector.<Void, jakarta.activation.MimeTypeParseException>call(
                 MethodHandles.lookup(),
                 jakarta.activation.MimeType.class,
                 parser

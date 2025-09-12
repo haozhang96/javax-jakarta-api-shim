@@ -42,8 +42,8 @@ public interface InjectShim extends Shim {
         return Shim.of(InjectShim::of, objects);
     }
 
-    static <S extends InjectShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
-        return Shim.of(shimType, interfaceType);
+    static <S extends InjectShim> Class<? extends S> of(Class<?> baseType, Class<S> shimType) {
+        return Shim.of(baseType, shimType);
     }
 
     //==================================================================================================================

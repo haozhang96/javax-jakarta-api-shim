@@ -9,9 +9,6 @@ import javassist.expr.*;
 import javassist.util.HotSwapAgent;
 
 import java.io.IOException;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
@@ -21,7 +18,20 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-@Deprecated(since = "javax.shim")
+/**
+ * This class leverages {@link javassist}'s {@link HotSwapAgent} to dynamically instrument incompatible classes at
+ *   runtime to perform the following {@code javax}/{@code jakarta} type swapping, where applicable:
+ * <ul>
+ *   <li>Object and array instantiations</li>
+ *   <li>Method and constructor invocations (target, arguments, return values)</li>
+ *   <li>Field accesses</li>
+ *   <li>Type casts</li>
+ *   <li>{@code instanceof} checks</li>
+ * </ul>
+ *
+ * @deprecated This class should only be used internally by the {@code javax-jakarta-api-shim} library.
+ */
+@Deprecated(since = "javax-jakarta-api-shim")
 public class ShimPatcher extends ExprEditor {
     public static final ShimPatcher STRICT = new ShimPatcher(new ClassPool(true));
     public static final ShimPatcher LENIENT = new ShimPatcher(STRICT.classPool, true);
@@ -376,28 +386,6 @@ public class ShimPatcher extends ExprEditor {
         return replacement;
     }
 
-    private static Object enableJVMSelfAttachment(MethodHandles.Lookup lookup, Class<?> unsafeClass) throws Throwable {
-        final var unsafe =
-            lookup
-                .findStaticVarHandle(unsafeClass, "theUnsafe", unsafeClass)
-                .get();
-        final var field =
-            Class
-                .forName("sun.tools.attach.HotSpotVirtualMachine")
-                .getDeclaredField("ALLOW_ATTACH_SELF");
-        final var fieldBase =
-            lookup
-                .bind(unsafe, "staticFieldBase", MethodType.methodType(Object.class, Field.class))
-                .invoke(field);
-        final var fieldOffset =
-            lookup
-                .bind(unsafe, "staticFieldOffset", MethodType.methodType(long.class, Field.class))
-                .invoke(field);
-        return lookup
-            .bind(unsafe, "putBoolean", MethodType.methodType(void.class, Object.class, long.class, boolean.class))
-            .invoke(fieldBase, fieldOffset, true);
-    }
-
     //==================================================================================================================
     // Static Initialization
     //==================================================================================================================
@@ -405,19 +393,20 @@ public class ShimPatcher extends ExprEditor {
     static {
         // Set up the JVM for Javassist's HotSwapAgent.
         try {
-            ShimSupport.reflect("sun.misc.Unsafe", ShimPatcher::enableJVMSelfAttachment);
-        } catch (IllegalStateException exception) {
+            final var clazz = Class.forName("sun.tools.attach.HotSpotVirtualMachine");
+            Unsafe.setField(clazz.getDeclaredField("ALLOW_ATTACH_SELF"), true);
+        } catch (ReflectiveOperationException exception) {
             System.err.println("Enable JVM self-instrumentation using the -Djdk.attach.allowAttachSelf JVM flag.");
         }
 
-        // Spring Framework
+        // Patch Spring Framework.
         STRICT.patch("org.springframework.web.filter.OncePerRequestFilter");
         STRICT.patch(
             clazz -> clazz.getDeclaredMethod("skipServletPathDetermination").setBody("return false;"),
             "org.springframework.web.util.UrlPathHelper"
         );
 
-        // Apache Tomcat/Catalina/Coyote
+        // Patch Apache Tomcat/Catalina/Coyote.
         if (ShimSupport.classExists("org.apache.catalina.startup.Tomcat")) {
             STRICT.patch(
                 "org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory",

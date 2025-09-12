@@ -1,6 +1,7 @@
 package javax.websocket;
 
 import javax.net.ssl.SSLContext;
+import javax.shim.ShimReflector;
 import javax.shim.ShimSupport;
 import java.io.*;
 import java.lang.invoke.MethodHandles;
@@ -51,7 +52,7 @@ interface Facades {
         public Class<? extends javax.websocket.Decoder>[] decoders() {
             return Stream
                 .of(target.decoders())
-                .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(javax.websocket.Decoder.class, clazz))
+                .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(clazz, javax.websocket.Decoder.class))
                 .toArray(Class[]::new);
         }
 
@@ -59,13 +60,13 @@ interface Facades {
         public Class<? extends javax.websocket.Encoder>[] encoders() {
             return Stream
                 .of(target.encoders())
-                .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(javax.websocket.Encoder.class, clazz))
+                .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(clazz, javax.websocket.Encoder.class))
                 .toArray(Class[]::new);
         }
 
         @Override
         public Class<? extends javax.websocket.ClientEndpointConfig.Configurator> configurator() {
-            return WebSocketShim.of(javax.websocket.ClientEndpointConfig.Configurator.class, target.configurator());
+            return WebSocketShim.of(target.configurator(), javax.websocket.ClientEndpointConfig.Configurator.class);
         }
     }
 
@@ -164,7 +165,7 @@ interface Facades {
         public Class<? extends javax.websocket.Decoder>[] decoders() {
             return Stream
                 .of(target.decoders())
-                .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(javax.websocket.Decoder.class, clazz))
+                .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(clazz, javax.websocket.Decoder.class))
                 .toArray(Class[]::new);
         }
 
@@ -172,14 +173,14 @@ interface Facades {
         public Class<? extends javax.websocket.Encoder>[] encoders() {
             return Stream
                 .of(target.encoders())
-                .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(javax.websocket.Encoder.class, clazz))
+                .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(clazz, javax.websocket.Encoder.class))
                 .toArray(Class[]::new);
         }
 
         @Override
         public Class<? extends javax.websocket.server.ServerEndpointConfig.Configurator> configurator() {
             return WebSocketShim
-                .of(javax.websocket.server.ServerEndpointConfig.Configurator.class, target.configurator());
+                .of(target.configurator(), javax.websocket.server.ServerEndpointConfig.Configurator.class);
         }
     }
 
@@ -227,7 +228,7 @@ interface Facades {
             return target
                 .getEncoders()
                 .stream()
-                .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(javax.websocket.Encoder.class, clazz))
+                .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(clazz, javax.websocket.Encoder.class))
                 .collect(Collectors.toList());
         }
 
@@ -236,7 +237,7 @@ interface Facades {
             return target
                 .getDecoders()
                 .stream()
-                .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(javax.websocket.Decoder.class, clazz))
+                .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(clazz, javax.websocket.Decoder.class))
                 .collect(Collectors.toList());
         }
 
@@ -355,11 +356,12 @@ interface Facades {
 
         @Override
         protected javax.websocket.WebSocketContainer getContainer() {
-            final jakarta.websocket.WebSocketContainer container =
-                ShimSupport.reflect(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) ->
-                    lookup
-                        .bind(target, "getContainer", MethodType.methodType(jakarta.websocket.WebSocketContainer.class))
-                        .invoke()
+            final var container =
+                ShimReflector.call(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) ->
+                    (jakarta.websocket.WebSocketContainer)
+                        lookup
+                            .bind(target, "getContainer", MethodType.methodType(jakarta.websocket.WebSocketContainer.class))
+                            .invokeExact()
                 );
             return WebSocketShim.of(container);
         }
@@ -1766,7 +1768,7 @@ interface Facades {
             return target
                 .getEncoders()
                 .stream()
-                .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(javax.websocket.Encoder.class, clazz))
+                .map(clazz -> WebSocketShim.<javax.websocket.Encoder>of(clazz, javax.websocket.Encoder.class))
                 .collect(Collectors.toList());
         }
 
@@ -1775,7 +1777,7 @@ interface Facades {
             return target
                 .getDecoders()
                 .stream()
-                .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(javax.websocket.Decoder.class, clazz))
+                .map(clazz -> WebSocketShim.<javax.websocket.Decoder>of(clazz, javax.websocket.Decoder.class))
                 .collect(Collectors.toList());
         }
 

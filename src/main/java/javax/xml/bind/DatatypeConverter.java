@@ -1,5 +1,6 @@
 package javax.xml.bind;
 
+import javax.shim.ShimReflector;
 import javax.shim.ShimSupport;
 
 /**
@@ -49,12 +50,14 @@ public final class DatatypeConverter implements JAXBShim {
 
     static {
         try {
-            printString(null); // Initialize the default implementation.
+            ShimReflector.call(ShimSupport.toJakarta(), (lookup, clazz) -> {
+                printString(null); // Initialize the default implementation.
 
-            ShimSupport.reflect(ShimSupport.toJakarta(), (lookup, clazz) -> {
                 final var converter =
-                    lookup.findStaticVarHandle(clazz, "theConverter", jakarta.xml.bind.DatatypeConverterInterface.class);
-                setDatatypeConverter(JAXBShim.of(converter.get()));
+                    lookup
+                        .findStaticVarHandle(clazz, "theConverter", jakarta.xml.bind.DatatypeConverterInterface.class)
+                        .get();
+                setDatatypeConverter(JAXBShim.of(converter));
                 return null;
             });
         } finally {

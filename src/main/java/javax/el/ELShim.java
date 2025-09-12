@@ -138,8 +138,8 @@ public interface ELShim extends Shim {
         return Shim.of(ELShim::of, objects);
     }
 
-    static <S extends ELShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
-        return Shim.of(shimType, interfaceType);
+    static <S extends ELShim> Class<? extends S> of(Class<?> baseType, Class<S> shimType) {
+        return Shim.of(baseType, shimType);
     }
 
     //==================================================================================================================

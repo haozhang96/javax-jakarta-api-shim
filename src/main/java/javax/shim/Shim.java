@@ -1,18 +1,19 @@
 package javax.shim;
 
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
+import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Proxy;
 import java.util.EnumSet;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
+ * This interface defines a {@link javax}-{@link jakarta} shim object that sits between the two APIs to enhance
+ *   compile-time and runtime interoperability.
+ *
  * @deprecated Use {@link jakarta} instead.
  */
 @Deprecated(since = "jakarta")
@@ -48,136 +49,8 @@ public interface Shim {
         return objects != null ? ShimSupport.stream(objects).map(shim) : Stream.empty();
     }
 
-    static <S extends Shim & Annotation> Stream<S> of(Function<Object, ? extends S> shim, Annotation[] annotations) {
-        return annotations != null ? Stream.of(annotations).map(shim) : Stream.empty();
-    }
-
-    static <S extends Shim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
-        if (shimType.isAssignableFrom(interfaceType)) {
-            return interfaceType.asSubclass(shimType);
-        }
-
-        return Proxy
-            .getProxyClass(interfaceType.getClassLoader(), shimType, interfaceType)
-            .asSubclass(shimType);
-    }
-
-    //==================================================================================================================
-    // Facade
-    //==================================================================================================================
-
-    /**
-     * @deprecated Use {@link jakarta} instead.
-     */
-    @Deprecated(since = "jakarta")
-    abstract class Facade<T> implements Shim, Serializable, Cloneable {
-        protected final T target; // Conditionally serializable
-
-        //==============================================================================================================
-        // Constructors
-        //==============================================================================================================
-
-        protected Facade(T target) {
-            this.target = ShimSupport.proxy(this, Objects.requireNonNull(target));
-            ShimSupport.logEntryPoint(getClass(), target.getClass());
-        }
-
-        //==============================================================================================================
-        // Implementation Methods
-        //==============================================================================================================
-
-        protected final Class<T> getTargetClass() {
-            return getTargetClass(getClass());
-        }
-
-        //==============================================================================================================
-        // Object Implementation Methods
-        //==============================================================================================================
-
-        @Override
-        @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-        public final boolean equals(Object other) {
-            return target.equals(other);
-        }
-
-        @Override
-        public final int hashCode() {
-            return target.hashCode();
-        }
-
-        @Override
-        public final String toString() {
-            return target.toString();
-        }
-
-        @Override
-        @SuppressWarnings("unchecked")
-        public final Facade<T> clone() {
-            try {
-                return getClass().cast(super.clone());
-            } catch (CloneNotSupportedException exception) {
-                // This should never happen since we implement Cloneable.
-                throw new InternalError(exception);
-            }
-        }
-
-        @Override
-        @SuppressWarnings("deprecation")
-        protected final void finalize() throws Throwable {
-            try {
-                ShimSupport.reflect(MethodHandles.lookup(), target.getClass(), (lookup, clazz) ->
-                    lookup
-                        .bind(target, "finalize", MethodType.methodType(void.class))
-                        .invoke()
-                );
-            } finally {
-                super.finalize();
-            }
-        }
-
-        //==============================================================================================================
-        // Package-private Helper Methods
-        //==============================================================================================================
-
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        static <T> Class<T> getTargetClass(Class<? extends Shim.Facade> shimClass) {
-            return (Class<T>) ((ParameterizedType) shimClass.getGenericSuperclass()).getActualTypeArguments()[0];
-        }
-
-        //==============================================================================================================
-        // Annotation-specific Facade
-        //==============================================================================================================
-
-        /**
-         * @deprecated Use {@link jakarta} instead.
-         */
-        @Deprecated(since = "jakarta")
-        public abstract static class Annotation<A extends java.lang.annotation.Annotation> extends Facade<A> implements java.lang.annotation.Annotation {
-            //==========================================================================================================
-            // Constructors
-            //==========================================================================================================
-
-            protected Annotation(A target) {
-                super(target);
-            }
-
-            //==========================================================================================================
-            // Annotation Implementation Methods
-            //==========================================================================================================
-
-            @Override
-            public final Class<? extends java.lang.annotation.Annotation> annotationType() {
-                return target.annotationType();
-            }
-        }
-
-        //==============================================================================================================
-        // Static Initialization
-        //==============================================================================================================
-
-        static {
-            initialize();
-        }
+    static <S extends Shim> Class<? extends S> of(Class<?> baseType, Class<S> shimType) {
+        return new ShimProxy<S>().of(baseType, shimType);
     }
 
     //==================================================================================================================
@@ -185,8 +58,8 @@ public interface Shim {
     //==================================================================================================================
 
     /**
-     * This interface defines a {@link javax}-to-{@link jakarta} retrofitting shim that is required in cases where
-     *   different inheritance hierarchies require "retrofitting" a {@link javax} shim back to its {@link jakarta}
+     * This interface defines a {@link javax}-to-{@link jakarta} retrofitting {@link Shim} that is required in cases
+     *   where different inheritance hierarchies require "retrofitting" a {@link javax} shim back to its {@link jakarta}
      *   counterpart, as Java does not support extending multiple classes like it supports implementing multiple
      *   interfaces.
      * <br/><br/>
@@ -206,6 +79,8 @@ public interface Shim {
     //==================================================================================================================
 
     /**
+     * This interface defines an {@link java.lang.Enum}-specific {@link Shim}.
+     *
      * @deprecated Use {@link jakarta} instead.
      */
     @Deprecated(since = "jakarta")
@@ -248,5 +123,120 @@ public interface Shim {
          * @see java.lang.Enum#getDeclaringClass()
          */
         Class<? extends java.lang.Enum<?>> getDeclaringClass();
+    }
+
+    //==================================================================================================================
+    // Facade
+    //==================================================================================================================
+
+    /**
+     * This class is an abstract {@link jakarta}-to-{@link javax} {@link Shim} meant for interfaces and delegation-style
+     *   implementations, defining an accessible and potentially proxied {@link #target} for easy access and
+     *   implementing all {@link Object} methods.
+     *
+     * @deprecated Use {@link jakarta} instead.
+     */
+    @Deprecated(since = "jakarta")
+    abstract class Facade<T> implements Shim, Serializable, Cloneable {
+        private static final MethodHandle FINALIZER =
+            ShimReflector.call(MethodHandles.lookup(), Object.class, (lookup, clazz) ->
+                lookup.findVirtual(clazz, "finalize", MethodType.methodType(void.class))
+            );
+
+        protected final T target; // Conditionally serializable
+
+        //==============================================================================================================
+        // Constructors
+        //==============================================================================================================
+
+        protected Facade(T target) {
+            this.target = new ShimProxy<>(target).of(getTargetClass());
+            ShimSupport.logEntryPoint(getClass(), target.getClass());
+        }
+
+        //==============================================================================================================
+        // Implementation Methods
+        //==============================================================================================================
+
+        @SuppressWarnings("unchecked")
+        protected final Class<T> getTargetClass() {
+            return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        }
+
+        //==============================================================================================================
+        // Object Implementation Methods
+        //==============================================================================================================
+
+        @Override
+        @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+        public final boolean equals(Object other) {
+            return target.equals(other);
+        }
+
+        @Override
+        public final int hashCode() {
+            return target.hashCode();
+        }
+
+        @Override
+        public final String toString() {
+            return target.toString();
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public final Facade<T> clone() {
+            try {
+                return getClass().cast(super.clone());
+            } catch (CloneNotSupportedException exception) {
+                // This should never happen since we implement Cloneable.
+                throw new InternalError(exception);
+            }
+        }
+
+        @Override
+        @SuppressWarnings("deprecation")
+        protected final void finalize() throws Throwable {
+            try {
+                FINALIZER.invokeExact(target);
+            } finally {
+                super.finalize();
+            }
+        }
+
+        //==============================================================================================================
+        // Annotation-specific Facade
+        //==============================================================================================================
+
+        /**
+         * @deprecated Use {@link jakarta} instead.
+         */
+        @Deprecated(since = "jakarta")
+        public abstract static class Annotation<A extends java.lang.annotation.Annotation> extends Facade<A> implements java.lang.annotation.Annotation {
+            //==========================================================================================================
+            // Constructors
+            //==========================================================================================================
+
+            protected Annotation(A target) {
+                super(target);
+            }
+
+            //==========================================================================================================
+            // Annotation Implementation Methods
+            //==========================================================================================================
+
+            @Override
+            public final Class<? extends java.lang.annotation.Annotation> annotationType() {
+                return target.annotationType();
+            }
+        }
+
+        //==============================================================================================================
+        // Static Initialization
+        //==============================================================================================================
+
+        static {
+            initialize();
+        }
     }
 }

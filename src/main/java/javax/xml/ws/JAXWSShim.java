@@ -40,8 +40,8 @@ public interface JAXWSShim extends Shim {
         return Shim.of(JAXWSShim::of, objects);
     }
 
-    static <S extends JAXWSShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
-        return Shim.of(shimType, interfaceType);
+    static <S extends JAXWSShim> Class<? extends S> of(Class<?> baseType, Class<S> shimType) {
+        return Shim.of(baseType, shimType);
     }
 
     //==================================================================================================================

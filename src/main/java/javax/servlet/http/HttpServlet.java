@@ -1,6 +1,7 @@
 package javax.servlet.http;
 
 import javax.servlet.*;
+import javax.shim.ShimReflector;
 import javax.shim.ShimSupport;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -89,7 +90,7 @@ public abstract class HttpServlet extends GenericServlet {
     ) throws ServletException, IOException {
         if (isLegacyDoHead()) {
             try {
-                ShimSupport.reflect(MethodHandles.lookup(), PACKAGE_NAME + ".NoBodyResponse", (lookup, clazz) -> {
+                ShimReflector.call(MethodHandles.lookup(), PACKAGE_NAME + ".NoBodyResponse", (lookup, clazz) -> {
                     final var wrapper =
                         lookup
                             .findConstructor(clazz, MethodType.methodType(void.class, jakarta.servlet.http.HttpServletResponse.class))
@@ -98,11 +99,11 @@ public abstract class HttpServlet extends GenericServlet {
 
                     lookup
                         .bind(wrapper, "setContentLength", MethodType.methodType(void.class))
-                        .invoke();
+                        .invokeExact();
                     return null;
                 });
                 return;
-            } catch (IllegalStateException exception) {
+            } catch (Exception exception) {
                 // Fall through to non-legacy behavior.
             }
         }
@@ -246,7 +247,7 @@ public abstract class HttpServlet extends GenericServlet {
 
     private boolean isLegacyDoHead() {
         return Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD))
-            || Boolean.parseBoolean(getServletConfig().getInitParameter(ShimSupport.toJavax(LEGACY_DO_HEAD)));
+            || Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD.replace("jakarta", "javax")));
     }
 
     private Stream<Method> getDeclaredMethods(Class<?> clazz) {

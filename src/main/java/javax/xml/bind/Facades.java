@@ -86,7 +86,7 @@ interface Facades {
 
         @Override
         public Class<? extends javax.xml.bind.annotation.DomHandler> value() {
-            return JAXBShim.of(javax.xml.bind.annotation.DomHandler.class, target.value());
+            return JAXBShim.of(target.value(), javax.xml.bind.annotation.DomHandler.class);
         }
 
         @Override
@@ -415,7 +415,7 @@ interface Facades {
 
         @Override
         public Class<? extends javax.xml.bind.annotation.adapters.XmlAdapter> value() {
-            return JAXBShim.of(javax.xml.bind.annotation.adapters.XmlAdapter.class, target.value());
+            return JAXBShim.of(target.value(), javax.xml.bind.annotation.adapters.XmlAdapter.class);
         }
 
         @Override

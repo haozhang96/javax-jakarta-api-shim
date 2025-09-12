@@ -182,8 +182,8 @@ public interface ServletShim extends Shim {
         return Shim.of(ServletShim::of, objects);
     }
 
-    static <S extends ServletShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
-        return Shim.of(shimType, interfaceType);
+    static <S extends ServletShim> Class<? extends S> of(Class<?> baseType, Class<S> shimType) {
+        return Shim.of(baseType, shimType);
     }
 
     //==================================================================================================================

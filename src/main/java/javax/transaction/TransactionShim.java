@@ -79,8 +79,8 @@ public interface TransactionShim extends Shim {
         return Shim.of(TransactionShim::of, objects);
     }
 
-    static <S extends TransactionShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
-        return Shim.of(shimType, interfaceType);
+    static <S extends TransactionShim> Class<? extends S> of(Class<?> baseType, Class<S> shimType) {
+        return Shim.of(baseType, shimType);
     }
 
     //==================================================================================================================

@@ -2,21 +2,28 @@ package javax.shim;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
-import java.lang.invoke.MethodHandles;
 import java.lang.ref.Reference;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-@Deprecated(since = "javax.shim")
+/**
+ * This class contains miscellaneous support methods and objects for the {@code javax-jakarta-api-shim} library.
+ *
+ * @deprecated This class should only be used internally by the {@code javax-jakarta-api-shim} library.
+ */
+@Deprecated(since = "javax-jakarta-api-shim")
 public final class ShimSupport {
     public static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
 
     private static final Map<String, Boolean> CLASS_EXISTENCE = new ConcurrentHashMap<>();
+    private static final Map<String, String> JAVAX_TO_JAKARTA_CLASS_NAMES = new ConcurrentHashMap<>();
+    private static final Map<String, String> JAKARTA_TO_JAVAX_CLASS_NAMES = new ConcurrentHashMap<>();
     private static final Set<Class<?>> INITIALIZED_CLASSES = Collections.newSetFromMap(new WeakHashMap<>());
     private static final Set<Class<?>> LOGGED_ENTRY_POINT_CLASSES = Collections.newSetFromMap(new WeakHashMap<>());
     private static final String JAVAX = "javax.";
@@ -47,31 +54,120 @@ public final class ShimSupport {
     // Support Methods
     //==================================================================================================================
 
+    /**
+     * Determine whether the {@link Class} with a given name is a {@code javax} class.
+     *
+     * @param className The name of the {@link Class} to determine whether it's a {@code javax} class
+     */
     public static boolean isJavax(String className) {
-        return isInPackage(JAVAX_PACKAGES, className);
+        return JAVAX_TO_JAKARTA_CLASS_NAMES.containsKey(className)
+            || JAKARTA_TO_JAVAX_CLASS_NAMES.containsValue(className)
+            || classExists(className) && isInPackage(JAVAX_PACKAGES, className);
     }
 
+    /**
+     * Determine whether the {@link Class} with a given name is a {@code jakarta} class.
+     *
+     * @param className The name of the {@link Class} to determine whether it's a {@code jakarta} class
+     */
     public static boolean isJakarta(String className) {
-        return isInPackage(JAKARTA_PACKAGES, className);
+        return JAKARTA_TO_JAVAX_CLASS_NAMES.containsKey(className)
+            || JAVAX_TO_JAKARTA_CLASS_NAMES.containsValue(className)
+            || classExists(className) && isInPackage(JAKARTA_PACKAGES, className);
     }
 
+    /**
+     * Determine whether a given {@link Throwable} is shimmable - holding a message that contains either {@value #JAVAX}
+     *   or {@value #JAKARTA}.
+     *
+     * @param cause The {@link Throwable} to determine whether it's shimmable
+     */
     public static boolean isShimmable(Throwable cause) {
-        return cause.getMessage().contains(JAVAX) || cause.getMessage().contains(JAKARTA);
+        final var message = cause.getMessage();
+        return message != null && (message.contains(JAVAX) || message.contains(JAKARTA));
     }
 
+    /**
+     * Convert a given {@code jakarta} class name into its {@code javax} counterpart.
+     * <br/><br/>
+     *
+     * <b>Note:</b> The returned {@code javax} class name may not exist; use {@link #toJavax(Class)} instead.
+     *
+     * @param className The {@code jakarta} class name to convert into its {@code javax} counterpart
+     */
     public static String toJavax(String className) {
-        return isJakarta(className) ? JAVAX + className.substring(JAKARTA.length()) : className;
+        if (!isJakarta(className)) {
+            return className;
+        }
+
+        return JAKARTA_TO_JAVAX_CLASS_NAMES.computeIfAbsent(className, jakartaClassName -> {
+            final var javaxClassName = JAVAX + className.substring(JAKARTA.length());
+            JAVAX_TO_JAKARTA_CLASS_NAMES.putIfAbsent(javaxClassName, jakartaClassName); // Bi-directional mapping
+            return javaxClassName;
+        });
     }
 
+    /**
+     * Convert a given {@code jakarta} {@link Class} into its {@code javax} counterpart.
+     *
+     * @param clazz The {@code jakarta} {@link Class} to convert into its {@code javax} counterpart
+     */
+    public static Class<?> toJavax(Class<?> clazz) {
+        final var className = toJavax(clazz.getName());
+        try {
+            return Class.forName(className, true, clazz.getClassLoader());
+        } catch (ClassNotFoundException exception) {
+            throw new NoClassDefFoundError("Unknown javax type: " + className);
+        }
+    }
+
+    /**
+     * Convert the current {@code javax} {@link Class} invoking this method into its {@code jakarta} counterpart.
+     */
     public static Class<?> toJakarta() {
         return toJakarta(STACK_WALKER.getCallerClass());
     }
 
+    /**
+     * Convert a given {@code javax} class name into its {@code jakarta} counterpart.
+     * <br/><br/>
+     *
+     * <b>Note:</b> The returned {@code jakarta} class name may not exist; use {@link #toJakarta(Class)} instead.
+     *
+     * @param className The {@code javax} class name to convert into its {@code jakarta} counterpart
+     */
+    public static String toJakarta(String className) {
+        if (!isJavax(className)) {
+            return className;
+        }
+
+        return JAVAX_TO_JAKARTA_CLASS_NAMES.computeIfAbsent(className, javaxClassName -> {
+            final var jakartaClassName = JAKARTA + className.substring(JAVAX.length());
+            JAKARTA_TO_JAVAX_CLASS_NAMES.putIfAbsent(jakartaClassName, javaxClassName); // Bi-directional mapping
+            return jakartaClassName;
+        });
+    }
+
+    /**
+     * Convert a given {@code javax} {@link Class} into its {@code jakarta} counterpart.
+     *
+     * @param clazz The {@code javax} {@link Class} to convert into its {@code jakarta} counterpart
+     */
     public static Class<?> toJakarta(Class<?> clazz) {
-        final var className =
-            Shim.Facade.class.isAssignableFrom(clazz)
-                ? Shim.Facade.getTargetClass(clazz.asSubclass(Shim.Facade.class)).getName()
-                : toJakarta(clazz.getName());
+        var className = toJakarta(clazz.getName());
+        if (!classExists(className)) {
+            // Try walking up the class hierarchy to see if it extends a jakarta class.
+            className =
+                Stream
+                    .<Class<?>>iterate(clazz.getSuperclass(), Objects::nonNull, Class::getSuperclass)
+                    .map(Class::getName)
+                    .map(ShimSupport::toJakarta)
+                    .dropWhile(Predicate.not(ShimSupport::classExists))
+                    .findFirst()
+                    .orElse(className);
+            JAVAX_TO_JAKARTA_CLASS_NAMES.replace(clazz.getName(), className);
+        }
+
         try {
             return Class.forName(className, true, clazz.getClassLoader());
         } catch (ClassNotFoundException exception) {
@@ -79,116 +175,112 @@ public final class ShimSupport {
         }
     }
 
-    public static String toJakarta(String className) {
-        return isJavax(className) ? JAKARTA + className.substring(JAVAX.length()) : className;
-    }
-
-    public static MethodHandles.Lookup reflect(String className) {
-        return reflect(MethodHandles.lookup(), className);
-    }
-
-    public static MethodHandles.Lookup reflect(Class<?> clazz) {
-        return reflect(MethodHandles.lookup(), clazz);
-    }
-
-    public static <R> R reflect(String className, ReflectiveAction<?> action) {
-        return reflect(MethodHandles.lookup(), className, action);
-    }
-
-    public static <T, R> R reflect(Class<T> clazz, ReflectiveAction<T> action) {
-        return reflect(MethodHandles.lookup(), clazz, action);
-    }
-
-    public static MethodHandles.Lookup reflect(MethodHandles.Lookup lookup, String className) {
-        return reflect(lookup, className, (lookup$, clazz$) -> lookup$);
-    }
-
-    public static MethodHandles.Lookup reflect(MethodHandles.Lookup lookup, Class<?> clazz) {
-        return reflect(lookup, clazz, (lookup$, clazz$) -> lookup$);
-    }
-
+    /**
+     * Throw a given (potentially checked) {@link Throwable} without the compiler check.
+     *
+     * @param cause The (potentially checked) {@link Throwable} to throw without the compiler check
+     */
     @SuppressWarnings("unchecked")
-    public static <R> R reflect(MethodHandles.Lookup lookup, String className, ReflectiveAction<?> action) {
-        try {
-            @SuppressWarnings("rawtypes")
-            final Class clazz = Class.forName(className, true, lookup.lookupClass().getClassLoader());
-            return (R) reflect(lookup, clazz, action);
-        } catch (ClassNotFoundException exception) {
-            throw new IllegalStateException("Cannot find class to perform reflective action: " + className, exception);
-        }
+    public static <X extends Throwable> X rethrow(Throwable cause) throws X {
+        throw cause instanceof InvocationTargetException || cause instanceof UndeclaredThrowableException
+            ? (X) Objects.requireNonNullElse(cause.getCause(), cause)
+            : (X) cause;
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T, R> R reflect(MethodHandles.Lookup lookup, Class<T> clazz, ReflectiveAction<T> action) {
-        try {
-            return (R) action.apply(MethodHandles.privateLookupIn(clazz, lookup), clazz);
-        } catch (Throwable cause) {
-            throw new IllegalStateException("Failed to perform reflective action on class: " + clazz.getName(), cause);
-        }
-    }
-
+    /**
+     * Determine whether the {@link Class} with a given name exists under the {@link ClassLoader} of the {@link Class}
+     *   invoking this method.
+     *
+     * @param className The name of the {@link Class} to determine whether it exists under the {@link ClassLoader} of
+     *                  the {@link Class} invoking this method
+     */
     public static boolean classExists(String className) {
         return classExists(className, STACK_WALKER.getCallerClass().getClassLoader());
     }
 
+    /**
+     * Determine whether the {@link Class} with a given name exists under a given {@link ClassLoader}.
+     *
+     * @param className The name of the {@link Class} to determine whether it exists under the given {@link ClassLoader}
+     * @param classLoader The {@link ClassLoader} to use for determining the existence of the {@link Class} with the
+     *                    given name
+     */
     public static boolean classExists(String className, ClassLoader classLoader) {
-        return CLASS_EXISTENCE.computeIfAbsent(className, ignored -> {
+        return className != null && CLASS_EXISTENCE.computeIfAbsent(className, ignored -> {
             try {
                 final var classLoader$ =
                     Objects.requireNonNullElse(classLoader, Thread.currentThread().getContextClassLoader());
-                return Class.forName(className, false, classLoader$).getClassLoader() == classLoader$;
+                Class.forName(className, false, classLoader$);
+                return true;
             } catch (ClassNotFoundException exception) {
                 return false;
             }
         });
     }
 
+    /**
+     * Ensure that a given list of {@link Class}(es) have been initialized.
+     *
+     * @param classes The {@link Class}(es) to ensure initialization for
+     *
+     * @see sun.misc.Unsafe#ensureClassInitialized(Class)
+     */
     public static void ensureInitialized(Class<?>... classes) {
         for (final var clazz : classes) {
-            try {
-                if (INITIALIZED_CLASSES.add(clazz)) {
-                    Class.forName(clazz.getName(), true, clazz.getClassLoader());
-                }
-            } catch (ClassNotFoundException exception) {
-                throw new InternalError(exception);
-            } finally {
-                Reference.reachabilityFence(clazz);
+            if (INITIALIZED_CLASSES.add(clazz)) {
+                Unsafe.ensureClassInitialized(clazz);
             }
         }
     }
 
+    /**
+     * Construct a {@link Stream} from a given {@link Iterable}.
+     *
+     * @param iterable The {@link Iterable} to construct the {@link Stream} from
+     * @param <T> The type of elements encountered by the given {@link Iterable} and the constructed {@link Stream}
+     *
+     * @see Collection#stream()
+     * @see StreamSupport#stream(Spliterator, boolean)
+     */
     public static <T> Stream<T> stream(Iterable<T> iterable) {
         return iterable instanceof Collection<?>
             ? ((Collection<T>) iterable).stream()
             : StreamSupport.stream(iterable.spliterator(), false);
     }
 
+    /**
+     * Determine the {@code serialVersionUID} to use for the {@code javax} {@link Class} invoking this method by
+     *   inspecting its {@code jakarta} counterpart.
+     *
+     * @throws UnsupportedOperationException An exception indicating a failure to determine the {@code serialVersionUID}
+     *                                       to use for the {@code javax} {@link Class} invoking this method
+     */
     public static long getSerialVersionUID() {
         final var clazz = STACK_WALKER.getCallerClass();
-        if (!Serializable.class.isAssignableFrom(clazz)) {
+        if (!isJavax(clazz.getName())) {
+            throw new UnsupportedOperationException("Not a javax class: " + clazz.getName());
+        } else if (!Serializable.class.isAssignableFrom(clazz)) {
             throw new UnsupportedOperationException("Not a serializable class: " + clazz.getName());
         }
 
         try {
             return getSerialVersionUID(toJakarta(clazz));
-        } catch (IllegalStateException | NoClassDefFoundError exception) {
-            var superClass = clazz;
-            do {
-                superClass = superClass.getSuperclass();
-            } while (superClass != null && !isJakarta(superClass.getName()));
-
-            if (superClass != null) {
-                try {
-                    return getSerialVersionUID(superClass);
-                } catch (IllegalStateException innerException) {
-                    // Ignore.
-                }
-            }
+        } catch (IllegalStateException exception) {
+            throw new UnsupportedOperationException("Cannot determine serialVersionUID for class: " + clazz.getName());
         }
-
-        throw new UnsupportedOperationException("Failed to determine serialVersionUID for class: " + clazz.getName());
     }
 
+    /**
+     * Throw an {@link UnsupportedOperationException} with a message describing the inability to shim a given object,
+     *   using a given label for the object's description where applicable.
+     *
+     * @param label The label describing the given object (e.g., event listener); may be {@code null} to describe the
+     *              given object generically or based on known types (e.g., annotation, enumeration, exception)
+     * @param object The object to throw the {@link UnsupportedOperationException} for
+     *
+     * @throws UnsupportedOperationException An exception indicating the inability to shim the given object of an
+     *                                       unknown type
+     */
     public static <T> T throwUnknownType(String label, Object object) throws UnsupportedOperationException {
         final var packageName = STACK_WALKER.getCallerClass().getPackageName();
         final Class<?> type;
@@ -210,58 +302,8 @@ public final class ShimSupport {
     }
 
     //==================================================================================================================
-    // Helpers
-    //==================================================================================================================
-
-    @FunctionalInterface
-    public interface ReflectiveAction<T> {
-        Object apply(MethodHandles.Lookup lookup, Class<T> clazz) throws Throwable;
-    }
-
-    //==================================================================================================================
     // Package-private Support Methods
     //==================================================================================================================
-
-    static <T> T proxy(Shim.Facade<T> facade, T target) {
-        final var clazz = facade.getTargetClass();
-        if (!clazz.isInterface()) {
-            return target;
-        }
-
-        return clazz.cast(Proxy.newProxyInstance(
-            target.getClass().getClassLoader(),
-            new Class<?>[] {clazz, Serializable.class, Cloneable.class},
-            (proxy, method, arguments) -> {
-                try {
-                    return method.invoke(target, arguments);
-                } catch (InvocationTargetException exception) {
-                    Throwable cause = exception;
-                    do {
-                        cause = cause.getCause();
-                    } while (cause != null && !(cause instanceof LinkageError));
-
-                    if (cause == null || !isShimmable(cause)) {
-                        throw exception.getCause();
-                    } else {
-                        ShimPatcher.STRICT.patch(cause.getStackTrace()[0].getClassName());
-//                        STACK_WALKER.walk(stackFrames ->
-//                            stackFrames
-//                                .skip(1L)
-//                                .map(StackWalker.StackFrame::getDeclaringClass)
-//                                .dropWhile(clazz$ -> Proxy.isProxyClass(clazz$) || Shim.class.isAssignableFrom(clazz$))
-//                                .findFirst()
-//                        ).ifPresent(ShimPatcher.STRICT::patch);
-                    }
-                }
-
-                try {
-                    return method.invoke(target, arguments);
-                } catch (InvocationTargetException exception) {
-                    throw exception.getCause();
-                }
-            }
-        ));
-    }
 
     static void logEntryPoint(Class<? extends Shim> shimClass, Class<?> targetClass) {
         if (!LOGGED_ENTRY_POINT_CLASSES.add(targetClass)) {
@@ -273,7 +315,7 @@ public final class ShimSupport {
                 stackFrames
                     .skip(1L)
                     .dropWhile(stackFrame ->
-                        stackFrame.getDeclaringClass().getPackageName().startsWith(JAVAX)
+                        isJavax(stackFrame.getClassName())
                             || Shim.class.isAssignableFrom(stackFrame.getDeclaringClass())
                     )
                     .limit(1L)
@@ -288,7 +330,7 @@ public final class ShimSupport {
     //==================================================================================================================
 
     private static long getSerialVersionUID(Class<?> clazz) {
-        return reflect(clazz, (lookup, ignored) ->
+        return ShimReflector.call(clazz, (lookup, ignored) ->
             lookup
                 .findStaticVarHandle(clazz, "serialVersionUID", long.class)
                 .get()

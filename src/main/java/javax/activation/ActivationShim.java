@@ -50,8 +50,8 @@ public interface ActivationShim extends Shim {
         return Shim.of(ActivationShim::of, objects);
     }
 
-    static <S extends ActivationShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
-        return Shim.of(shimType, interfaceType);
+    static <S extends ActivationShim> Class<? extends S> of(Class<?> baseType, Class<S> shimType) {
+        return Shim.of(baseType, shimType);
     }
 
     //==================================================================================================================

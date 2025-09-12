@@ -50,7 +50,7 @@ public interface WebSocketContainer extends jakarta.websocket.WebSocketContainer
         jakarta.websocket.ClientEndpointConfig endpointConfig,
         URI path
     ) throws DeploymentException, IOException {
-        return connectToServer(WebSocketShim.of(Endpoint.class, endpointClass), WebSocketShim.of(endpointConfig), path);
+        return connectToServer(WebSocketShim.of(endpointClass, Endpoint.class), WebSocketShim.of(endpointConfig), path);
     }
 
     @Override

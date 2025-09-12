@@ -94,8 +94,8 @@ public interface JAXBShim extends Shim {
         return Shim.of(JAXBShim::of, objects);
     }
 
-    static <S extends JAXBShim> Class<? extends S> of(Class<S> shimType, Class<?> interfaceType) {
-        return Shim.of(shimType, interfaceType);
+    static <S extends JAXBShim> Class<? extends S> of(Class<?> baseType, Class<S> shimType) {
+        return Shim.of(baseType, shimType);
     }
 
     //==================================================================================================================

@@ -1,5 +1,6 @@
 package javax.activation;
 
+import javax.shim.ShimReflector;
 import javax.shim.ShimSupport;
 import java.io.IOException;
 import java.io.InputStream;
@@ -87,19 +88,21 @@ interface Facades {
 
         @Override
         protected String normalizeMimeType(String mimeType) {
-            return ShimSupport.reflect(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) ->
-               lookup
-                   .bind(target, "normalizeMimeType", MethodType.methodType(String.class, String.class))
-                   .invoke(mimeType)
+            return ShimReflector.call(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) ->
+                (String)
+                    lookup
+                       .bind(target, "normalizeMimeType", MethodType.methodType(String.class, String.class))
+                       .invokeExact(mimeType)
             );
         }
 
         @Override
         protected String normalizeMimeTypeParameter(String parameterName, String parameterValue) {
-            return ShimSupport.reflect(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) ->
-                lookup
-                    .bind(target, "normalizeMimeTypeParameter", MethodType.methodType(String.class, String.class, String.class))
-                    .invoke(parameterName, parameterValue)
+            return ShimReflector.call(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) ->
+                (String)
+                    lookup
+                        .bind(target, "normalizeMimeTypeParameter", MethodType.methodType(String.class, String.class, String.class))
+                        .invokeExact(parameterName, parameterValue)
             );
         }
     }
