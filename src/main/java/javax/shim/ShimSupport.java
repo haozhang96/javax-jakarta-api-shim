@@ -115,7 +115,7 @@ public final class ShimSupport {
     public static Class<?> toJavax(Class<?> clazz) {
         final var className = toJavax(clazz.getName());
         try {
-            return Class.forName(className, true, clazz.getClassLoader());
+            return Class.forName(className, true, getClassLoader(clazz));
         } catch (ClassNotFoundException exception) {
             throw new NoClassDefFoundError("Unknown javax type: " + className);
         }
@@ -169,7 +169,7 @@ public final class ShimSupport {
         }
 
         try {
-            return Class.forName(className, true, clazz.getClassLoader());
+            return Class.forName(className, true, getClassLoader(clazz));
         } catch (ClassNotFoundException exception) {
             throw new NoClassDefFoundError("Unknown jakarta type: " + className);
         }
@@ -195,7 +195,7 @@ public final class ShimSupport {
      *                  the {@link Class} invoking this method
      */
     public static boolean classExists(String className) {
-        return classExists(className, STACK_WALKER.getCallerClass().getClassLoader());
+        return classExists(className, getClassLoader(STACK_WALKER.getCallerClass()));
     }
 
     /**
@@ -208,14 +208,37 @@ public final class ShimSupport {
     public static boolean classExists(String className, ClassLoader classLoader) {
         return className != null && CLASS_EXISTENCE.computeIfAbsent(className, ignored -> {
             try {
-                final var classLoader$ =
-                    Objects.requireNonNullElse(classLoader, Thread.currentThread().getContextClassLoader());
-                Class.forName(className, false, classLoader$);
+                Class.forName(className, false, classLoader);
                 return true;
             } catch (ClassNotFoundException exception) {
                 return false;
             }
         });
+    }
+
+    /**
+     * Determine the concrete {@link ClassLoader} to use for a given {@link Class}, if possible.
+     *
+     * @param clazz The {@link Class} to determine the concrete {@link ClassLoader} to use for
+     */
+    public static ClassLoader getClassLoader(Class<?> clazz) {
+        final var callerClass = STACK_WALKER.getCallerClass();
+        return getClassLoader(Objects.requireNonNullElse(clazz.getClassLoader(), callerClass.getClassLoader()));
+    }
+
+    /**
+     * Determine the concrete {@link ClassLoader} to use for a given potentially {@code null} {@link ClassLoader}, if
+     *   possible.
+     *
+     * @param classLoader The potentially {@code null} {@link ClassLoader} to determine the concrete {@link ClassLoader}
+     *                    to use for
+     */
+    public static ClassLoader getClassLoader(ClassLoader classLoader) {
+        return Optional
+            .ofNullable(classLoader)
+            .or(() -> Optional.ofNullable(Thread.currentThread().getContextClassLoader()))
+            .or(() -> Optional.ofNullable(STACK_WALKER.getCallerClass().getClassLoader()))
+            .orElseGet(ClassLoader::getSystemClassLoader);
     }
 
     /**

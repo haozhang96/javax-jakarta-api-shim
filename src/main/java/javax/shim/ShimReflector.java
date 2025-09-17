@@ -1,6 +1,7 @@
 package javax.shim;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Objects;
 
 /**
  * This class defines a reflective action (any action that throws a {@link ReflectiveOperationException}) that requires
@@ -90,7 +91,10 @@ public interface ShimReflector {
         ShimReflector reflector
     ) throws X {
         try {
-            return call(lookup, Class.forName(className, true, lookup.lookupClass().getClassLoader()), reflector);
+            final var callerClass = ShimSupport.STACK_WALKER.getCallerClass();
+            final var classLoader =
+                Objects.requireNonNullElse(lookup.lookupClass().getClassLoader(), callerClass.getClassLoader());
+            return call(lookup, Class.forName(className, true, ShimSupport.getClassLoader(classLoader)), reflector);
         } catch (ClassNotFoundException exception) {
             throw new IllegalStateException("Cannot find class to perform reflective action: " + className, exception);
         }
