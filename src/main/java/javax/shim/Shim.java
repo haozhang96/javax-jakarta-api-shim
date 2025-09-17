@@ -50,7 +50,7 @@ public interface Shim {
     }
 
     static <S extends Shim> Class<? extends S> of(Class<?> baseType, Class<S> shimType) {
-        return new ShimProxy<S>().of(baseType, shimType);
+        return ShimProxy.create(baseType, shimType);
     }
 
     //==================================================================================================================
@@ -150,7 +150,7 @@ public interface Shim {
         //==============================================================================================================
 
         protected Facade(T target) {
-            this.target = new ShimProxy<>(target).of(getTargetClass());
+            this.target = ShimProxy.create(target, getTargetClass());
             ShimSupport.logEntryPoint(getClass(), target.getClass());
         }
 

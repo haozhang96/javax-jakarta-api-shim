@@ -8,10 +8,8 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -218,7 +216,7 @@ public abstract class HttpServlet extends GenericServlet {
     }
 
     private String getAllowedMethods() {
-        return getDeclaredMethods(getClass())
+        return getDeclaredMethods()
             .filter(method -> method.getName().startsWith("do"))
             .map(method -> method.getName().substring(2).toUpperCase())
             .flatMap(method -> {
@@ -250,10 +248,12 @@ public abstract class HttpServlet extends GenericServlet {
             || Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD.replace("jakarta", "javax")));
     }
 
-    private Stream<Method> getDeclaredMethods(Class<?> clazz) {
-        final var superClass = clazz.getSuperclass();
-        final var methods = Stream.of(clazz.getDeclaredMethods());
-        return superClass == HttpServlet.class ? methods : Stream.concat(methods, getDeclaredMethods(superClass));
+    private Stream<Method> getDeclaredMethods() {
+        return Stream
+            .<Class<?>>iterate(getClass(), Objects::nonNull, Class::getSuperclass)
+            .takeWhile(Predicate.not(HttpServlet.class::equals))
+            .map(Class::getDeclaredMethods)
+            .flatMap(Stream::of);
     }
 
     @SuppressWarnings("ClassExplicitlyAnnotation")
