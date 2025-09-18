@@ -6,6 +6,7 @@ import javassist.util.proxy.ProxyFactory;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.lang.invoke.VarHandle;
 import java.lang.reflect.*;
 import java.util.Collection;
 import java.util.Map;
@@ -36,6 +37,8 @@ final class ShimProxy<T> implements InvocationHandler, MethodHandler {
     private static final Map<Class<?>, Collection<Method>> METHODS = new WeakHashMap<>(1 << 9);
     private static final Map<Method, MethodHandle> METHOD_HANDLES = new WeakHashMap<>(1 << 11);
     private static final Map<Method, MethodHandle> EXACT_INVOKERS = new WeakHashMap<>(1 << 11);
+    private static final VarHandle PROXY_INVOCATION_HANDLER =
+        ShimReflector.call(Proxy.class, (lookup, clazz) -> lookup.findVarHandle(clazz, "h", InvocationHandler.class));
 
     private final T target;
     private final Map<Method, MethodHandle> invokers = new ConcurrentHashMap<>(1 << 7);
@@ -57,11 +60,13 @@ final class ShimProxy<T> implements InvocationHandler, MethodHandler {
     //==================================================================================================================
 
     static <T> T create(T target, Class<? extends T> type) {
-        return new ShimProxy<>(target).create(type);
+        return isProxy(target.getClass()) && type.isInstance(target) ? target : new ShimProxy<>(target).create(type);
     }
 
     static <T> Class<? extends T> create(Class<?> baseType, Class<T> shimType) {
-        return NO_TARGET.createClass(baseType, shimType);
+        return isProxy(baseType) && shimType.isAssignableFrom(baseType)
+            ? baseType.asSubclass(shimType)
+            : NO_TARGET.createClass(baseType, shimType);
     }
 
     //==================================================================================================================
@@ -138,11 +143,7 @@ final class ShimProxy<T> implements InvocationHandler, MethodHandler {
 
     private void setHandler(Object proxy) {
         if (Proxy.isProxyClass(proxy.getClass())) {
-            ShimReflector.call(Proxy.class, (lookup, clazz) ->
-                lookup
-                    .findVarHandle(clazz, "h", InvocationHandler.class)
-                    .compareAndSet(proxy, null, this)
-            );
+            PROXY_INVOCATION_HANDLER.set(proxy, this);
         } else if (ProxyFactory.isProxyClass(proxy.getClass())) {
             ((javassist.util.proxy.Proxy) proxy).setHandler(this);
         }

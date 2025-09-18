@@ -2,7 +2,6 @@ package javax.shim;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.ParameterizedType;
 import java.util.EnumSet;
@@ -139,7 +138,7 @@ public interface Shim {
     @Deprecated(since = "jakarta")
     abstract class Facade<T> implements Shim, Serializable, Cloneable {
         private static final MethodHandle FINALIZER =
-            ShimReflector.call(MethodHandles.lookup(), Object.class, (lookup, clazz) ->
+            ShimReflector.call(Object.class, (lookup, clazz) ->
                 lookup.findVirtual(clazz, "finalize", MethodType.methodType(void.class))
             );
 
