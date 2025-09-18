@@ -1,8 +1,6 @@
 package javax.shim;
 
 import java.io.Serializable;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodType;
 import java.lang.reflect.ParameterizedType;
 import java.util.EnumSet;
 import java.util.function.Function;
@@ -137,11 +135,6 @@ public interface Shim {
      */
     @Deprecated(since = "jakarta")
     abstract class Facade<T> implements Shim, Serializable, Cloneable {
-        private static final MethodHandle FINALIZER =
-            ShimReflector.call(Object.class, (lookup, clazz) ->
-                lookup.findVirtual(clazz, "finalize", MethodType.methodType(void.class))
-            );
-
         protected final T target; // Conditionally serializable
 
         //==============================================================================================================
@@ -149,8 +142,11 @@ public interface Shim {
         //==============================================================================================================
 
         protected Facade(T target) {
-            this.target = ShimProxy.create(target, getTargetClass());
-            ShimSupport.logEntryPoint(getClass(), target.getClass());
+            try {
+                this.target = ShimProxy.create(target, getTargetClass());
+            } finally {
+                ShimSupport.logEntryPoint(getClass(), target.getClass());
+            }
         }
 
         //==============================================================================================================
@@ -196,11 +192,7 @@ public interface Shim {
         @Override
         @SuppressWarnings("deprecation")
         protected final void finalize() throws Throwable {
-            try {
-                FINALIZER.invokeExact(target);
-            } finally {
-                super.finalize();
-            }
+            super.finalize();
         }
 
         //==============================================================================================================
