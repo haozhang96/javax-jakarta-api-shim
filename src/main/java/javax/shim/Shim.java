@@ -47,7 +47,7 @@ public interface Shim {
     }
 
     static <S extends Shim> Class<? extends S> of(Class<?> baseType, Class<S> shimType) {
-        return ShimProxy.create(baseType, shimType);
+        return ShimProxy.of(baseType, shimType);
     }
 
     //==================================================================================================================
@@ -131,6 +131,8 @@ public interface Shim {
      *   implementations, defining an accessible and potentially proxied {@link #target} for easy access and
      *   implementing all {@link Object} methods.
      *
+     * @param <T> The {@code jakarta} type this {@code javax} {@link Facade} is meant for
+     *
      * @deprecated Use {@link jakarta} instead.
      */
     @Deprecated(since = "jakarta")
@@ -142,11 +144,7 @@ public interface Shim {
         //==============================================================================================================
 
         protected Facade(T target) {
-            try {
-                this.target = ShimProxy.create(target, getTargetClass());
-            } finally {
-                ShimSupport.logEntryPoint(getClass(), target.getClass());
-            }
+            this.target = ShimProxy.of(target, getTargetClass());
         }
 
         //==============================================================================================================
