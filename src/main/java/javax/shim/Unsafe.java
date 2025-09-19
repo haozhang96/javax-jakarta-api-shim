@@ -122,9 +122,9 @@ public final class Unsafe {
     /**
      * @see sun.misc.Unsafe#allocateInstance(Class)
      */
-    public static <T> T allocateInstance(Class<T> clazz) {
+    public static <T> T allocateInstance(Class<? extends T> clazz) {
         try {
-            return (T) ALLOCATE_INSTANCE.invokeExact(clazz);
+            return clazz.cast(ALLOCATE_INSTANCE.invokeExact(clazz));
         } catch (Throwable cause) {
             throw ShimSupport.rethrow(cause);
         }

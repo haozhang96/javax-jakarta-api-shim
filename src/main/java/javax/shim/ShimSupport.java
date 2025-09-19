@@ -21,13 +21,12 @@ import java.util.stream.StreamSupport;
 public final class ShimSupport {
     public static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
 
-    private static final Map<String, Boolean> CLASS_EXISTENCE = new ConcurrentHashMap<>();
-    private static final Map<String, String> JAVAX_TO_JAKARTA_CLASS_NAMES = new ConcurrentHashMap<>();
-    private static final Map<String, String> JAKARTA_TO_JAVAX_CLASS_NAMES = new ConcurrentHashMap<>();
-    private static final Set<Class<?>> INITIALIZED_CLASSES = Collections.newSetFromMap(new WeakHashMap<>());
-    private static final Set<Class<?>> LOGGED_ENTRY_POINT_CLASSES = Collections.newSetFromMap(new WeakHashMap<>());
     private static final String JAVAX = "javax.";
     private static final String JAKARTA = "jakarta.";
+    private static final Map<String, String> JAVAX_TO_JAKARTA_CLASS_NAMES = new ConcurrentHashMap<>();
+    private static final Map<String, String> JAKARTA_TO_JAVAX_CLASS_NAMES = new ConcurrentHashMap<>();
+    private static final Map<String, Boolean> CLASS_EXISTENCE = new ConcurrentHashMap<>();
+    private static final Set<Class<?>> INITIALIZED_CLASSES = Collections.newSetFromMap(new WeakHashMap<>());
     private static final Set<String> JAVAX_PACKAGES =
         Stream
             .of(
@@ -165,7 +164,7 @@ public final class ShimSupport {
                     .dropWhile(Predicate.not(ShimSupport::classExists))
                     .findFirst()
                     .orElse(className);
-            JAVAX_TO_JAKARTA_CLASS_NAMES.replace(clazz.getName(), className);
+            JAVAX_TO_JAKARTA_CLASS_NAMES.put(clazz.getName(), className);
         }
 
         try {
@@ -305,7 +304,6 @@ public final class ShimSupport {
      *                                       unknown type
      */
     public static <T> T throwUnknownType(String label, Object object) throws UnsupportedOperationException {
-        final var packageName = STACK_WALKER.getCallerClass().getPackageName();
         final Class<?> type;
         if (object instanceof Annotation) {
             label = "annotation";
@@ -320,32 +318,8 @@ public final class ShimSupport {
 
         throw new UnsupportedOperationException(String.format(
             "Cannot shim unknown %s %stype: %s",
-            packageName, label != null ? label + " " : "", type.getName()
+            STACK_WALKER.getCallerClass().getPackageName(), label != null ? label + " " : "", type.getName()
         ));
-    }
-
-    //==================================================================================================================
-    // Package-private Support Methods
-    //==================================================================================================================
-
-    static void logEntryPoint(Class<? extends Shim> shimClass, Class<?> targetClass) {
-        if (!LOGGED_ENTRY_POINT_CLASSES.add(targetClass)) {
-            return;
-        }
-
-        final var stackTrace =
-            STACK_WALKER.walk(stackFrames ->
-                stackFrames
-                    .skip(1L)
-                    .dropWhile(stackFrame ->
-                        isJavax(stackFrame.getClassName())
-                            || Shim.class.isAssignableFrom(stackFrame.getDeclaringClass())
-                    )
-                    .limit(1L)
-                    .map(StackWalker.StackFrame::toString)
-                    .collect(Collectors.joining(System.lineSeparator() + "\tat ", System.lineSeparator() + "\tat ", ""))
-            );
-        System.out.format("[*] Shimming: %s -> %s%s%n", targetClass.getName(), shimClass.getName(), stackTrace);
     }
 
     //==================================================================================================================
