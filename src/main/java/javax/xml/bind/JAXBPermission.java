@@ -32,8 +32,8 @@ public class JAXBPermission extends BasicPermission implements JAXBShim {
     //==================================================================================================================
 
     @Override
-    public boolean implies(Permission p) {
-        return target.implies(p);
+    public boolean implies(Permission permission) {
+        return target.implies(permission);
     }
 
     @Override
@@ -53,8 +53,8 @@ public class JAXBPermission extends BasicPermission implements JAXBShim {
 
     @Override
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-    public boolean equals(Object obj) {
-        return target.equals(obj);
+    public boolean equals(Object other) {
+        return target.equals(other);
     }
 
     @Override

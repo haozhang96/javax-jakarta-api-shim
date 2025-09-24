@@ -18,7 +18,7 @@ import java.net.URL;
  * @deprecated Use {@link jakarta.xml.bind.Unmarshaller} instead.
  */
 @Deprecated(since = "jakarta.xml.bind.Unmarshaller")
-public interface Unmarshaller extends jakarta.xml.bind.Unmarshaller, JAXBShim {
+public interface Unmarshaller extends jakarta.xml.bind.Unmarshaller, Processor<jakarta.xml.bind.Unmarshaller.Listener, Unmarshaller.Listener> {
     //==================================================================================================================
     // Shim Methods
     //==================================================================================================================

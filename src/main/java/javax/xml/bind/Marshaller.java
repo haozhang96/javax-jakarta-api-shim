@@ -16,7 +16,7 @@ import java.io.Writer;
  * @deprecated Use {@link jakarta.xml.bind.Marshaller} instead.
  */
 @Deprecated(since = "jakarta.xml.bind.Marshaller")
-public interface Marshaller extends jakarta.xml.bind.Marshaller, JAXBShim {
+public interface Marshaller extends jakarta.xml.bind.Marshaller, Processor<jakarta.xml.bind.Marshaller.Listener, Marshaller.Listener> {
     //==================================================================================================================
     // Shim Methods
     //==================================================================================================================
@@ -57,10 +57,10 @@ public interface Marshaller extends jakarta.xml.bind.Marshaller, JAXBShim {
     void marshal(Object jaxbElement, Node node) throws JAXBException;
 
     @Override
-    void marshal(Object jaxbElement, ContentHandler handler) throws JAXBException;
+    void marshal(Object jaxbElement, File file) throws JAXBException;
 
     @Override
-    void marshal(Object jaxbElement, File file) throws JAXBException;
+    void marshal(Object jaxbElement, ContentHandler handler) throws JAXBException;
 
     @Override
     void marshal(Object jaxbElement, OutputStream outputStream) throws JAXBException;

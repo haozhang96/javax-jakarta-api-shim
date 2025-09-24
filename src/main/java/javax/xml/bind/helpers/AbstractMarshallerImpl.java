@@ -39,18 +39,18 @@ public abstract class AbstractMarshallerImpl implements Marshaller {
     }
 
     @Override
-    public void marshal(Object jaxbElement, ContentHandler handler) throws JAXBException {
+    public void marshal(Object jaxbElement, File file) throws JAXBException {
         try {
-            target.marshal(JAXBElement.wrap(jaxbElement), handler);
+            target.marshal(JAXBElement.wrap(jaxbElement), file);
         } catch (jakarta.xml.bind.JAXBException exception) {
             throw JAXBShim.of(exception);
         }
     }
 
     @Override
-    public void marshal(Object jaxbElement, File file) throws JAXBException {
+    public void marshal(Object jaxbElement, ContentHandler handler) throws JAXBException {
         try {
-            target.marshal(JAXBElement.wrap(jaxbElement), file);
+            target.marshal(JAXBElement.wrap(jaxbElement), handler);
         } catch (jakarta.xml.bind.JAXBException exception) {
             throw JAXBShim.of(exception);
         }

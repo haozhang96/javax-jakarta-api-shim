@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 @SuppressWarnings("deprecation")
 public class ServletTest {
     @Autowired
-    private ServletContext servletContext;
+    private ServletContext context;
 
     @Autowired
     private HttpServletRequest request;
@@ -32,6 +32,13 @@ public class ServletTest {
 
     @GetMapping
     public ResponseEntity<String> hi() throws Exception {
-        return ResponseEntity.ok("Hello, it is " + DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now()));
+        try {
+            return ResponseEntity.ok("Hello, it is " + DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now()));
+        } finally {
+            System.runFinalization();
+            System.gc();
+            System.runFinalization();
+            System.gc();
+        }
     }
 }

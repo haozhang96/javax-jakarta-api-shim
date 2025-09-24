@@ -52,19 +52,49 @@ public interface JAXBShim extends Shim {
             return S(of((Annotation) object));
         } else if (object instanceof jakarta.xml.bind.annotation.adapters.XmlAdapter<?, ?>) {
             return S(of((jakarta.xml.bind.annotation.adapters.XmlAdapter<?, ?>) object));
+        } else if (object instanceof jakarta.xml.bind.ValidationEvent) {
+            return S(of((jakarta.xml.bind.ValidationEvent) object));
 
         //==============================================================================================================
         // Core
         //==============================================================================================================
 
+        } else if (object instanceof jakarta.xml.bind.Binder<?>) {
+            return S(new Facades.Binder<>(S(object)));
         } else if (object instanceof jakarta.xml.bind.DataBindingException) {
             return S(new Facades.DataBindingException(S(object)));
         } else if (object instanceof jakarta.xml.bind.DatatypeConverterInterface) {
             return S(new Facades.DatatypeConverterInterface(S(object)));
+        } else if (object instanceof jakarta.xml.bind.Element) {
+            return S(new Facades.Element(S(object)));
+        } else if (object instanceof jakarta.xml.bind.JAXBContext) {
+            return S(new Facades.JAXBContext(S(object)));
+        } else if (object instanceof jakarta.xml.bind.JAXBContextFactory) {
+            return S(new Facades.JAXBContextFactory(S(object)));
         } else if (object instanceof jakarta.xml.bind.JAXBElement<?>) {
             return S(new Facades.JAXBElement<>(S(object)));
+        } else if (object instanceof jakarta.xml.bind.JAXBIntrospector) {
+            return S(new Facades.JAXBIntrospector(S(object)));
+        } else if (object instanceof jakarta.xml.bind.JAXBPermission) {
+            return S(new Facades.JAXBPermission(S(object)));
+        } else if (object instanceof jakarta.xml.bind.Marshaller) {
+            return S(new Facades.Marshaller(S(object)));
+        } else if (object instanceof jakarta.xml.bind.Marshaller.Listener) {
+            return S(new Facades.Marshaller$Listener(S(object)));
+        } else if (object instanceof jakarta.xml.bind.SchemaOutputResolver) {
+            return S(new Facades.SchemaOutputResolver(S(object)));
         } else if (object instanceof jakarta.xml.bind.TypeConstraintException) {
             return S(new Facades.TypeConstraintException(S(object)));
+        } else if (object instanceof jakarta.xml.bind.Unmarshaller) {
+            return S(new Facades.Unmarshaller(S(object)));
+        } else if (object instanceof jakarta.xml.bind.Unmarshaller.Listener) {
+            return S(new Facades.Unmarshaller$Listener(S(object)));
+        } else if (object instanceof jakarta.xml.bind.UnmarshallerHandler) {
+            return S(new Facades.UnmarshallerHandler(S(object)));
+        } else if (object instanceof jakarta.xml.bind.ValidationEventHandler) {
+            return S(new Facades.ValidationEventHandler(S(object)));
+        } else if (object instanceof jakarta.xml.bind.ValidationEventLocator) {
+            return S(new Facades.ValidationEventLocator(S(object)));
         }
 
         return ShimSupport.throwUnknownType(null, object);
@@ -200,6 +230,20 @@ public interface JAXBShim extends Shim {
         }
 
         return S(new Facades.XmlAdapter<>(S(adapter)));
+    }
+
+    private static <S extends ValidationEvent> S of(jakarta.xml.bind.ValidationEvent event) {
+        if (event == null || event instanceof JAXBShim) {
+            return S(event);
+        } else if (event instanceof jakarta.xml.bind.NotIdentifiableEvent) {
+            return S(new Facades.NotIdentifiableEvent(S(event)));
+        } else if (event instanceof jakarta.xml.bind.ParseConversionEvent) {
+            return S(new Facades.ParseConversionEvent(S(event)));
+        } else if (event instanceof jakarta.xml.bind.PrintConversionEvent) {
+            return S(new Facades.PrintConversionEvent(S(event)));
+        }
+
+        return S(new Facades.ValidationEvent(S(event)));
     }
 
     @SuppressWarnings("unchecked")
