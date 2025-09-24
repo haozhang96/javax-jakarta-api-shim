@@ -115,7 +115,7 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
     private <T> Class<? extends T> createClass(Class<?> baseType, Class<T> shimType) {
         return PROXY_CLASSES.computeIfAbsent(baseType.hashCode() ^ shimType.hashCode(), ignored -> {
             if (!shimType.isInterface()) {
-                throw new IllegalArgumentException("Interface type required for proxy class: " + shimType.getName());
+                throw new IllegalArgumentException("Interface type required for shim: " + shimType.getName());
             } else if (baseType.isInterface()) {
                 return Proxy.getProxyClass(ShimSupport.getClassLoader(baseType), getInterfaceTypes(baseType, shimType));
             }
@@ -133,7 +133,7 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
     private Object invoke(Method method, Object... arguments) throws Throwable {
         return getTarget()
             .map(unreflect(method)::bindTo)
-            .orElseThrow(() -> new IllegalStateException("Target has been garbage collected."))
+            .orElseThrow(() -> new IllegalStateException("Proxy target is no longer available."))
             .invokeWithArguments(arguments);
     }
 
@@ -208,8 +208,8 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
         }
 
         final var depth = 5L;
-        System.out.format(
-            "[*] Shimming: %s -> %s%s%n",
+        ShimLogger.INFO.accept(String.format(
+            "[*] Shimming: %s -> %s%s",
             target.getClass().getName(),
             ShimSupport.STACK_WALKER.walk(stackFrames ->
                 stackFrames
@@ -227,7 +227,7 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
                     .map(StackWalker.StackFrame::toString)
                     .collect(Collectors.joining(System.lineSeparator() + "\tat ", System.lineSeparator() + "\tat ", ""))
             )
-        );
+        ));
     }
 
     private static boolean isProxy(Class<?> clazz) {

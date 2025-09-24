@@ -109,18 +109,17 @@ public class ShimPatcher extends ExprEditor {
 
     public void patch(Patch patch, CtClass... classes) {
         for (final var clazz : classes) {
-            final var className = clazz.getName();
             if (shouldNotPatch(clazz, patch)) {
                 continue;
             }
 
             try {
-                System.out.println("[*] Patching: " + className);
+                ShimLogger.INFO.accept("[*] Patching: " + clazz.getName());
                 patch.patch(clazz);
-                HotSwapAgent.redefine(Class.forName(className, false, classPool.getClassLoader()), clazz);
+                HotSwapAgent.redefine(Class.forName(clazz.getName(), false, classPool.getClassLoader()), clazz);
             } catch (CannotCompileException | NotFoundException | IOException | ReflectiveOperationException exception) {
                 if (!ignoreFailures) {
-                    throw new LinkageError("Failed to patch class: " + className, exception);
+                    throw new LinkageError("Failed to patch class: " + clazz.getName(), exception);
                 }
             }
         }
@@ -271,7 +270,9 @@ public class ShimPatcher extends ExprEditor {
     @Override
     public void edit(Handler expression) throws CannotCompileException {
         try {
-            expression.getType();
+            if (!expression.isFinally()) {
+                expression.getType();
+            }
         } catch (NotFoundException exception) {
             throw new CannotCompileException(exception);
         }
@@ -374,15 +375,15 @@ public class ShimPatcher extends ExprEditor {
         }
 
         final var replacement = replacer.replacement();
-        System.out.format(
-            "[*] Replacement %s: %s -> %s%n\tat %s(%s:%d)%n",
+        ShimLogger.INFO.accept(String.format(
+            "[*] Replacement %s: %s -> %s%n\tat %s(%s:%d)",
             expression.getClass().getSimpleName(),
             description,
             replacement,
             location.substring(0, location.lastIndexOf('(')),
             expression.getFileName(),
             expression.getLineNumber()
-        );
+        ));
         return replacement;
     }
 
@@ -396,7 +397,7 @@ public class ShimPatcher extends ExprEditor {
             final var clazz = Class.forName("sun.tools.attach.HotSpotVirtualMachine");
             Unsafe.setField(clazz.getDeclaredField("ALLOW_ATTACH_SELF"), true);
         } catch (ReflectiveOperationException exception) {
-            System.err.println("Enable JVM self-instrumentation using the -Djdk.attach.allowAttachSelf JVM flag.");
+            ShimLogger.DEBUG.accept("Enable JVM self-instrumentation using the -Djdk.attach.allowAttachSelf JVM flag.");
         }
 
         // Patch Spring Framework.
