@@ -1,6 +1,7 @@
 package javax.shim;
 
 import java.io.Serializable;
+import java.lang.ref.Reference;
 import java.lang.reflect.ParameterizedType;
 import java.util.EnumSet;
 import java.util.function.Function;
@@ -35,7 +36,7 @@ public interface Shim {
     static void initialize() {
         // This method helps ensure the earliest initialization possible for our classes before any bundled classes in
         //   other dependencies.
-        ShimSupport.ensureInitialized();
+        Reference.reachabilityFence(ShimSupport.STACK_WALKER);
     }
 
     static <S extends Shim> Stream<S> of(Function<Object, ? extends S> shim, Object[] objects) {
@@ -99,7 +100,7 @@ public interface Shim {
 
         @SuppressWarnings("unchecked")
         default E toJakarta() {
-            return java.lang.Enum.valueOf((Class<E>) ShimSupport.toJakarta(getDeclaringClass()), name());
+            return java.lang.Enum.valueOf((Class<E>) ShimSupport.Class.toJakarta(getDeclaringClass()), name());
         }
 
         //==============================================================================================================

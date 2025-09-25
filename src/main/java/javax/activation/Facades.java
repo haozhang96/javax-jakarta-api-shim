@@ -1,6 +1,5 @@
 package javax.activation;
 
-import javax.shim.ShimReflector;
 import javax.shim.ShimSupport;
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,7 +87,7 @@ interface Facades {
 
         @Override
         protected String normalizeMimeType(String mimeType) {
-            return ShimReflector.call(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) ->
+            return ShimSupport.Reflect.call(MethodHandles.lookup(), ShimSupport.Class.toJakarta(), (lookup, clazz) ->
                 (String)
                     lookup
                        .bind(target, "normalizeMimeType", MethodType.methodType(String.class, String.class))
@@ -98,7 +97,7 @@ interface Facades {
 
         @Override
         protected String normalizeMimeTypeParameter(String parameterName, String parameterValue) {
-            return ShimReflector.call(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) ->
+            return ShimSupport.Reflect.call(MethodHandles.lookup(), ShimSupport.Class.toJakarta(), (lookup, clazz) ->
                 (String)
                     lookup
                         .bind(target, "normalizeMimeTypeParameter", MethodType.methodType(String.class, String.class, String.class))

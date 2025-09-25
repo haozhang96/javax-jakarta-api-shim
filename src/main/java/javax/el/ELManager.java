@@ -1,6 +1,5 @@
 package javax.el;
 
-import javax.shim.ShimReflector;
 import javax.shim.ShimSupport;
 import java.lang.invoke.MethodHandles;
 
@@ -14,7 +13,7 @@ public class ELManager extends jakarta.el.ELManager implements ELShim {
     //==================================================================================================================
 
     public ELManager() {
-        ShimReflector.call(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) -> {
+        ShimSupport.Reflect.call(MethodHandles.lookup(), ShimSupport.Class.toJakarta(), (lookup, clazz) -> {
             lookup
                 .findVarHandle(clazz, "elContext", jakarta.el.StandardELContext.class)
                 .set(this, new Retrofits.StandardELContext(new StandardELContext(getExpressionFactory())));

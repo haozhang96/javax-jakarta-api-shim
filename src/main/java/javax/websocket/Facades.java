@@ -1,7 +1,6 @@
 package javax.websocket;
 
 import javax.net.ssl.SSLContext;
-import javax.shim.ShimReflector;
 import javax.shim.ShimSupport;
 import java.io.*;
 import java.lang.invoke.MethodHandles;
@@ -357,7 +356,7 @@ interface Facades {
         @Override
         protected javax.websocket.WebSocketContainer getContainer() {
             final var container =
-                ShimReflector.call(MethodHandles.lookup(), ShimSupport.toJakarta(), (lookup, clazz) ->
+                ShimSupport.Reflect.call(MethodHandles.lookup(), ShimSupport.Class.toJakarta(), (lookup, clazz) ->
                     (jakarta.websocket.WebSocketContainer)
                         lookup
                             .bind(target, "getContainer", MethodType.methodType(jakarta.websocket.WebSocketContainer.class))

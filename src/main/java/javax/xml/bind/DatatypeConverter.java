@@ -1,6 +1,5 @@
 package javax.xml.bind;
 
-import javax.shim.ShimReflector;
 import javax.shim.ShimSupport;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
@@ -305,7 +304,7 @@ public final class DatatypeConverter implements JAXBShim {
 
     static {
         try {
-            ShimReflector.call(ShimSupport.toJakarta(), (lookup, clazz) -> {
+            ShimSupport.Reflect.call(ShimSupport.Class.toJakarta(), (lookup, clazz) -> {
                 printString(null); // Initialize the default implementation.
 
                 final var converter =

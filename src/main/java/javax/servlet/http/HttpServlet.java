@@ -1,7 +1,6 @@
 package javax.servlet.http;
 
 import javax.servlet.*;
-import javax.shim.ShimReflector;
 import javax.shim.ShimSupport;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -89,7 +88,7 @@ public abstract class HttpServlet extends GenericServlet {
     ) throws ServletException, IOException {
         if (Boolean.parseBoolean(ShimSupport.getPrefixedProperty(getServletConfig()::getInitParameter, LEGACY_DO_HEAD))) {
             try {
-                ShimReflector.call(MethodHandles.lookup(), PACKAGE_NAME + ".NoBodyResponse", (lookup, clazz) -> {
+                ShimSupport.Reflect.call(MethodHandles.lookup(), PACKAGE_NAME + ".NoBodyResponse", (lookup, clazz) -> {
                     final var wrapper =
                         lookup
                             .findConstructor(clazz, MethodType.methodType(void.class, jakarta.servlet.http.HttpServletResponse.class))
@@ -245,8 +244,8 @@ public abstract class HttpServlet extends GenericServlet {
     }
 
     private Stream<Method> getDeclaredMethods() {
-        return Stream
-            .<Class<?>>iterate(getClass(), Objects::nonNull, Class::getSuperclass)
+        return ShimSupport.Class
+            .hierarchyOf(getClass())
             .takeWhile(Predicate.not(HttpServlet.class::equals))
             .map(Class::getDeclaredMethods)
             .flatMap(Stream::of);

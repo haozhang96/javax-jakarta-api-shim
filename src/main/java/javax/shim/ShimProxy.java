@@ -36,7 +36,9 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
     private static final Map<Method, MethodHandle> METHOD_HANDLES = new WeakHashMap<>(1 << 11);
     private static final Set<Class<?>> KNOWN_ENTRY_POINTS = Collections.newSetFromMap(new WeakHashMap<>(1 << 8));
     private static final VarHandle PROXY_INVOCATION_HANDLER =
-        ShimReflector.call(Proxy.class, (lookup, clazz) -> lookup.findVarHandle(clazz, "h", InvocationHandler.class));
+        ShimSupport.Reflect.call(Proxy.class, (lookup, clazz) ->
+            lookup.findVarHandle(clazz, "h", InvocationHandler.class)
+        );
 
     //==================================================================================================================
     // Constructors
@@ -106,7 +108,7 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
     }
 
     private <T> T create(Class<? extends T> type) {
-        T proxy = Unsafe.allocateInstance(createClass(getTargetClass(), type));
+        T proxy = ShimSupport.Unsafe.allocateInstance(createClass(getTargetClass(), type));
         setHandler(proxy);
         copyFields(proxy);
         return proxy;
@@ -117,7 +119,7 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
             if (!shimType.isInterface()) {
                 throw new IllegalArgumentException("Interface type required for shim: " + shimType.getName());
             } else if (baseType.isInterface()) {
-                return Proxy.getProxyClass(ShimSupport.getClassLoader(baseType), getInterfaceTypes(baseType, shimType));
+                return Proxy.getProxyClass(ShimSupport.Class.loaderOf(baseType), getInterfaceTypes(baseType, shimType));
             }
 
             var proxyFactory = new ProxyFactory();
@@ -159,7 +161,7 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
 
     private void copyFields(Object proxy) {
         getTarget().ifPresent(target ->
-            getFields(proxy.getClass().getSuperclass()).forEach(field -> Unsafe.copyField(field, target, proxy))
+            getFields(proxy.getClass().getSuperclass()).forEach(field -> ShimSupport.Unsafe.copyField(field, target, proxy))
         );
     }
 
@@ -172,8 +174,8 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
     }
 
     private static Stream<Class<?>> getClassHierarchy(Class<?> clazz) {
-        return Stream
-            .<Class<?>>iterate(clazz, Objects::nonNull, Class::getSuperclass)
+        return ShimSupport.Class
+            .hierarchyOf(clazz)
             .dropWhile(ShimProxy::isProxy);
     }
 
@@ -199,7 +201,7 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
 
     private static MethodHandle unreflect(Method method) {
         return METHOD_HANDLES.computeIfAbsent(method, ignored ->
-            ShimReflector.call(method.getDeclaringClass(), (lookup, clazz) -> lookup.unreflect(method))
+            ShimSupport.Reflect.call(method.getDeclaringClass(), (lookup, clazz) -> lookup.unreflect(method))
         );
     }
 
@@ -209,7 +211,7 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
         }
 
         final var depth = 5L;
-        ShimLogger.INFO.accept(String.format(
+        ShimSupport.Logger.INFO.accept(String.format(
             "[*] Shimming: %s -> %s%s",
             target.getClass().getName(),
             ShimSupport.STACK_WALKER.walk(stackFrames ->

@@ -21,7 +21,7 @@ public interface JAXBShim extends Shim {
 
     static void initialize() {
         try {
-            ShimSupport.ensureInitialized(
+            ShimSupport.Class.ensureInitialized(
                 JAXB.class, JAXBContext.class, JAXBContextFactory.class, JAXBElement.class, JAXBException.class,
                 Marshaller.class, Unmarshaller.class, AbstractMarshallerImpl.class, AbstractUnmarshallerImpl.class,
                 DatatypeConverter.class, DatatypeConverterInterface.class, Binder.class, XmlAdapter.class,

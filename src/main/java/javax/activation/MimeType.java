@@ -1,6 +1,5 @@
 package javax.activation;
 
-import javax.shim.ShimReflector;
 import javax.shim.ShimSupport;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
@@ -67,9 +66,9 @@ public class MimeType extends jakarta.activation.MimeType implements ActivationS
     // Private Helper Methods
     //==================================================================================================================
 
-    private void parse(ShimReflector parser) throws MimeTypeParseException {
+    private void parse(ShimSupport.Reflect parser) throws MimeTypeParseException {
         try {
-            ShimReflector.<Void, jakarta.activation.MimeTypeParseException>call(
+            ShimSupport.Reflect.<Void, jakarta.activation.MimeTypeParseException>call(
                 MethodHandles.lookup(),
                 jakarta.activation.MimeType.class,
                 parser

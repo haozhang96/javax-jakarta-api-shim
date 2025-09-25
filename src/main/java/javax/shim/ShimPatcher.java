@@ -71,11 +71,11 @@ public class ShimPatcher extends ExprEditor {
 
     @FunctionalInterface
     public interface Patch {
-        void patch(CtClass clazz) throws CannotCompileException, NotFoundException, IOException, ReflectiveOperationException;
+        void patch(CtClass clazz) throws CannotCompileException, NotFoundException, IOException;
     }
 
     public void patch() {
-        patch(ShimSupport.toJakarta(ShimSupport.STACK_WALKER.getCallerClass()));
+        patch(ShimSupport.Class.toJakarta(ShimSupport.STACK_WALKER.getCallerClass()));
     }
 
     public void patch(String... classNames) {
@@ -91,7 +91,7 @@ public class ShimPatcher extends ExprEditor {
     }
 
     public void patch(Patch patch) {
-        patch(patch, ShimSupport.toJakarta(ShimSupport.STACK_WALKER.getCallerClass()));
+        patch(patch, ShimSupport.Class.toJakarta(ShimSupport.STACK_WALKER.getCallerClass()));
     }
 
     public void patch(Patch patch, String... classNames) {
@@ -115,10 +115,10 @@ public class ShimPatcher extends ExprEditor {
             }
 
             try {
-                ShimLogger.INFO.accept("[*] Patching: " + clazz.getName());
+                ShimSupport.Logger.INFO.accept("[*] Patching: " + clazz.getName());
                 patch.patch(clazz);
                 HotSwapAgent.redefine(Class.forName(clazz.getName(), false, classPool.getClassLoader()), clazz);
-            } catch (CannotCompileException | NotFoundException | IOException | ReflectiveOperationException exception) {
+            } catch (CannotCompileException | NotFoundException | IOException | ClassNotFoundException exception) {
                 if (!ignoreFailures) {
                     throw new LinkageError("Failed to patch class: " + clazz.getName(), exception);
                 }
@@ -314,7 +314,7 @@ public class ShimPatcher extends ExprEditor {
 
     protected boolean shouldReplace(String className) {
         return !UNPATCHABLE_CLASSES.contains(className)
-            && (ShimSupport.isJavax(className) || ShimSupport.isJakarta(className));
+            && (ShimSupport.Class.isJavax(className) || ShimSupport.Class.isJakarta(className));
     }
 
     protected String swapType(String className) {
@@ -322,7 +322,7 @@ public class ShimPatcher extends ExprEditor {
             return "$r";
         }
 
-        return ShimSupport.isJakarta(className) ? ShimSupport.toJavax(className) : ShimSupport.toJakarta(className);
+        return ShimSupport.Class.isJakarta(className) ? ShimSupport.Class.toJavax(className) : ShimSupport.Class.toJakarta(className);
     }
 
     protected String swapParameterTypes(String signature) {
@@ -348,7 +348,7 @@ public class ShimPatcher extends ExprEditor {
 
     private boolean shouldNotPatch(CtClass clazz, Patch patch) {
         return UNPATCHABLE_CLASSES.contains(clazz.getName())
-            || !ShimSupport.classExists(clazz.getName(), classPool.getClassLoader())
+            || !ShimSupport.Class.exists(clazz.getName(), classPool.getClassLoader())
             || clazz.getPackageName().startsWith("java") // java, javax, javassist
             || clazz.getPackageName().startsWith("sun")
             || !patched.add(Objects.hash(clazz, patch));
@@ -376,7 +376,7 @@ public class ShimPatcher extends ExprEditor {
         }
 
         final var replacement = replacer.replacement();
-        ShimLogger.INFO.accept(String.format(
+        ShimSupport.Logger.INFO.accept(String.format(
             "[*] Replacement %s: %s -> %s%n\tat %s(%s:%d)",
             expression.getClass().getSimpleName(),
             description,
@@ -394,11 +394,14 @@ public class ShimPatcher extends ExprEditor {
 
     static {
         // Set up the JVM for Javassist's HotSwapAgent.
-        if (ShimSupport.classExists(HOT_SPOT_VIRTUAL_MACHINE)) {
+        if (ShimSupport.Class.exists(HOT_SPOT_VIRTUAL_MACHINE)) {
             try {
-                Unsafe.setField(Class.forName(HOT_SPOT_VIRTUAL_MACHINE).getDeclaredField("ALLOW_ATTACH_SELF"), true);
+                ShimSupport.Unsafe.setField(
+                    Class.forName(HOT_SPOT_VIRTUAL_MACHINE).getDeclaredField("ALLOW_ATTACH_SELF"),
+                    true
+                );
             } catch (ReflectiveOperationException exception) {
-                ShimLogger.DEBUG.accept("Enable shim patching using the -Djdk.attach.allowAttachSelf JVM flag.");
+                ShimSupport.Logger.DEBUG.accept("Enable shim patching using the -Djdk.attach.allowAttachSelf JVM flag.");
             }
         }
 
@@ -410,7 +413,7 @@ public class ShimPatcher extends ExprEditor {
         );
 
         // Patch Apache Tomcat/Catalina/Coyote.
-        if (ShimSupport.classExists("org.apache.catalina.startup.Tomcat")) {
+        if (ShimSupport.Class.exists("org.apache.catalina.startup.Tomcat")) {
             STRICT.patch(
                 "org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory",
                 "org.springframework.boot.autoconfigure.websocket.servlet.TomcatWebSocketServletWebServerCustomizer"

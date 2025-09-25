@@ -20,7 +20,7 @@ public interface ServletShim extends Shim {
 
     static void initialize() {
         try {
-            ShimSupport.ensureInitialized(
+            ShimSupport.Class.ensureInitialized(
                 ServletContext.class, ServletRegistration.class, ServletContainerInitializer.class, FilterChain.class,
                 HttpServlet.class, HttpFilter.class, HttpServletRequestWrapper.class, HttpServletResponseWrapper.class,
                 RequestDispatcher.class, DispatcherType.class, SessionTrackingMode.class, MappingMatch.class,

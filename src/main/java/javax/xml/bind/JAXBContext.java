@@ -138,12 +138,12 @@ public abstract class JAXBContext extends jakarta.xml.bind.JAXBContext implement
     private static void setFactory(Class<? extends jakarta.xml.bind.JAXBContextFactory> spi, String defaultClassName) {
         final var hasCustomFactories =
             ServiceLoader
-                .load(spi)
+                .load(spi, ShimSupport.Class.loaderOf(spi))
                 .stream()
                 .map(ServiceLoader.Provider::type)
                 .map(Class::getName)
                 .anyMatch(Predicate.not(defaultClassName::equals));
-        if (!hasCustomFactories && ShimSupport.classExists(defaultClassName)) {
+        if (!hasCustomFactories && ShimSupport.Class.exists(defaultClassName)) {
             System
                 .getProperties()
                 .putIfAbsent(JAXBContext.JAXB_CONTEXT_FACTORY, defaultClassName);
