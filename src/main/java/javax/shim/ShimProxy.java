@@ -113,7 +113,7 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
     }
 
     private <T> Class<? extends T> createClass(Class<?> baseType, Class<T> shimType) {
-        return PROXY_CLASSES.computeIfAbsent(baseType.hashCode() ^ shimType.hashCode(), ignored -> {
+        return PROXY_CLASSES.computeIfAbsent(Objects.hash(baseType, shimType), ignored -> {
             if (!shimType.isInterface()) {
                 throw new IllegalArgumentException("Interface type required for shim: " + shimType.getName());
             } else if (baseType.isInterface()) {
@@ -167,6 +167,7 @@ final class ShimProxy extends WeakReference<Object> implements InvocationHandler
         return Stream
             .concat(Stream.of(interfaceTypes), getHierarchy(getTargetClass(), Class::getInterfaces))
             .distinct()
+            .unordered()
             .toArray(Class<?>[]::new);
     }
 

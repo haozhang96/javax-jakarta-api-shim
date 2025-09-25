@@ -30,6 +30,7 @@
         <version.springframework.boot.v2>2.7.18</version.springframework.boot.v2><!-- Java 8+ -->
         <version.springframework.boot.v3>3.5.4</version.springframework.boot.v3><!-- Java 17+ -->
         <version.springframework.boot.v4>4.0.0-M1</version.springframework.boot.v4><!-- Java 17+ -->
+        <version.cxf>3.3.13</version.cxf>
 
         <!-- Compilation -->
         <maven.compiler.source>11</maven.compiler.source>

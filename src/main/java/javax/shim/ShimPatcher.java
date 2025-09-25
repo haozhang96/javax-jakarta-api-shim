@@ -36,6 +36,7 @@ public class ShimPatcher extends ExprEditor {
     public static final ShimPatcher STRICT = new ShimPatcher(new ClassPool(true));
     public static final ShimPatcher LENIENT = new ShimPatcher(STRICT.classPool, true);
 
+    private static final String HOT_SPOT_VIRTUAL_MACHINE = "sun.tools.attach.HotSpotVirtualMachine";
     private static final Set<String> UNPATCHABLE_CLASSES = Set.of();
 
     private final ClassPool classPool;
@@ -393,11 +394,12 @@ public class ShimPatcher extends ExprEditor {
 
     static {
         // Set up the JVM for Javassist's HotSwapAgent.
-        try {
-            final var clazz = Class.forName("sun.tools.attach.HotSpotVirtualMachine");
-            Unsafe.setField(clazz.getDeclaredField("ALLOW_ATTACH_SELF"), true);
-        } catch (ReflectiveOperationException exception) {
-            ShimLogger.DEBUG.accept("Enable JVM self-instrumentation using the -Djdk.attach.allowAttachSelf JVM flag.");
+        if (ShimSupport.classExists(HOT_SPOT_VIRTUAL_MACHINE)) {
+            try {
+                Unsafe.setField(Class.forName(HOT_SPOT_VIRTUAL_MACHINE).getDeclaredField("ALLOW_ATTACH_SELF"), true);
+            } catch (ReflectiveOperationException exception) {
+                ShimLogger.DEBUG.accept("Enable shim patching using the -Djdk.attach.allowAttachSelf JVM flag.");
+            }
         }
 
         // Patch Spring Framework.
