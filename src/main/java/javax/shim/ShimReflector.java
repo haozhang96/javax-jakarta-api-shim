@@ -90,14 +90,10 @@ public interface ShimReflector {
         String className,
         ShimReflector reflector
     ) throws X {
-        try {
-            final var callerClass = ShimSupport.STACK_WALKER.getCallerClass();
-            final var classLoader =
-                Objects.requireNonNullElse(lookup.lookupClass().getClassLoader(), callerClass.getClassLoader());
-            return call(lookup, Class.forName(className, true, ShimSupport.getClassLoader(classLoader)), reflector);
-        } catch (ClassNotFoundException exception) {
-            throw new IllegalStateException("Cannot find class to perform reflective action: " + className, exception);
-        }
+        final var callerClass = ShimSupport.STACK_WALKER.getCallerClass();
+        final var classLoader =
+            Objects.requireNonNullElse(lookup.lookupClass().getClassLoader(), callerClass.getClassLoader());
+        return call(lookup, ShimSupport.getClass(className, classLoader), reflector);
     }
 
     /**

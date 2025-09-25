@@ -24,6 +24,7 @@ public final class Unsafe {
     private static final MethodHandle STATIC_FIELD_BASE;
     private static final MethodHandle STATIC_FIELD_OFFSET;
     private static final MethodHandle OBJECT_FIELD_OFFSET;
+    private static final MethodHandle SHOULD_BE_INITIALIZED;
     private static final MethodHandle ENSURE_CLASS_INITIALIZED;
     private static final MethodHandle ALLOCATE_INSTANCE;
     private static final MethodHandle THROW_EXCEPTION;
@@ -43,7 +44,6 @@ public final class Unsafe {
     /**
      * @see sun.misc.Unsafe#staticFieldBase(Field)
      * @see sun.misc.Unsafe#staticFieldOffset(Field)
-     * @see sun.misc.Unsafe#objectFieldOffset(Field)
      * @see sun.misc.Unsafe#getObject(Object, long)
      */
     public static <T> T getField(Field field) {
@@ -51,9 +51,9 @@ public final class Unsafe {
     }
 
     /**
+     * @see sun.misc.Unsafe#objectFieldOffset(Field)
      * @see sun.misc.Unsafe#staticFieldBase(Field)
      * @see sun.misc.Unsafe#staticFieldOffset(Field)
-     * @see sun.misc.Unsafe#objectFieldOffset(Field)
      * @see sun.misc.Unsafe#getObject(Object, long)
      */
     public static <T> T getField(Field field, Object target) {
@@ -71,7 +71,6 @@ public final class Unsafe {
     /**
      * @see sun.misc.Unsafe#staticFieldBase(Field)
      * @see sun.misc.Unsafe#staticFieldOffset(Field)
-     * @see sun.misc.Unsafe#objectFieldOffset(Field)
      * @see sun.misc.Unsafe#putObject(Object, long, Object)
      */
     public static <T> T setField(Field field, T value) {
@@ -79,9 +78,9 @@ public final class Unsafe {
     }
 
     /**
+     * @see sun.misc.Unsafe#objectFieldOffset(Field)
      * @see sun.misc.Unsafe#staticFieldBase(Field)
      * @see sun.misc.Unsafe#staticFieldOffset(Field)
-     * @see sun.misc.Unsafe#objectFieldOffset(Field)
      * @see sun.misc.Unsafe#putObject(Object, long, Object)
      */
     public static <T> T setField(Field field, Object target, T value) {
@@ -109,10 +108,14 @@ public final class Unsafe {
 
     /**
      * @see sun.misc.Unsafe#ensureClassInitialized(Class)
+     * @see sun.misc.Unsafe#shouldBeInitialized(Class)
      */
     public static <T> Class<T> ensureClassInitialized(Class<T> clazz) {
         try {
-            ENSURE_CLASS_INITIALIZED.invokeExact(clazz);
+            if ((boolean) SHOULD_BE_INITIALIZED.invokeExact(clazz)) {
+                ENSURE_CLASS_INITIALIZED.invokeExact(clazz);
+            }
+
             return clazz;
         } catch (Throwable cause) {
             throw ShimSupport.rethrow(cause);
@@ -197,6 +200,7 @@ public final class Unsafe {
                     lookup.bind(unsafe, "staticFieldBase", MethodType.methodType(Object.class, Field.class)),
                     lookup.bind(unsafe, "staticFieldOffset", MethodType.methodType(long.class, Field.class)),
                     lookup.bind(unsafe, "objectFieldOffset", MethodType.methodType(long.class, Field.class)),
+                    lookup.bind(unsafe, "shouldBeInitialized", MethodType.methodType(boolean.class, Class.class)),
                     lookup.bind(unsafe, "ensureClassInitialized", MethodType.methodType(void.class, Class.class)),
                     lookup.bind(unsafe, "allocateInstance", MethodType.methodType(Object.class, Class.class)),
                     lookup.bind(unsafe, "throwException", MethodType.methodType(void.class, Throwable.class)),
@@ -219,6 +223,7 @@ public final class Unsafe {
         STATIC_FIELD_BASE = methods[index++];
         STATIC_FIELD_OFFSET = methods[index++];
         OBJECT_FIELD_OFFSET = methods[index++];
+        SHOULD_BE_INITIALIZED = methods[index++];
         ENSURE_CLASS_INITIALIZED = methods[index++];
         ALLOCATE_INSTANCE = methods[index++];
         THROW_EXCEPTION = methods[index++];

@@ -24,11 +24,6 @@ public class BodyTagSupport extends TagSupport implements BodyTag {
         this.bodyContent = bodyContent;
     }
 
-    @Override
-    public void doInitBody() throws JspException {
-        // Do nothing.
-    }
-
     //==================================================================================================================
     // BodyTagSupport Implementation Methods
     //==================================================================================================================
@@ -45,6 +40,15 @@ public class BodyTagSupport extends TagSupport implements BodyTag {
      */
     public JspWriter getPreviousOut() {
         return getBodyContent().getEnclosingWriter();
+    }
+
+    //==================================================================================================================
+    // BodyTag Implementation Methods
+    //==================================================================================================================
+
+    @Override
+    public void doInitBody() throws JspException {
+        // Do nothing.
     }
 
     //==================================================================================================================

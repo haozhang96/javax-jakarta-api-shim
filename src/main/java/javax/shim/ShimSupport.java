@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -112,12 +113,7 @@ public final class ShimSupport {
      * @param clazz The {@code jakarta} {@link Class} to convert into its {@code javax} counterpart
      */
     public static Class<?> toJavax(Class<?> clazz) {
-        final var className = toJavax(clazz.getName());
-        try {
-            return Class.forName(className, true, getClassLoader(clazz));
-        } catch (ClassNotFoundException exception) {
-            throw new NoClassDefFoundError("Unknown javax type: " + className);
-        }
+        return getClass(toJavax(clazz.getName()), getClassLoader(clazz));
     }
 
     /**
@@ -167,52 +163,37 @@ public final class ShimSupport {
             JAVAX_TO_JAKARTA_CLASS_NAMES.put(clazz.getName(), className);
         }
 
+        return getClass(className, getClassLoader(clazz));
+    }
+
+    /**
+     * Retrieve the property/attribute with a given {@value #JAKARTA}- or {@value #JAVAX}-prefixed name using a given
+     *   {@link String}-accepting getter {@link Function}, using its {@value #JAKARTA}- or {@value #JAVAX}-prefixed
+     *   counterpart if necessary.
+     *
+     * @param getter The {@link Function} to use for retrieving the property with the given {@value #JAKARTA}- or
+     *               {@value #JAVAX}-prefixed name
+     * @param name The {@value #JAKARTA}- or {@value #JAVAX}-prefixed name of the property to retrieve using the given
+     *             getter {@link Function}
+     * @param <T> The resulting type of the property retrieved using the given getter {@link Function}
+     */
+    public static <T> T getPrefixedProperty(Function<? super String, ? extends T> getter, String name) {
+        return Optional
+            .<T>ofNullable(getter.apply(name.replace(JAVAX, JAKARTA)))
+            .orElseGet(() -> getter.apply(name.replace(JAKARTA, JAVAX)));
+    }
+
+    public static Class<?> getClass(String className) {
+        return getClass(className, getClassLoader(STACK_WALKER.getCallerClass()));
+    }
+
+    public static Class<?> getClass(String className, ClassLoader classLoader) {
         try {
-            return Class.forName(className, true, getClassLoader(clazz));
+            return Class.forName(className, true, getClassLoader(classLoader));
         } catch (ClassNotFoundException exception) {
-            throw new NoClassDefFoundError("Unknown jakarta type: " + className);
+            final var root = className.substring(0, className.indexOf('.'));
+            throw rethrow(new NoClassDefFoundError("Unknown " + root + " type: " + className).initCause(exception));
         }
-    }
-
-    /**
-     * Throw a given (potentially checked) {@link Throwable} without the compiler check.
-     *
-     * @param cause The (potentially checked) {@link Throwable} to throw without the compiler check
-     */
-    @SuppressWarnings("unchecked")
-    public static <X extends Throwable> X rethrow(Throwable cause) throws X {
-        throw cause instanceof InvocationTargetException || cause instanceof UndeclaredThrowableException
-            ? (X) Objects.requireNonNullElse(cause.getCause(), cause)
-            : (X) cause;
-    }
-
-    /**
-     * Determine whether the {@link Class} with a given name exists under the {@link ClassLoader} of the {@link Class}
-     *   invoking this method.
-     *
-     * @param className The name of the {@link Class} to determine whether it exists under the {@link ClassLoader} of
-     *                  the {@link Class} invoking this method
-     */
-    public static boolean classExists(String className) {
-        return classExists(className, getClassLoader(STACK_WALKER.getCallerClass()));
-    }
-
-    /**
-     * Determine whether the {@link Class} with a given name exists under a given {@link ClassLoader}.
-     *
-     * @param className The name of the {@link Class} to determine whether it exists under the given {@link ClassLoader}
-     * @param classLoader The {@link ClassLoader} to use for determining the existence of the {@link Class} with the
-     *                    given name
-     */
-    public static boolean classExists(String className, ClassLoader classLoader) {
-        return className != null && CLASS_EXISTENCE.computeIfAbsent(className, ignored -> {
-            try {
-                Class.forName(className, false, classLoader);
-                return true;
-            } catch (ClassNotFoundException exception) {
-                return false;
-            }
-        });
     }
 
     /**
@@ -241,6 +222,35 @@ public final class ShimSupport {
     }
 
     /**
+     * Determine whether the {@link Class} with a given name exists under the {@link ClassLoader} of the {@link Class}
+     *   invoking this method.
+     *
+     * @param className The name of the {@link Class} to determine whether it exists under the {@link ClassLoader} of
+     *                  the {@link Class} invoking this method
+     */
+    public static boolean classExists(String className) {
+        return classExists(className, getClassLoader(STACK_WALKER.getCallerClass()));
+    }
+
+    /**
+     * Determine whether the {@link Class} with a given name exists under a given {@link ClassLoader}.
+     *
+     * @param className The name of the {@link Class} to determine whether it exists under the given {@link ClassLoader}
+     * @param classLoader The {@link ClassLoader} to use for determining the existence of the {@link Class} with the
+     *                    given name
+     */
+    public static boolean classExists(String className, ClassLoader classLoader) {
+        return className != null && CLASS_EXISTENCE.computeIfAbsent(className, ignored -> {
+            try {
+                Class.forName(className, false, getClassLoader(classLoader));
+                return true;
+            } catch (ClassNotFoundException exception) {
+                return false;
+            }
+        });
+    }
+
+    /**
      * Ensure that a given list of {@link Class}(es) have been initialized.
      *
      * @param classes The {@link Class}(es) to ensure initialization for
@@ -253,6 +263,18 @@ public final class ShimSupport {
                 Unsafe.ensureClassInitialized(clazz);
             }
         }
+    }
+
+    /**
+     * Throw a given (potentially checked) {@link Throwable} without the compiler check.
+     *
+     * @param cause The (potentially checked) {@link Throwable} to throw without the compiler check
+     */
+    @SuppressWarnings("unchecked")
+    public static <X extends Throwable> X rethrow(Throwable cause) throws X {
+        throw cause instanceof InvocationTargetException || cause instanceof UndeclaredThrowableException
+            ? (X) Objects.requireNonNullElse(cause.getCause(), cause)
+            : (X) cause;
     }
 
     /**

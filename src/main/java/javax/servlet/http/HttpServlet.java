@@ -23,6 +23,7 @@ public abstract class HttpServlet extends GenericServlet {
     /**
      * @see jakarta.servlet.http.HttpServlet#LEGACY_DO_HEAD
      */
+    @Deprecated(since = "Servlet 6.0", forRemoval = true)
     @SuppressWarnings("removal")
     public static final String LEGACY_DO_HEAD = jakarta.servlet.http.HttpServlet.LEGACY_DO_HEAD;
 
@@ -86,7 +87,7 @@ public abstract class HttpServlet extends GenericServlet {
         HttpServletRequest request,
         HttpServletResponse response
     ) throws ServletException, IOException {
-        if (isLegacyDoHead()) {
+        if (Boolean.parseBoolean(ShimSupport.getPrefixedProperty(getServletConfig()::getInitParameter, LEGACY_DO_HEAD))) {
             try {
                 ShimReflector.call(MethodHandles.lookup(), PACKAGE_NAME + ".NoBodyResponse", (lookup, clazz) -> {
                     final var wrapper =
@@ -241,11 +242,6 @@ public abstract class HttpServlet extends GenericServlet {
         if (!response.containsHeader(jakarta.ws.rs.core.HttpHeaders.LAST_MODIFIED) && lastModified >= 0L) {
             response.setDateHeader(jakarta.ws.rs.core.HttpHeaders.LAST_MODIFIED, lastModified);
         }
-    }
-
-    private boolean isLegacyDoHead() {
-        return Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD))
-            || Boolean.parseBoolean(getServletConfig().getInitParameter(LEGACY_DO_HEAD.replace("jakarta", "javax")));
     }
 
     private Stream<Method> getDeclaredMethods() {

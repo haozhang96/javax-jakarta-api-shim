@@ -418,13 +418,13 @@ interface Facades {
         }
 
         @Override
-        public javax.servlet.ServletResponse getResponse() {
-            return ServletShim.of(target.getResponse());
+        public javax.servlet.ServletRequest getRequest() {
+            return ServletShim.of(target.getRequest());
         }
 
         @Override
-        public javax.servlet.ServletRequest getRequest() {
-            return ServletShim.of(target.getRequest());
+        public javax.servlet.ServletResponse getResponse() {
+            return ServletShim.of(target.getResponse());
         }
 
         @Override

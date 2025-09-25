@@ -3,6 +3,7 @@ package javax.servlet.jsp;
 import javax.servlet.*;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.tagext.BodyContent;
+import javax.shim.ShimSupport;
 import java.io.IOException;
 
 /**
@@ -170,10 +171,10 @@ public abstract class PageContext extends JspContext {
      */
     public ErrorData getErrorData() {
         return new ErrorData(
-            (Throwable) getRequest().getAttribute("javax.servlet.error.exception"),
-            (int) getRequest().getAttribute("javax.servlet.error.status_code"),
-            (String) getRequest().getAttribute("javax.servlet.error.request_uri"),
-            (String) getRequest().getAttribute("javax.servlet.error.servlet_name")
+            (Throwable) ShimSupport.getPrefixedProperty(getRequest()::getAttribute, RequestDispatcher.ERROR_EXCEPTION),
+            (int) ShimSupport.getPrefixedProperty(getRequest()::getAttribute, RequestDispatcher.ERROR_STATUS_CODE),
+            (String) ShimSupport.getPrefixedProperty(getRequest()::getAttribute, RequestDispatcher.ERROR_REQUEST_URI),
+            (String) ShimSupport.getPrefixedProperty(getRequest()::getAttribute, RequestDispatcher.ERROR_SERVLET_NAME)
         );
     }
 

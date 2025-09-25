@@ -29,10 +29,10 @@ public interface AsyncContext extends jakarta.servlet.AsyncContext, ServletShim 
     //==================================================================================================================
 
     @Override
-    ServletResponse getResponse();
+    ServletRequest getRequest();
 
     @Override
-    ServletRequest getRequest();
+    ServletResponse getResponse();
 
     @Override
     default void dispatch(jakarta.servlet.ServletContext context, String path) {
