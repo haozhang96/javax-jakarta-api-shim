@@ -1,6 +1,7 @@
 package javax.servlet.http;
 
 import javax.servlet.*;
+import javax.shim.ShimPatcher;
 import javax.shim.ShimSupport;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -254,5 +255,30 @@ public abstract class HttpServlet extends GenericServlet {
     @SuppressWarnings("ClassExplicitlyAnnotation")
     private interface HttpMethod extends jakarta.ws.rs.HttpMethod {
         String TRACE = "TRACE";
+    }
+
+    //==================================================================================================================
+    // Static Initialization
+    //==================================================================================================================
+
+    static {
+        try {
+            // Patch Spring Framework.
+            ShimPatcher.STRICT.patch("org.springframework.web.filter.OncePerRequestFilter");
+            ShimPatcher.STRICT.patch(
+                clazz -> clazz.getDeclaredMethod("skipServletPathDetermination").setBody("return false;"),
+                "org.springframework.web.util.UrlPathHelper"
+            );
+
+            // Patch Apache Tomcat/Catalina/Coyote.
+            if (ShimSupport.Class.exists("org.apache.catalina.startup.Tomcat")) {
+                ShimPatcher.STRICT.patch(
+                    "org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory",
+                    "org.springframework.boot.autoconfigure.websocket.servlet.TomcatWebSocketServletWebServerCustomizer"
+                );
+            }
+        } finally {
+            ServletShim.initialize();
+        }
     }
 }

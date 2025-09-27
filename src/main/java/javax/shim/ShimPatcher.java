@@ -1,9 +1,6 @@
 package javax.shim;
 
-import javassist.CannotCompileException;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.NotFoundException;
+import javassist.*;
 import javassist.bytecode.Descriptor;
 import javassist.expr.*;
 import javassist.util.HotSwapAgent;
@@ -36,7 +33,7 @@ public class ShimPatcher extends ExprEditor {
     public static final ShimPatcher STRICT = new ShimPatcher(new ClassPool(true));
     public static final ShimPatcher LENIENT = new ShimPatcher(STRICT.classPool, true);
 
-    private static final String HOT_SPOT_VIRTUAL_MACHINE = "sun.tools.attach.HotSpotVirtualMachine";
+    private static final String HOT_SPOT_VM = "sun.tools.attach.HotSpotVirtualMachine";
     private static final Set<String> UNPATCHABLE_CLASSES = Set.of();
 
     private final ClassPool classPool;
@@ -322,7 +319,9 @@ public class ShimPatcher extends ExprEditor {
             return "$r";
         }
 
-        return ShimSupport.Class.isJakarta(className) ? ShimSupport.Class.toJavax(className) : ShimSupport.Class.toJakarta(className);
+        return ShimSupport.Class.isJakarta(className)
+            ? ShimSupport.Class.toJavax(className)
+            : ShimSupport.Class.toJakarta(className);
     }
 
     protected String swapParameterTypes(String signature) {
@@ -394,30 +393,12 @@ public class ShimPatcher extends ExprEditor {
 
     static {
         // Set up the JVM for Javassist's HotSwapAgent.
-        if (ShimSupport.Class.exists(HOT_SPOT_VIRTUAL_MACHINE)) {
+        if (ShimSupport.Class.exists(HOT_SPOT_VM)) {
             try {
-                ShimSupport.Unsafe.setField(
-                    Class.forName(HOT_SPOT_VIRTUAL_MACHINE).getDeclaredField("ALLOW_ATTACH_SELF"),
-                    true
-                );
+                ShimSupport.Unsafe.setField(Class.forName(HOT_SPOT_VM).getDeclaredField("ALLOW_ATTACH_SELF"), true);
             } catch (ReflectiveOperationException exception) {
                 ShimSupport.Logger.DEBUG.accept("Enable shim patching using the -Djdk.attach.allowAttachSelf JVM flag.");
             }
-        }
-
-        // Patch Spring Framework.
-        STRICT.patch("org.springframework.web.filter.OncePerRequestFilter");
-        STRICT.patch(
-            clazz -> clazz.getDeclaredMethod("skipServletPathDetermination").setBody("return false;"),
-            "org.springframework.web.util.UrlPathHelper"
-        );
-
-        // Patch Apache Tomcat/Catalina/Coyote.
-        if (ShimSupport.Class.exists("org.apache.catalina.startup.Tomcat")) {
-            STRICT.patch(
-                "org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory",
-                "org.springframework.boot.autoconfigure.websocket.servlet.TomcatWebSocketServletWebServerCustomizer"
-            );
         }
     }
 }

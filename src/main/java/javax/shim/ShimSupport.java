@@ -712,7 +712,9 @@ public final class ShimSupport {
          * @see sun.misc.Unsafe#staticFieldBase(Field)
          */
         private static Object getFieldBase(Field field, Object target) throws Throwable {
-            return Modifier.isStatic(field.getModifiers()) ? STATIC_FIELD_BASE.invokeExact(field) : target;
+            return Modifier.isStatic(field.getModifiers())
+                ? STATIC_FIELD_BASE.invokeExact(field)
+                : Objects.requireNonNull(target, () -> "Target object required for non-static field access: " + field);
         }
 
         /**
